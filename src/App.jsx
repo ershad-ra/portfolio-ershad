@@ -21,8 +21,7 @@ import {
   ChevronRight,
   Menu,
   X,
-  ArrowUp,
-  Cloud 
+  ArrowUp
 } from 'lucide-react';
 
 // --- BOOT SEQUENCE COMPONENT ---
@@ -818,12 +817,14 @@ const App = () => {
         {view === 'home' ? (
           <>
             {/* HERO SECTION */}
-            <section className="relative min-h-[85vh] flex items-center">
-              <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full py-12">
-                <div className="max-w-3xl">
-                  
+            <section className="relative min-h-[85vh] flex flex-col pt-8 lg:pt-0">
+              {/* On ajoute une bordure basse pour créer une ligne de "sol" (floor) */}
+              <div className="flex-1 max-w-7xl mx-auto px-6 lg:px-8 w-full flex flex-col lg:flex-row justify-between pt-12 pb-0 gap-8 border-b border-slate-800/40">
+                
+                {/* Colonne de Gauche : Texte */}
+                <div className="flex-1 max-w-3xl flex flex-col justify-center pb-8 lg:pb-16">
                   <FadeIn delay={100} direction="up">
-                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-8">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-8 mt-4 lg:mt-0">
                       <span className="relative flex h-2 w-2">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                         <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
@@ -851,7 +852,8 @@ const App = () => {
                   </FadeIn>
 
                   <FadeIn delay={500} direction="up">
-                    <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+                    {/* On s'assure qu'il n'y a pas d'espace (margin/padding) en dessous des badges */}
+                    <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 mb-0">
                       {/* Credly Badges styled professionally */}
                       <a 
                         href="https://www.credly.com/badges/8a9c0877-0c28-4b90-977b-3a3963753091" 
@@ -886,8 +888,23 @@ const App = () => {
                       </a>
                     </div>
                   </FadeIn>
-
                 </div>
+
+                {/* Colonne de Droite : Photo Professionnelle */}
+                <div className="flex-1 relative flex justify-center lg:justify-end items-end w-full lg:pl-10 mt-8 lg:mt-0">
+                  {/* Image réduite et ancrée parfaitement sur la même ligne horizontale */}
+                  <FadeIn delay={200} direction="left" className="relative z-10 w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px] xl:max-w-[340px] flex justify-center items-end mt-auto h-full">
+                    {/* Halo lumineux subtil derrière la silhouette */}
+                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] bg-gradient-to-tr from-blue-600/20 to-indigo-500/20 blur-[60px] rounded-full -z-10"></div>
+                    <img 
+                      src="https://persys.fr/wp-content/uploads/2026/03/Ershad_Ramezani.png" 
+                      alt="Ershad Ramezani" 
+                      className="w-full h-auto object-bottom object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] block"
+                      style={{ marginBottom: "-1px" }}
+                    />
+                  </FadeIn>
+                </div>
+
               </div>
             </section>
 
@@ -941,7 +958,6 @@ const App = () => {
                     </div>
                   </FadeIn>
                 </div>
-
               </div>
             </section>
 
