@@ -24,74 +24,6 @@ import {
   ArrowUp
 } from 'lucide-react';
 
-// --- BOOT SEQUENCE COMPONENT ---
-const bootTranslations = {
-  fr: [
-    "INIT: version 2.88 démarrage",
-    "[ OK ] Montage des systèmes de fichiers locaux...",
-    "[ OK ] Démarrage des interfaces réseau (eth0)...",
-    "[ OK ] Chargement des modules IPsec et OpenVPN...",
-    "[ OK ] Sécurisation du périmètre avec iptables/ACLs...",
-    "[ OK ] Connexion au commutateur Core (Core Switch)...",
-    "[ OK ] Démarrage de l'hyperviseur de virtualisation (ESXi)...",
-    "[ OK ] Chargement de Ershad_Profile.sys...",
-    "Amorçage du système terminé.",
-    "Bienvenue sur le terminal du portfolio d'Ershad Ramezani."
-  ],
-  en: [
-    "INIT: version 2.88 booting",
-    "[ OK ] Mounting local filesystems...",
-    "[ OK ] Starting network interfaces (eth0)...",
-    "[ OK ] Loading IPsec and OpenVPN modules...",
-    "[ OK ] Securing perimeter with iptables/ACLs...",
-    "[ OK ] Connecting to Core Switch...",
-    "[ OK ] Starting virtualization hypervisor (ESXi)...",
-    "[ OK ] Loading Ershad_Profile.sys...",
-    "System Bootstrap Complete.",
-    "Welcome to Ershad Ramezani's Portfolio Terminal."
-  ]
-};
-
-const BootSequence = ({ onComplete, lang }) => {
-  const [lines, setLines] = useState([]);
-  const bootLines = bootTranslations[lang] || bootTranslations.fr;
-
-  useEffect(() => {
-    let interval, t1;
-    setLines([]);
-
-    let currentLine = 0;
-    // Vitesse d'apparition des lignes
-    interval = setInterval(() => {
-      if (currentLine < bootLines.length) {
-        setLines(prev => [...prev, bootLines[currentLine]]);
-        currentLine++;
-      } else {
-        clearInterval(interval);
-        // Transition très rapide sans longue pause
-        t1 = setTimeout(onComplete, 300); 
-      }
-    }, 180); 
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(t1);
-    };
-  }, [lang, onComplete, bootLines]);
-
-  return (
-    <div className="fixed inset-0 z-[100] bg-[#0a0a0a] text-green-500 font-mono text-xs sm:text-sm p-6 overflow-hidden flex flex-col justify-end pb-12">
-      <div className="max-w-3xl mx-auto w-full">
-        {lines.map((line, i) => (
-          <div key={i} className="mb-1.5 opacity-90">{line}</div>
-        ))}
-        {/* Le curseur reste affiché jusqu'à la coupure nette du composant */}
-        <div className="animate-pulse w-2.5 h-4 bg-green-500 mt-2 inline-block"></div>
-      </div>
-    </div>
-  );
-};
-
 // --- ANIMATION COMPONENTS ---
 const FadeIn = ({ children, delay = 0, direction = 'up', className = '' }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -649,9 +581,8 @@ const App = () => {
   const [savedScroll, setSavedScroll] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
-  const [isBooting, setIsBooting] = useState(false);
 
-  // Set Document Title, Favicon, and check Boot Session on Load
+  // Set Document Title and Favicon on Load
   useEffect(() => {
     document.title = "Ershad Ramezani's Portfolio";
     
@@ -664,12 +595,6 @@ const App = () => {
       document.head.appendChild(link);
     }
     link.href = `data:image/svg+xml,${svgIcon}`;
-
-    // Boot Sequence Logic
-    const hasBooted = sessionStorage.getItem('hasBooted');
-    if (!hasBooted) {
-      setIsBooting(true);
-    }
   }, []);
 
   useEffect(() => {
@@ -683,16 +608,9 @@ const App = () => {
 
   const t = translations[lang];
 
-  const handleBootComplete = () => {
-    sessionStorage.setItem('hasBooted', 'true');
-    setIsBooting(false);
-  };
-
   const toggleLanguage = () => {
     const newLang = lang === 'fr' ? 'en' : 'fr';
     setLang(newLang);
-    // On force la relance de la séquence de boot lors d'un changement de langue
-    setIsBooting(true);
   };
 
   const handleProjectClick = (project) => {
@@ -724,9 +642,6 @@ const App = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200">
-      
-      {/* Boot Sequence affichée par-dessus le site pour une disparition instantanée nette */}
-      {isBooting && <BootSequence onComplete={handleBootComplete} lang={lang} />}
 
       {/* Infrastructure / Cloud Grid Background */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
