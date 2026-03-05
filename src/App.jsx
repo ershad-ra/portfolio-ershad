@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { 
   Globe, 
   FileText, 
@@ -16,8 +16,123 @@ import {
   Code,
   Briefcase,
   GraduationCap,
-  Cpu
+  Cpu,
+  ExternalLink,
+  ChevronRight,
+  Menu,
+  X,
+  ArrowUp,
+  Cloud 
 } from 'lucide-react';
+
+// --- BOOT SEQUENCE COMPONENT ---
+const bootTranslations = {
+  fr: [
+    "INIT: version 2.88 démarrage",
+    "[ OK ] Montage des systèmes de fichiers locaux...",
+    "[ OK ] Démarrage des interfaces réseau (eth0)...",
+    "[ OK ] Chargement des modules IPsec et OpenVPN...",
+    "[ OK ] Sécurisation du périmètre avec iptables/ACLs...",
+    "[ OK ] Connexion au commutateur Core (Core Switch)...",
+    "[ OK ] Démarrage de l'hyperviseur de virtualisation (ESXi)...",
+    "[ OK ] Chargement de Ershad_Profile.sys...",
+    "Amorçage du système terminé.",
+    "Bienvenue sur le terminal du portfolio d'Ershad Ramezani."
+  ],
+  en: [
+    "INIT: version 2.88 booting",
+    "[ OK ] Mounting local filesystems...",
+    "[ OK ] Starting network interfaces (eth0)...",
+    "[ OK ] Loading IPsec and OpenVPN modules...",
+    "[ OK ] Securing perimeter with iptables/ACLs...",
+    "[ OK ] Connecting to Core Switch...",
+    "[ OK ] Starting virtualization hypervisor (ESXi)...",
+    "[ OK ] Loading Ershad_Profile.sys...",
+    "System Bootstrap Complete.",
+    "Welcome to Ershad Ramezani's Portfolio Terminal."
+  ]
+};
+
+const BootSequence = ({ onComplete, lang }) => {
+  const [lines, setLines] = useState([]);
+  const bootLines = bootTranslations[lang] || bootTranslations.fr;
+
+  useEffect(() => {
+    let interval, t1;
+    setLines([]);
+
+    let currentLine = 0;
+    // Vitesse d'apparition des lignes
+    interval = setInterval(() => {
+      if (currentLine < bootLines.length) {
+        setLines(prev => [...prev, bootLines[currentLine]]);
+        currentLine++;
+      } else {
+        clearInterval(interval);
+        // Transition très rapide sans longue pause
+        t1 = setTimeout(onComplete, 300); 
+      }
+    }, 180); 
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(t1);
+    };
+  }, [lang, onComplete, bootLines]);
+
+  return (
+    <div className="fixed inset-0 z-[100] bg-[#0a0a0a] text-green-500 font-mono text-xs sm:text-sm p-6 overflow-hidden flex flex-col justify-end pb-12">
+      <div className="max-w-3xl mx-auto w-full">
+        {lines.map((line, i) => (
+          <div key={i} className="mb-1.5 opacity-90">{line}</div>
+        ))}
+        {/* Le curseur reste affiché jusqu'à la coupure nette du composant */}
+        <div className="animate-pulse w-2.5 h-4 bg-green-500 mt-2 inline-block"></div>
+      </div>
+    </div>
+  );
+};
+
+// --- ANIMATION COMPONENTS ---
+const FadeIn = ({ children, delay = 0, direction = 'up', className = '' }) => {
+  const [isVisible, setIsVisible] = useState(false);
+  const domRef = useRef();
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '50px' });
+
+    const currentRef = domRef.current;
+    if (currentRef) observer.observe(currentRef);
+    return () => { if (currentRef) observer.unobserve(currentRef); };
+  }, []);
+
+  const getDirectionClasses = () => {
+    if (direction === 'up') return 'translate-y-12';
+    if (direction === 'down') return '-translate-y-12';
+    if (direction === 'left') return '-translate-x-12';
+    if (direction === 'right') return 'translate-x-12';
+    return '';
+  };
+
+  return (
+    <div
+      ref={domRef}
+      className={`transition-all duration-1000 ease-out ${className} ${
+        isVisible ? 'opacity-100 translate-y-0 translate-x-0' : `opacity-0 ${getDirectionClasses()}`
+      }`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  );
+};
 
 // --- DATA & TRANSLATIONS ---
 
@@ -25,110 +140,110 @@ const translations = {
   fr: {
     nav: {
       home: "Accueil",
-      profile: "Profil",
+      profile: "Expertise",
       experience: "Parcours",
       projects: "Projets",
-      resume: "CV",
+      contact: "Contact",
+      resume: "Consulter mon CV",
       resumeLink: "https://persys.fr/wp-content/uploads/2026/03/CV_fr_Ershad_Ramezani_Ingenieur_Systemes_Reseaux_fevrier_2026.pdf",
       language: "EN"
     },
     hero: {
-      greeting: "SYS_ADMIN // CLOUD_ARCHITECT",
-      role: "Ingénieur Systèmes & Réseaux",
-      description: "Administrateur Infrastructures IT (4 ans+ d'exp.). Spécialisé en Build & Run, Support L2/L3 et Maintien en Condition Opérationnelle (MCO). Garant de la continuité d'activité (PCA/PRA).",
-      certifications: "Certifications Officielles",
-      viewProjects: "Explorer les projets",
-      status: "Systèmes opérationnels"
+      greeting: "Ershad RAMEZANI",
+      role: "Ingénieur Systèmes, Réseaux & Cloud",
+      description: "Administrateur d'infrastructures IT avec plus de 4 ans d'expérience. Spécialisé en Build & Run, Support L2/L3 et Maintien en Condition Opérationnelle (MCO). Garant de la résilience et de la continuité d'activité (PCA/PRA).",
+      certifications: "Certifications",
+      viewProjects: "Découvrir mes projets",
+      status: "Disponibilité: Haute"
     },
     aboutSection: {
-      title: "Profil Système & Stack",
-      subtitle: "Spécifications techniques et capacités opérationnelles.",
-      profileTitle: "Informations d'exécution",
+      title: "Domaines d'Expertise",
+      subtitle: "Compétences techniques et environnements maîtrisés.",
       languagesTitle: "Langues",
-      skillsTitle: "Modules Techniques chargés"
+      skillsTitle: "Stack Technologique"
     },
     timelineSection: {
-      title: "Logs d'Exécution",
-      subtitle: "Historique des déploiements professionnels et académiques.",
+      title: "Parcours & Expérience",
+      subtitle: "Évolution professionnelle et académique.",
       expTitle: "Expériences Professionnelles",
-      eduTitle: "Parcours Académique"
+      eduTitle: "Formation"
     },
     projectsSection: {
-      title: "Architecture & Réalisations",
-      subtitle: "Catalogue des déploiements et intégrations d'infrastructures."
+      title: "Projets & Architectures",
+      subtitle: "Sélection d'implémentations et de refontes d'infrastructures."
     },
     projectDetail: {
-      back: "Retour à l'index",
-      descriptionTitle: "Détails de l'implémentation",
-      technologies: "Stack Technique",
-      viewPdf: "Consulter la documentation (PDF)"
+      back: "Retour aux projets",
+      descriptionTitle: "Contexte & Réalisation",
+      technologies: "Technologies Utilisées",
+      viewPdf: "Télécharger l'étude technique complète (PDF)"
     },
     contact: {
-      title: "Initialiser une connexion",
-      subtitle: "Pour toute opportunité ou question, contactez-moi directement via les canaux sécurisés ci-dessous.",
-      email: "Courriel",
-      linkedin: "Réseau Professionnel",
-      github: "Dépôts de Code"
+      title: "Me Contacter",
+      subtitle: "Pour toute opportunité professionnelle ou question technique, n'hésitez pas à me joindre via les plateformes ci-dessous.",
+      email: "Adresse Email",
+      linkedin: "Profil LinkedIn",
+      github: "Projets GitHub"
     },
-    footer: "Ershad RAMEZANI. Tous droits réservés. Construit avec précision."
+    footer: "Ershad RAMEZANI. Tous droits réservés. Architecturé avec soin."
   },
   en: {
     nav: {
       home: "Home",
-      profile: "Profile",
-      experience: "Timeline",
+      profile: "Expertise",
+      experience: "Experience",
       projects: "Projects",
-      resume: "Resume",
+      contact: "Contact",
+      resume: "View Resume",
       resumeLink: "https://persys.fr/wp-content/uploads/2026/03/Resume_EN_Ershad_Ramezani_Systems_Network_Engineer_Feb_2026.pdf",
       language: "FR"
     },
     hero: {
-      greeting: "SYS_ADMIN // CLOUD_ARCHITECT",
-      role: "Systems & Network Engineer",
-      description: "IT Infrastructure Administrator (4+ years exp.). Specializing in Build & Run, L2/L3 Support, and Operational Maintenance. Guaranteeing Business Continuity (BCP/DRP).",
-      certifications: "Official Certifications",
-      viewProjects: "Explore projects",
-      status: "Systems operational"
+      greeting: "Ershad RAMEZANI",
+      role: "Systems, Network & Cloud Engineer",
+      description: "IT Infrastructure Administrator with 4+ years of experience. Specializing in Build & Run, L2/L3 Support, and Operational Maintenance. Guaranteeing resilience and Business Continuity (BCP/DRP).",
+      certifications: "Certifications",
+      viewProjects: "View my projects",
+      status: "Availability: High"
     },
     aboutSection: {
-      title: "System Profile & Stack",
-      subtitle: "Technical specifications and operational capabilities.",
-      profileTitle: "Execution Information",
+      title: "Areas of Expertise",
+      subtitle: "Technical skills and mastered environments.",
       languagesTitle: "Languages",
-      skillsTitle: "Loaded Technical Modules"
+      skillsTitle: "Technology Stack"
     },
     timelineSection: {
-      title: "Execution Logs",
-      subtitle: "History of professional and academic deployments.",
+      title: "Career & Experience",
+      subtitle: "Professional and academic progression.",
       expTitle: "Professional Experience",
-      eduTitle: "Education History"
+      eduTitle: "Education"
     },
     projectsSection: {
-      title: "Architecture & Implementations",
-      subtitle: "Catalog of infrastructure deployments and integrations."
+      title: "Projects & Architectures",
+      subtitle: "Selected infrastructure implementations and redesigns."
     },
     projectDetail: {
-      back: "Return to index",
-      descriptionTitle: "Implementation Details",
-      technologies: "Tech Stack",
-      viewPdf: "View Full Documentation (PDF)"
+      back: "Back to projects",
+      descriptionTitle: "Context & Implementation",
+      technologies: "Technologies Used",
+      viewPdf: "Download full technical study (PDF)"
     },
     contact: {
-      title: "Initialize Connection",
-      subtitle: "For any opportunity or inquiry, reach out directly via the channels below.",
-      email: "Email",
-      linkedin: "Professional Network",
-      github: "Code Repositories"
+      title: "Contact Me",
+      subtitle: "For any professional opportunity or technical inquiry, please feel free to reach out via the platforms below.",
+      email: "Email Address",
+      linkedin: "LinkedIn Profile",
+      github: "GitHub Projects"
     },
-    footer: "Ershad RAMEZANI. All rights reserved. Built with precision."
+    footer: "Ershad RAMEZANI. All rights reserved. Architected with care."
   }
 };
 
 const profileData = {
   languages: {
     fr: [
-      { name: "Français", level: "Bilangue" },
-      { name: "Anglais", level: "Bilangue" },
+      { name: "Français", level: "Bilingue" },
+      { name: "Anglais", level: "Bilingue" },
       { name: "Persan (Farsi)", level: "Langue maternelle" }
     ],
     en: [
@@ -138,11 +253,11 @@ const profileData = {
     ]
   },
   skills: [
-    { id: "net", category: "Network", tools: "Cisco, Aruba, D-Link | OSPF, BGP, VLANs, HA, LAN/WAN/WLAN, Wireshark" },
-    { id: "sec", category: "Security", tools: "Fortinet, Cisco ASA, SonicWall | VPN (IPsec/SSL), ACLs, RADIUS, MFA" },
-    { id: "cloud", category: "Cloud & Virt", tools: "Azure, AWS | VMware (vSphere, NSX), Hyper-V, Infra Hybride" },
-    { id: "sys", category: "Systems & Auto", tools: "Windows, Linux | Ansible, Terraform, PowerShell, Bash" },
-    { id: "bcp", category: "Resilience", tools: "Veeam Backup & Replication, Gestion PCA/PRA" }
+    { id: "net", icon: Network, category: "Network", tools: "Cisco, Aruba, D-Link, OSPF, BGP, VLANs, HA, LAN/WAN/WLAN, Wireshark" },
+    { id: "sec", icon: ShieldCheck, category: "Security", tools: "Fortinet, Cisco ASA, SonicWall, VPN (IPsec/SSL), ACLs, RADIUS, MFA" },
+    { id: "cloud", icon: Server, category: "Cloud & Virt", tools: "Azure, AWS, VMware (vSphere, NSX), Hyper-V, Infra Hybride" },
+    { id: "sys", icon: Terminal, category: "Systems & Auto", tools: "Windows, Linux, Ansible, Terraform, PowerShell, Bash" },
+    { id: "bcp", icon: Database, category: "Resilience", tools: "Veeam Backup & Replication, Gestion PCA/PRA" }
   ]
 };
 
@@ -166,7 +281,7 @@ const experienceData = {
       company: "Support Client",
       description: "Support technique L1/L2 et maintien en condition opérationnelle des infrastructures clients.",
       details: [
-        "Point de contact principal pour les clients via système de permanence (on-call).",
+        "Point de contact principal pour clients via système de permanence (on-call).",
         "Qualification et résolution des demandes techniques via GLPI.",
         "Mise à jour matérielle (firmware) et sauvegarde configurations sur switchs/routeurs HP et D-Link."
       ]
@@ -525,19 +640,43 @@ const projectsData = [
   }
 ];
 
-// --- COMPONENTS ---
+// --- MAIN APP COMPONENT ---
 
 const App = () => {
   const [lang, setLang] = useState('fr');
   const [view, setView] = useState('home'); 
   const [selectedProject, setSelectedProject] = useState(null);
   const [scrolled, setScrolled] = useState(false);
-  const [savedScroll, setSavedScroll] = useState(0); // Nouvel état pour sauvegarder la position
+  const [savedScroll, setSavedScroll] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isBooting, setIsBooting] = useState(false);
 
-  // Handle scroll for nav styling
+  // Set Document Title, Favicon, and check Boot Session on Load
+  useEffect(() => {
+    document.title = "Ershad Ramezani's Portfolio";
+    
+    // Create a dynamic SVG Favicon (Server Icon)
+    const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
+    let link = document.querySelector("link[rel~='icon']");
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.head.appendChild(link);
+    }
+    link.href = `data:image/svg+xml,${svgIcon}`;
+
+    // Boot Sequence Logic
+    const hasBooted = sessionStorage.getItem('hasBooted');
+    if (!hasBooted) {
+      setIsBooting(true);
+    }
+  }, []);
+
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 20);
+      setShowScrollTop(window.scrollY > 400);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -545,255 +684,332 @@ const App = () => {
 
   const t = translations[lang];
 
+  const handleBootComplete = () => {
+    sessionStorage.setItem('hasBooted', 'true');
+    setIsBooting(false);
+  };
+
   const toggleLanguage = () => {
-    setLang(lang === 'fr' ? 'en' : 'fr');
+    const newLang = lang === 'fr' ? 'en' : 'fr';
+    setLang(newLang);
+    // On force la relance de la séquence de boot lors d'un changement de langue
+    setIsBooting(true);
   };
 
   const handleProjectClick = (project) => {
-    setSavedScroll(window.scrollY); // On sauvegarde la position actuelle
+    setSavedScroll(window.scrollY); 
     setSelectedProject(project);
     setView('project');
-    window.scrollTo(0, 0); // On remonte en haut pour lire le projet
+    window.scrollTo(0, 0); 
   };
 
   const handleBack = () => {
     if (view === 'home') {
-      // Si on est déjà sur l'accueil, on force le retour en haut de page avec une animation fluide
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      // Si on est sur un projet, on retourne à l'accueil
       setView('home');
       setSelectedProject(null);
-      // On restaure instantanément la position de défilement précédente
       setTimeout(() => {
         window.scrollTo(0, savedScroll);
       }, 0);
     }
   };
 
-  return (
-    <div className="min-h-screen bg-black text-zinc-300 font-sans selection:bg-teal-500/30 selection:text-teal-200 relative overflow-x-hidden">
-      
-      {/* Background Dot Grid Effect */}
-      <div 
-        className="fixed inset-0 z-0 pointer-events-none opacity-[0.15]"
-        style={{ 
-          backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', 
-          backgroundSize: '32px 32px' 
-        }}
-      ></div>
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
 
-      {/* Floating Glass Navigation */}
-      <nav className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-full max-w-[90%] sm:max-w-fit">
-        <div className="flex items-center justify-center gap-1 sm:gap-2 px-4 py-3 rounded-full bg-zinc-900/70 backdrop-blur-xl border border-white/10 shadow-2xl shadow-teal-900/20 overflow-x-auto">
-          <button onClick={handleBack} className="px-3 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/10 hover:text-white transition-colors whitespace-nowrap">
-            {t.nav.home}
-          </button>
-          {view === 'home' && (
-            <>
-              <a href="#about" className="px-3 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/10 hover:text-white transition-colors hidden md:block whitespace-nowrap">
-                {t.nav.profile}
-              </a>
-              <a href="#experience" className="px-3 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/10 hover:text-white transition-colors hidden md:block whitespace-nowrap">
-                {t.nav.experience}
-              </a>
-              <a href="#projects" className="px-3 py-2 rounded-full text-xs sm:text-sm font-medium hover:bg-white/10 hover:text-white transition-colors whitespace-nowrap">
-                {t.nav.projects}
-              </a>
-            </>
-          )}
-          <a 
-            href={t.nav.resumeLink}
-            target="_blank" rel="noopener noreferrer"
-            className="px-3 py-2 rounded-full text-xs sm:text-sm font-medium bg-teal-500/10 text-teal-400 hover:bg-teal-500 hover:text-black transition-colors flex items-center gap-2 whitespace-nowrap"
-          >
-            <FileText size={16} />
-            <span className="hidden sm:inline">{t.nav.resume}</span>
-          </a>
-          <div className="w-px h-6 bg-white/20 mx-2 flex-shrink-0"></div>
-          <button 
-            onClick={toggleLanguage}
-            className="flex items-center justify-center w-10 h-10 rounded-full hover:bg-white/10 transition-colors text-xs font-bold text-white tracking-widest flex-shrink-0"
-          >
-            {t.nav.language}
-          </button>
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200">
+      
+      {/* Boot Sequence affichée par-dessus le site pour une disparition instantanée nette */}
+      {isBooting && <BootSequence onComplete={handleBootComplete} lang={lang} />}
+
+      {/* Infrastructure / Cloud Grid Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[50%] rounded-full bg-blue-600/15 blur-[120px] animate-pulse" style={{ animationDuration: '7s' }}></div>
+        <div className="absolute top-[15%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }}></div>
+        
+        <svg className="absolute inset-0 w-full h-full text-blue-400/[0.07]" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="network-grid" width="40" height="40" patternUnits="userSpaceOnUse">
+              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" />
+              <circle cx="40" cy="40" r="1.5" fill="currentColor" opacity="0.8" />
+              <circle cx="0" cy="0" r="1.5" fill="currentColor" opacity="0.8" />
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#network-grid)" />
+        </svg>
+
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/80 to-slate-950"></div>
+      </div>
+
+      {/* Top Corporate Navigation */}
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 shadow-lg py-1' : 'bg-transparent py-3'}`}>
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center gap-2 cursor-pointer" onClick={handleBack}>
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20">
+                ER
+              </div>
+              <span className="text-lg font-semibold tracking-tight text-white hidden sm:block">
+                Ershad Ramezani
+              </span>
+            </div>
+            
+            <div className="flex items-center gap-4 sm:gap-6">
+              {view === 'home' && (
+                <div className="hidden md:flex items-center gap-6">
+                  <a href="#about" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.profile}</a>
+                  <a href="#experience" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.experience}</a>
+                  <a href="#projects" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.projects}</a>
+                  <a href="#contact" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.contact}</a>
+                </div>
+              )}
+              
+              <div className="flex items-center gap-3 sm:gap-4 md:border-l md:border-slate-800 md:pl-6 md:ml-2">
+                <a 
+                  href={t.nav.resumeLink}
+                  target="_blank" rel="noopener noreferrer"
+                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-white text-slate-900 hover:bg-slate-200 transition-colors flex items-center gap-2"
+                >
+                  <FileText size={16} />
+                  <span className="hidden sm:inline">{t.nav.resume}</span>
+                </a>
+                <button 
+                  onClick={toggleLanguage}
+                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50"
+                >
+                  {t.nav.language}
+                </button>
+                {/* Mobile Menu Button */}
+                {view === 'home' && (
+                  <button 
+                    className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
+                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                  >
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        {view === 'home' && isMobileMenuOpen && (
+          <div className="md:hidden bg-slate-900 border-b border-slate-800 absolute top-full left-0 w-full shadow-xl">
+            <div className="px-6 py-4 flex flex-col gap-2">
+              <a href="#about" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.profile}</a>
+              <a href="#experience" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.experience}</a>
+              <a href="#projects" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.projects}</a>
+              <a href="#contact" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.contact}</a>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Main Content Area */}
-      <main className="relative z-10 pb-32">
+      <main className="relative z-10 pt-20 pb-32">
         {view === 'home' ? (
           <>
             {/* HERO SECTION */}
-            <section className="relative min-h-[90vh] flex items-center pt-10">
-              <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full">
-                <div className="flex flex-col justify-center">
+            <section className="relative min-h-[85vh] flex items-center">
+              <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full py-12">
+                <div className="max-w-3xl">
                   
-                  {/* Text Content */}
-                  <div className="space-y-8 relative z-10 max-w-4xl">
-                    <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-zinc-900/50 border border-white/5 backdrop-blur-md">
-                      <span className="w-2 h-2 rounded-full bg-teal-400 animate-pulse"></span>
-                      <span className="text-xs font-mono text-zinc-400 tracking-wider uppercase">{t.hero.status}</span>
+                  <FadeIn delay={100} direction="up">
+                    <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-8">
+                      <span className="relative flex h-2 w-2">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                      </span>
+                      <span className="text-xs font-semibold uppercase tracking-wider">{t.hero.status}</span>
                     </div>
-                    
-                    <div>
-                      <h2 className="text-teal-400 font-mono tracking-widest uppercase text-sm mb-4">
-                        {t.hero.greeting}
-                      </h2>
-                      <h1 className="text-6xl sm:text-7xl md:text-8xl font-black text-white tracking-tighter leading-none mb-6">
-                        ERSHAD<br/>
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-400 to-cyan-500">
-                          RAMEZANI
-                        </span>
-                      </h1>
-                      <p className="text-xl sm:text-2xl text-zinc-300 font-light tracking-wide border-l-2 border-teal-500 pl-4 mb-6">
-                        {t.hero.role}
-                      </p>
-                      <p className="text-base sm:text-lg text-zinc-500 font-mono max-w-xl leading-relaxed">
-                        <span className="text-teal-500 mr-2">{'>'}</span> 
-                        {t.hero.description}
-                      </p>
-                    </div>
+                  </FadeIn>
+                  
+                  <FadeIn delay={200} direction="up">
+                    <h1 className="text-5xl sm:text-6xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-6">
+                      {t.hero.greeting}
+                    </h1>
+                  </FadeIn>
+                  
+                  <FadeIn delay={300} direction="up">
+                    <h2 className="text-2xl sm:text-3xl font-medium text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400 mb-6">
+                      {t.hero.role}
+                    </h2>
+                  </FadeIn>
+                  
+                  <FadeIn delay={400} direction="up">
+                    <p className="text-lg text-slate-400 leading-relaxed max-w-2xl mb-10">
+                      {t.hero.description}
+                    </p>
+                  </FadeIn>
 
-                    <div className="pt-4 flex flex-wrap gap-4">
-                      {/* Clickable Certifications to Credly */}
+                  <FadeIn delay={500} direction="up">
+                    <div className="flex flex-col sm:flex-row items-center gap-4 pt-4">
+                      {/* Credly Badges styled professionally */}
                       <a 
                         href="https://www.credly.com/badges/8a9c0877-0c28-4b90-977b-3a3963753091" 
                         target="_blank" rel="noopener noreferrer"
-                        className="group flex items-center gap-3 bg-zinc-900/80 border border-zinc-800 hover:border-teal-500/50 rounded-lg px-5 py-3 shadow-lg transition-all"
+                        className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full sm:w-auto"
                       >
-                        <Award className="text-orange-400 group-hover:scale-110 transition-transform" size={24} />
+                        <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-blue-500/10 transition-colors">
+                          <Award className="text-amber-500" size={24} />
+                        </div>
                         <div>
-                          <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono mb-0.5">Cert</p>
-                          <p className="font-bold text-white text-sm flex items-center gap-1">
-                            AWS Architect <ArrowUpRight size={12} className="text-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <p className="text-[10px] uppercase text-slate-500 font-semibold mb-0.5">{t.hero.certifications}</p>
+                          <p className="font-semibold text-slate-200 text-sm flex items-center gap-1">
+                            AWS Solutions Architect <ExternalLink size={12} className="text-slate-500 group-hover:text-blue-400 transition-colors" />
                           </p>
                         </div>
                       </a>
+                      
                       <a 
                         href="https://www.credly.com/badges/cc18fb0c-6597-485b-ac93-903aed039c4d"
                         target="_blank" rel="noopener noreferrer"
-                        className="group flex items-center gap-3 bg-zinc-900/80 border border-zinc-800 hover:border-teal-500/50 rounded-lg px-5 py-3 shadow-lg transition-all"
+                        className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full sm:w-auto"
                       >
-                        <Award className="text-cyan-400 group-hover:scale-110 transition-transform" size={24} />
+                        <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-blue-500/10 transition-colors">
+                          <Award className="text-blue-400" size={24} />
+                        </div>
                         <div>
-                          <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-mono mb-0.5">Cert</p>
-                          <p className="font-bold text-white text-sm flex items-center gap-1">
-                            Cisco CCNA <ArrowUpRight size={12} className="text-teal-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          <p className="text-[10px] uppercase text-slate-500 font-semibold mb-0.5">{t.hero.certifications}</p>
+                          <p className="font-semibold text-slate-200 text-sm flex items-center gap-1">
+                            Cisco CCNA <ExternalLink size={12} className="text-slate-500 group-hover:text-blue-400 transition-colors" />
                           </p>
                         </div>
                       </a>
                     </div>
-                  </div>
+                  </FadeIn>
 
                 </div>
               </div>
             </section>
 
             {/* PROFILE & SKILLS SECTION */}
-            <section id="about" className="py-24 border-t border-white/5 bg-zinc-950/80">
+            <section id="about" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="mb-16">
-                  <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-2">{t.aboutSection.title}</h2>
-                  <p className="text-zinc-400 font-mono text-sm">{t.aboutSection.subtitle}</p>
-                </div>
-
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                  
-                  {/* Left: Languages & Info */}
-                  <div className="lg:col-span-4 space-y-8">
-                    <div className="bg-zinc-900/50 backdrop-blur-sm border border-white/5 p-6 rounded-sm">
-                      <h3 className="text-xs font-mono tracking-widest uppercase text-teal-400 mb-6 flex items-center gap-2">
-                        <Terminal size={14} /> {t.aboutSection.languagesTitle}
-                      </h3>
-                      <ul className="space-y-4">
-                        {profileData.languages[lang].map((l, i) => (
-                          <li key={i} className="flex justify-between items-center border-b border-white/5 pb-2">
-                            <span className="text-white text-sm font-medium">{l.name}</span>
-                            <span className="text-zinc-500 font-mono text-xs">{l.level}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                <FadeIn direction="up">
+                  <div className="mb-12">
+                    <h2 className="text-3xl font-bold text-white mb-3">{t.aboutSection.title}</h2>
+                    <p className="text-slate-400">{t.aboutSection.subtitle}</p>
                   </div>
+                </FadeIn>
 
-                  {/* Right: Technical Stack */}
-                  <div className="lg:col-span-8">
-                    <div className="bg-zinc-900/30 backdrop-blur-sm border border-white/5 p-6 sm:p-8 rounded-sm h-full">
-                      <h3 className="text-xs font-mono tracking-widest uppercase text-teal-400 mb-8 flex items-center gap-2">
-                        <Cpu size={14} /> {t.aboutSection.skillsTitle}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                  {/* Languages Card */}
+                  <FadeIn delay={100} direction="up" className="h-full">
+                    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm h-full">
+                      <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
+                        <Globe size={16} /> {t.aboutSection.languagesTitle}
                       </h3>
-                      <div className="space-y-6 font-mono text-sm">
+                      <div className="space-y-4">
+                        {profileData.languages[lang].map((l, i) => (
+                          <div key={i} className="flex justify-between items-center pb-3 border-b border-slate-800/50 last:border-0">
+                            <span className="text-slate-200 font-medium">{l.name}</span>
+                            <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">{l.level}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </FadeIn>
+
+                  {/* Technical Stack Card */}
+                  <FadeIn delay={200} direction="up" className="lg:col-span-2 h-full">
+                    <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm h-full">
+                      <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
+                        <Cpu size={16} /> {t.aboutSection.skillsTitle}
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                         {profileData.skills.map(skill => (
-                          <div key={skill.id} className="group">
-                            <div className="text-zinc-500 mb-1 flex items-center gap-2">
-                              <span className="text-teal-500/50">[{skill.id}]</span> 
-                              <span className="uppercase tracking-wider">{skill.category}:</span>
+                          <div key={skill.id} className="flex items-start gap-4">
+                            <div className="p-2.5 bg-slate-800 rounded-lg text-blue-400 shrink-0">
+                              <skill.icon size={20} />
                             </div>
-                            <div className="text-zinc-300 pl-4 sm:pl-8 border-l border-white/5 group-hover:border-teal-500/50 transition-colors py-1">
-                              {skill.tools}
+                            <div>
+                              <h4 className="text-slate-200 font-semibold mb-1">{skill.category}</h4>
+                              <p className="text-sm text-slate-400 leading-relaxed">{skill.tools}</p>
                             </div>
                           </div>
                         ))}
                       </div>
                     </div>
-                  </div>
-
+                  </FadeIn>
                 </div>
+
               </div>
             </section>
 
             {/* TIMELINE: EXPERIENCE & EDUCATION */}
-            <section id="experience" className="py-24 border-t border-white/5">
+            <section id="experience" className="py-24 border-t border-slate-800/50">
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                <div className="mb-16">
-                  <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-2">{t.timelineSection.title}</h2>
-                  <p className="text-zinc-400 font-mono text-sm">{t.timelineSection.subtitle}</p>
-                </div>
+                <FadeIn direction="up">
+                  <div className="mb-16">
+                    <h2 className="text-3xl font-bold text-white mb-3">{t.timelineSection.title}</h2>
+                    <p className="text-slate-400">{t.timelineSection.subtitle}</p>
+                  </div>
+                </FadeIn>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                   
                   {/* Experience Column */}
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
-                      <Briefcase className="text-teal-500" size={20} />
-                      {t.timelineSection.expTitle}
-                    </h3>
-                    <div className="space-y-12 pl-4 border-l border-white/10">
-                      {experienceData[lang].map((exp, i) => (
-                        <div key={i} className="relative pl-6">
-                          <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-teal-500 ring-4 ring-black"></div>
-                          <span className="text-xs font-mono text-teal-400 tracking-wider mb-2 block">{exp.year}</span>
-                          <h4 className="text-lg font-bold text-white mb-1">{exp.role}</h4>
-                          <span className="text-sm font-mono text-zinc-500 mb-4 block uppercase tracking-wide">{exp.company}</span>
-                          <p className="text-sm text-zinc-300 mb-4 leading-relaxed font-light">{exp.description}</p>
-                          <ul className="space-y-2">
-                            {exp.details.map((detail, j) => (
-                              <li key={j} className="text-xs text-zinc-400 flex items-start gap-2">
-                                <span className="text-teal-500 mt-1">{'>'}</span>
-                                <span className="leading-relaxed">{detail}</span>
-                              </li>
-                            ))}
-                          </ul>
+                    <FadeIn direction="up">
+                      <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+                        <div className="p-2 bg-blue-500/10 rounded-lg text-blue-400">
+                          <Briefcase size={20} />
                         </div>
+                        {t.timelineSection.expTitle}
+                      </h3>
+                    </FadeIn>
+                    <div className="space-y-10 pl-4 border-l-2 border-slate-800 ml-3">
+                      {experienceData[lang].map((exp, i) => (
+                        <FadeIn key={i} delay={i * 150} direction="up">
+                          <div className="relative pl-6">
+                            <div className="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-slate-950 border-4 border-blue-500"></div>
+                            <span className="text-sm font-semibold text-blue-400 mb-1 block">{exp.year}</span>
+                            <h4 className="text-lg font-bold text-slate-200">{exp.role}</h4>
+                            <span className="text-sm text-slate-500 mb-4 block">{exp.company}</span>
+                            <p className="text-slate-400 mb-4 leading-relaxed text-sm">{exp.description}</p>
+                            <ul className="space-y-2">
+                              {exp.details.map((detail, j) => (
+                                <li key={j} className="text-sm text-slate-400 flex items-start gap-2">
+                                  <span className="text-slate-600 mt-0.5">•</span>
+                                  <span>{detail}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        </FadeIn>
                       ))}
                     </div>
                   </div>
 
                   {/* Education Column */}
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-8 flex items-center gap-3 border-b border-white/10 pb-4">
-                      <GraduationCap className="text-teal-500" size={20} />
-                      {t.timelineSection.eduTitle}
-                    </h3>
-                    <div className="space-y-10 pl-4 border-l border-white/10">
-                      {educationData[lang].map((edu, i) => (
-                        <div key={i} className="relative pl-6">
-                          <div className="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-zinc-600 ring-4 ring-black"></div>
-                          <span className="text-xs font-mono text-zinc-400 tracking-wider mb-2 block">{edu.year}</span>
-                          <h4 className="text-base font-bold text-white mb-1">{edu.degree}</h4>
-                          <span className="text-sm font-mono text-zinc-500 block">{edu.school}</span>
+                    <FadeIn direction="up">
+                      <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
+                        <div className="p-2 bg-indigo-500/10 rounded-lg text-indigo-400">
+                          <GraduationCap size={20} />
                         </div>
+                        {t.timelineSection.eduTitle}
+                      </h3>
+                    </FadeIn>
+                    <div className="space-y-10 pl-4 border-l-2 border-slate-800 ml-3">
+                      {educationData[lang].map((edu, i) => (
+                        <FadeIn key={i} delay={i * 150} direction="up">
+                          <div className="relative pl-6">
+                            <div className="absolute -left-[27px] top-1 w-4 h-4 rounded-full bg-slate-950 border-4 border-slate-600"></div>
+                            <span className="text-sm font-semibold text-slate-500 mb-1 block">{edu.year}</span>
+                            <h4 className="text-base font-bold text-slate-200">{edu.degree}</h4>
+                            <span className="text-sm text-slate-400 block">{edu.school}</span>
+                          </div>
+                        </FadeIn>
                       ))}
                     </div>
                   </div>
@@ -802,208 +1018,220 @@ const App = () => {
               </div>
             </section>
 
-            {/* PROJECTS SECTION - MASONRY/BENTO FEEL */}
-            <section id="projects" className="py-24 relative border-t border-white/5 bg-zinc-950/50">
+            {/* PROJECTS SECTION */}
+            <section id="projects" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 
-                <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-                  <div>
-                    <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight mb-2">{t.projectsSection.title}</h2>
-                    <p className="text-zinc-400 font-mono text-sm max-w-xl">{t.projectsSection.subtitle}</p>
+                <FadeIn direction="up">
+                  <div className="mb-12">
+                    <h2 className="text-3xl font-bold text-white mb-3">{t.projectsSection.title}</h2>
+                    <p className="text-slate-400">{t.projectsSection.subtitle}</p>
                   </div>
-                  <div className="hidden md:flex items-center gap-2 text-teal-500 font-mono text-sm">
-                    <Code size={16} />
-                    <span>{projectsData.length} modules</span>
-                  </div>
-                </div>
+                </FadeIn>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {projectsData.map((project) => (
-                    <div 
-                      key={project.id}
-                      onClick={() => handleProjectClick(project)}
-                      className="group cursor-pointer flex flex-col bg-zinc-900/40 backdrop-blur-sm border border-white/5 hover:border-teal-500/40 hover:bg-zinc-900/80 transition-all duration-500 overflow-hidden"
-                    >
-                      <div className="relative aspect-[700/474] overflow-hidden border-b border-white/5">
-                        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-500"></div>
-                        <img 
-                          src={project.imageUrl} 
-                          alt={project[lang].title} 
-                          className="w-full h-full object-cover filter grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transform group-hover:scale-105 transition-all duration-700 ease-out"
-                        />
-                        <div className="absolute top-4 left-4 z-20 bg-black/60 backdrop-blur-md p-2 rounded-sm border border-white/10">
-                          <project.icon size={20} className="text-teal-400" />
-                        </div>
-                      </div>
-                      
-                      <div className="p-6 flex-grow flex flex-col justify-between">
-                        <div>
-                          <h3 className="text-xl font-bold text-white mb-2 leading-tight group-hover:text-teal-300 transition-colors">
-                            {project[lang].title}
-                          </h3>
-                          <p className="text-sm text-zinc-400 line-clamp-2 mb-6">
-                            {project[lang].subtitle}
-                          </p>
+                  {projectsData.map((project, i) => (
+                    <FadeIn key={project.id} delay={(i % 3) * 150} direction="up" className="h-full">
+                      <div 
+                        onClick={() => handleProjectClick(project)}
+                        className="group flex flex-col bg-slate-900 rounded-2xl border border-slate-800 hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-900/10 transition-all duration-300 cursor-pointer overflow-hidden h-full"
+                      >
+                        <div className="relative aspect-[700/474] overflow-hidden bg-slate-800">
+                          <div className="absolute inset-0 bg-slate-900/20 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+                          <img 
+                            src={project.imageUrl} 
+                            alt={project[lang].title} 
+                            className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                          />
+                          <div className="absolute top-4 left-4 z-20 bg-slate-900/90 backdrop-blur-sm p-2 rounded-lg border border-slate-700 shadow-sm">
+                            <project.icon size={20} className="text-blue-400" />
+                          </div>
                         </div>
                         
-                        <div className="flex flex-wrap gap-2 mt-auto">
-                          {project.tags.slice(0, 3).map((tag, i) => (
-                            <span key={i} className="px-2 py-1 text-[10px] font-mono tracking-wider uppercase bg-black/50 text-zinc-300 border border-white/10 rounded-sm">
-                              {tag}
-                            </span>
-                          ))}
-                          {project.tags.length > 3 && (
-                            <span className="px-2 py-1 text-[10px] font-mono tracking-wider uppercase text-teal-500">
-                              +{project.tags.length - 3}
-                            </span>
-                          )}
+                        <div className="p-6 flex-grow flex flex-col">
+                          <h3 className="text-lg font-bold text-slate-200 mb-2 group-hover:text-blue-400 transition-colors line-clamp-2">
+                            {project[lang].title}
+                          </h3>
+                          <p className="text-sm text-slate-400 mb-6 line-clamp-2">
+                            {project[lang].subtitle}
+                          </p>
+                          
+                          <div className="flex flex-wrap gap-2 mt-auto">
+                            {project.tags.slice(0, 3).map((tag, i) => (
+                              <span key={i} className="px-2.5 py-1 text-[11px] font-semibold tracking-wide uppercase bg-slate-800 text-slate-300 rounded-md">
+                                {tag}
+                              </span>
+                            ))}
+                            {project.tags.length > 3 && (
+                              <span className="px-2.5 py-1 text-[11px] font-semibold tracking-wide uppercase text-blue-400">
+                                +{project.tags.length - 3}
+                              </span>
+                            )}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </FadeIn>
                   ))}
                 </div>
               </div>
             </section>
 
-            {/* CONTACT SECTION - MINIMALIST TERMINAL STYLE */}
-            <section id="contact" className="py-32 border-t border-white/5">
+            {/* CONTACT SECTION */}
+            <section id="contact" className="py-24 border-t border-slate-800/50">
               <div className="max-w-5xl mx-auto px-6 lg:px-8">
-                <div className="bg-zinc-900/50 backdrop-blur-md border border-white/10 p-8 sm:p-12 text-center">
-                  <div className="inline-flex p-4 bg-teal-500/10 rounded-sm mb-6">
-                    <Mail className="h-8 w-8 text-teal-400" />
-                  </div>
-                  <h2 className="text-3xl font-black text-white mb-2">{t.contact.title}</h2>
-                  <p className="text-zinc-400 font-mono text-sm mb-12">{t.contact.subtitle}</p>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-                    <a 
-                      href="mailto:ershad.ra@gmail.com"
-                      className="flex flex-col items-center justify-center gap-4 p-8 bg-black/50 border border-zinc-800 hover:border-teal-500 transition-colors group cursor-pointer"
-                    >
-                      <Mail className="text-zinc-500 group-hover:text-teal-400 transition-colors" size={32} />
-                      <span className="font-mono text-sm text-white">ershad.ra@gmail.com</span>
-                      <span className="text-xs font-bold text-teal-500 uppercase tracking-widest mt-2 flex items-center gap-2">
-                        {t.contact.email} <ArrowUpRight size={14} />
-                      </span>
-                    </a>
+                <FadeIn direction="up">
+                  <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-slate-800 rounded-3xl p-8 sm:p-12 text-center shadow-lg">
+                    <div className="inline-flex p-4 bg-blue-500/10 rounded-2xl mb-6">
+                      <Mail className="h-8 w-8 text-blue-400" />
+                    </div>
+                    <h2 className="text-3xl font-bold text-white mb-4">{t.contact.title}</h2>
+                    <p className="text-slate-400 mb-10 max-w-2xl mx-auto">{t.contact.subtitle}</p>
+                    
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <a 
+                        href="mailto:ershad.ra@gmail.com"
+                        className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group"
+                      >
+                        <Mail className="text-slate-400 group-hover:text-blue-400 mb-3 transition-colors" size={28} />
+                        <span className="text-sm font-semibold text-slate-200 mb-1">{t.contact.email}</span>
+                        <span className="text-xs text-slate-500">ershad.ra@gmail.com</span>
+                      </a>
 
-                    <a 
-                      href="https://www.linkedin.com/in/ershad-ramezani/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-col items-center justify-center gap-4 p-8 bg-black/50 border border-zinc-800 hover:border-teal-500 transition-colors group cursor-pointer"
-                    >
-                      <Linkedin className="text-zinc-500 group-hover:text-teal-400 transition-colors" size={32} />
-                      <span className="font-mono text-sm text-white text-center">linkedin.com/in/ershad-ramezani</span>
-                      <span className="text-xs font-bold text-teal-500 uppercase tracking-widest mt-2 flex items-center gap-2">
-                        {t.contact.linkedin} <ArrowUpRight size={14} />
-                      </span>
-                    </a>
+                      <a 
+                        href="https://www.linkedin.com/in/ershad-ramezani/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group"
+                      >
+                        <Linkedin className="text-slate-400 group-hover:text-blue-400 mb-3 transition-colors" size={28} />
+                        <span className="text-sm font-semibold text-slate-200 mb-1">{t.contact.linkedin}</span>
+                        <span className="text-xs text-slate-500">ershad-ramezani</span>
+                      </a>
 
-                    <a 
-                      href="https://github.com/ershad-ra"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex flex-col items-center justify-center gap-4 p-8 bg-black/50 border border-zinc-800 hover:border-teal-500 transition-colors group cursor-pointer"
-                    >
-                      <Github className="text-zinc-500 group-hover:text-teal-400 transition-colors" size={32} />
-                      <span className="font-mono text-sm text-white text-center">github.com/ershad-ra</span>
-                      <span className="text-xs font-bold text-teal-500 uppercase tracking-widest mt-2 flex items-center gap-2">
-                        {t.contact.github} <ArrowUpRight size={14} />
-                      </span>
-                    </a>
+                      <a 
+                        href="https://github.com/ershad-ra"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group"
+                      >
+                        <Github className="text-slate-400 group-hover:text-blue-400 mb-3 transition-colors" size={28} />
+                        <span className="text-sm font-semibold text-slate-200 mb-1">{t.contact.github}</span>
+                        <span className="text-xs text-slate-500">ershad-ra</span>
+                      </a>
+                    </div>
                   </div>
-                </div>
+                </FadeIn>
               </div>
             </section>
           </>
         ) : (
-          /* PROJECT DETAIL VIEW - EDITORIAL / TECH LOG STYLE */
-          <div className="min-h-screen pt-24 pb-32">
+          /* PROJECT DETAIL VIEW */
+          <div className="min-h-screen pt-8 pb-32">
             <div className="max-w-5xl mx-auto px-6 lg:px-8">
               <button 
                 onClick={handleBack}
-                className="group flex items-center gap-3 text-sm font-mono tracking-widest uppercase text-zinc-500 hover:text-white transition-colors mb-12"
+                className="group flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white transition-colors mb-10 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full w-fit"
               >
-                <ChevronLeft size={16} className="text-teal-500 group-hover:-translate-x-1 transition-transform" />
+                <ChevronLeft size={16} className="text-blue-400 group-hover:-translate-x-1 transition-transform" />
                 {t.projectDetail.back}
               </button>
 
               {selectedProject && (
-                <article className="animate-in fade-in slide-in-from-bottom-8 duration-700">
-                  <header className="mb-16">
-                    <div className="flex items-center gap-4 mb-6">
-                      <selectedProject.icon size={40} className="text-teal-500" />
-                      <div className="h-px bg-white/10 flex-grow"></div>
-                      <span className="font-mono text-xs text-zinc-500">ID: {selectedProject.id.toString().padStart(3, '0')}</span>
+                <article>
+                  <FadeIn direction="up">
+                    <header className="mb-12">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+                        <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl w-fit">
+                          <selectedProject.icon size={28} className="text-blue-400" />
+                        </div>
+                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                          {selectedProject[lang].title}
+                        </h1>
+                      </div>
+                      <p className="text-lg md:text-xl text-slate-400 border-l-4 border-blue-500 pl-4 py-1">
+                        {selectedProject[lang].subtitle}
+                      </p>
+                    </header>
+                  </FadeIn>
+
+                  <FadeIn delay={150} direction="up" className="flex justify-center">
+                    <div className="relative aspect-[700/474] w-full max-w-3xl mb-12 rounded-2xl overflow-hidden border border-slate-800 shadow-xl bg-slate-900/50">
+                      <img 
+                        src={selectedProject.imageUrl} 
+                        alt={selectedProject[lang].title} 
+                        className="w-full h-full object-contain"
+                      />
                     </div>
-                    <h1 className="text-4xl sm:text-6xl font-black text-white tracking-tight mb-6 leading-tight">
-                      {selectedProject[lang].title}
-                    </h1>
-                    <p className="text-xl md:text-2xl text-teal-400 font-light border-l-2 border-white/10 pl-4">
-                      {selectedProject[lang].subtitle}
-                    </p>
-                  </header>
+                  </FadeIn>
 
-                  {/* Cinematic Image Hero */}
-                  <div className="relative aspect-[21/9] w-full mb-16 overflow-hidden border border-white/10 bg-zinc-900 shadow-2xl shadow-black">
-                    <img 
-                      src={selectedProject.imageUrl} 
-                      alt={selectedProject[lang].title} 
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80"></div>
-                  </div>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
+                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
                     
                     {/* Main Description */}
-                    <div className="lg:col-span-8 space-y-8">
-                      <div>
-                        <h2 className="text-xs font-mono tracking-widest uppercase text-zinc-500 mb-6 flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 bg-teal-500 rounded-full"></span>
+                    <div className="lg:col-span-2 space-y-6">
+                      <FadeIn delay={300} direction="up">
+                        <h2 className="text-xl font-bold text-white flex items-center gap-2 pb-4 border-b border-slate-800/80">
+                          <FileText size={20} className="text-blue-400" />
                           {t.projectDetail.descriptionTitle}
                         </h2>
-                        <p className="text-zinc-300 text-lg leading-relaxed font-light">
+                        <p className="text-slate-300 text-base leading-relaxed">
                           {selectedProject[lang].description}
                         </p>
-                      </div>
+                      </FadeIn>
                     </div>
 
                     {/* Sidebar Details */}
-                    <div className="lg:col-span-4">
-                      <div className="sticky top-32">
+                    <div className="lg:col-span-1">
+                      <div className="sticky top-32 space-y-6">
+                        
                         {selectedProject.documentUrl && (
-                          <a 
-                            href={selectedProject.documentUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group w-full flex items-center justify-center gap-3 px-6 py-4 bg-teal-500 hover:bg-teal-400 text-black font-bold uppercase tracking-widest text-xs sm:text-sm transition-all mb-8 shadow-lg shadow-teal-500/20 rounded-sm"
-                          >
-                            <FileText size={18} />
-                            <span className="text-center">{t.projectDetail.viewPdf}</span>
-                            <ArrowUpRight size={16} className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
-                          </a>
+                          <FadeIn delay={400} direction="up">
+                            <a 
+                              href={selectedProject.documentUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="group flex flex-col items-center justify-center gap-2 p-6 bg-blue-600 hover:bg-blue-500 rounded-2xl text-white transition-all shadow-lg shadow-blue-900/20 text-center"
+                            >
+                              <FileText size={28} className="mb-1" />
+                              <span className="font-bold text-sm">{t.projectDetail.viewPdf}</span>
+                              <span className="text-blue-200 text-xs flex items-center gap-1 mt-1 group-hover:text-white transition-colors">
+                                Ouvrir l'onglet <ArrowUpRight size={14} />
+                              </span>
+                            </a>
+                          </FadeIn>
                         )}
-                        <div className="p-8 bg-zinc-900/50 backdrop-blur-md border border-white/5">
-                          <h3 className="text-xs font-mono tracking-widest uppercase text-zinc-500 mb-6">
-                            {t.projectDetail.technologies}
-                          </h3>
-                          <div className="flex flex-col gap-3">
-                            {selectedProject.tags.map((tag, i) => (
-                              <div key={i} className="flex items-center gap-3">
-                                <Code size={14} className="text-teal-500" />
-                                <span className="text-sm font-mono text-white">
+
+                        <FadeIn delay={500} direction="up">
+                          <div className="p-6 bg-slate-900 rounded-2xl border border-slate-800">
+                            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-5 flex items-center gap-2">
+                              <Code size={16} className="text-slate-400" />
+                              {t.projectDetail.technologies}
+                            </h3>
+                            <div className="flex flex-wrap gap-2">
+                              {selectedProject.tags.map((tag, i) => (
+                                <span key={i} className="px-3 py-1.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-lg border border-slate-700/50">
                                   {tag}
                                 </span>
-                              </div>
-                            ))}
+                              ))}
+                            </div>
                           </div>
-                        </div>
+                        </FadeIn>
+
                       </div>
                     </div>
 
                   </div>
+
+                  {/* Bottom Back Button */}
+                  <FadeIn delay={600} direction="up" className="mt-16 pt-8 border-t border-slate-800/80 flex justify-center sm:justify-start">
+                    <button 
+                      onClick={handleBack}
+                      className="group flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white transition-colors bg-slate-900 border border-slate-800 px-5 py-2.5 rounded-full w-fit shadow-md"
+                    >
+                      <ChevronLeft size={16} className="text-blue-400 group-hover:-translate-x-1 transition-transform" />
+                      {t.projectDetail.back}
+                    </button>
+                  </FadeIn>
+
                 </article>
               )}
             </div>
@@ -1012,28 +1240,37 @@ const App = () => {
       </main>
 
       {/* FOOTER */}
-      <footer className="relative z-10 border-t border-white/5 bg-black py-12">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-4">
-            <span className="text-xl font-bold tracking-tighter text-white">
-              E<span className="text-teal-500">.</span>R
-            </span>
+      <footer className="relative z-10 border-t border-slate-800/80 bg-slate-950 py-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-[10px]">ER</div>
           </div>
-          <p className="text-zinc-600 font-mono text-xs uppercase tracking-wider text-center">
+          <p className="text-slate-500 text-sm text-center">
             &copy; {new Date().getFullYear()} {t.footer}
           </p>
-          <div className="flex space-x-6">
-            <a href="https://www.linkedin.com/in/ershad-ramezani/" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors">
+          <div className="flex space-x-4">
+            <a href="https://www.linkedin.com/in/ershad-ramezani/" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
               <span className="sr-only">LinkedIn</span>
-              <Linkedin size={20} />
+              <Linkedin size={18} />
             </a>
-            <a href="https://github.com/ershad-ra" target="_blank" rel="noopener noreferrer" className="text-zinc-500 hover:text-white transition-colors">
+            <a href="https://github.com/ershad-ra" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
               <span className="sr-only">GitHub</span>
-              <Github size={20} />
+              <Github size={18} />
             </a>
           </div>
         </div>
       </footer>
+
+      {/* Scroll To Top Button */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 z-40 p-3 rounded-full bg-blue-600 text-white shadow-lg shadow-blue-900/50 hover:bg-blue-500 hover:-translate-y-1 transition-all duration-300 ${
+          showScrollTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
+        }`}
+        aria-label="Retour en haut"
+      >
+        <ArrowUp size={20} />
+      </button>
     </div>
   );
 };
