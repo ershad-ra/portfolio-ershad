@@ -21,7 +21,23 @@ import {
   ChevronRight,
   Menu,
   X,
-  ArrowUp
+  ArrowUp,
+  Download,
+  LayoutDashboard,
+  CheckCircle,
+  ArrowRight,
+  Target,
+  Settings,
+  Layers,
+  Calendar,
+  BarChart,
+  Scale,
+  RefreshCw,
+  Activity,
+  LifeBuoy,
+  Search,
+  PenTool,
+  BookOpen
 } from 'lucide-react';
 
 // --- ANIMATION COMPONENTS ---
@@ -65,18 +81,472 @@ const FadeIn = ({ children, delay = 0, direction = 'up', className = '' }) => {
   );
 };
 
-// --- DATA & TRANSLATIONS ---
 
+// --- PROJECT TRANSLATIONS & COMPONENTS ---
+
+// Project 1
+const project1Translations = {
+  fr: {
+    back: "retour au portfolio",
+    nav: { arch: "Architecture", failover: "ASA Failover", switches: "Core Switches", validation: "Validation", pdf: "PDF Complet" },
+    hero: {
+      badge: "Projet d'Ingénierie Réseau",
+      titleStart: "Redondance d'une ",
+      titleHighlight: "Infrastructure 2 Tiers",
+      desc: "Mise en place d'une haute disponibilité via Active/Standby Failover sur les pare-feux Cisco ASA 5506X et agrégation de liens LACP.",
+      by: "Par"
+    },
+    sec1: {
+      title: "Architecture Réseau (2 & 3 Tiers)",
+      p1: "Une infrastructure redondée est essentielle pour assurer la continuité des services en cas de panne matérielle. Ce projet explore le passage d'un modèle traditionnel en 3 tiers vers un modèle en 2 tiers (Collapsed Core Architecture).",
+      p2: "En combinant les couches centrale (Core) et de distribution, nous réduisons la complexité et les coûts tout en maintenant une haute fiabilité grâce à la mise en pile de commutateurs et au failover actif/passif.",
+      l1: "Basculement au niveau des appareils (ASA)",
+      l2: "Mise en pile des commutateurs Catalyst 3750"
+    },
+    sec2: {
+      title: "Le Basculement sur les ASA 5506X",
+      p1: "Le cœur de la sécurité de notre infrastructure repose sur deux pare-feux Cisco ASA 5506X configurés en mode Active/Standby Failover.",
+      p2: "L'unité active gère le trafic, tandis que l'unité standby surveille son état. En cas de défaillance (matérielle ou de lien), le basculement est automatique. La réplication \"Stateful\" assure que les connexions en cours ne sont pas interrompues.",
+      link: "Voir les étapes de configuration"
+    },
+    sec3: {
+      title: "Switches Cœurs & Multi-Chassis EtherChannel",
+      p1: "Pour assurer une liaison robuste entre les pare-feux et le réseau interne, nous avons utilisé des commutateurs Catalyst 3750 mis en pile (Stacking).",
+      p2: "Cette configuration nous permet de créer un Multi-Chassis EtherChannel en utilisant le protocole LACP. Même si l'un des commutateurs cœurs tombe en panne, le trafic continue de transiter de manière fluide vers le commutateur restant."
+    },
+    sec4: {
+      title: "Validation & Tests de Résilience",
+      p1: "La fiabilité de l'infrastructure a été vérifiée par de multiples tests en conditions réelles, illustrant la robustesse du failover aux niveaux matériel et interface.",
+      p2: "Nous avons simulé des pannes sur les liaisons LACP (`Fa1/0/1`, `Fa2/0/1`), vérifié le maintien du ping continu, et testé le Static Route Tracking vers le routeur FAI de secours. L'infrastructure redirige automatiquement le trafic, confirmant une tolérance aux pannes optimale sans interruption de service."
+    },
+    dl: {
+      title: "Envie d'aller plus loin ?",
+      desc: "Le document complet inclut les commandes détaillées (CLI), la configuration du \"Static Route Tracking\" pour les liens FAI, et toutes les étapes de dépannage (troubleshooting).",
+      btn: "Télécharger le PDF Complet",
+      file: "Fichier: 01. Cluster Failover ASA 5506x.pdf (34 pages)"
+    },
+    footer: "Projet d'Infrastructure Réseau et Haute Disponibilité."
+  },
+  en: {
+    back: "back to portfolio",
+    nav: { arch: "Architecture", failover: "ASA Failover", switches: "Core Switches", validation: "Validation", pdf: "Full PDF" },
+    hero: {
+      badge: "Network Engineering Project",
+      titleStart: "Redundancy of a ",
+      titleHighlight: "2-Tier Infrastructure",
+      desc: "Implementing high availability via Active/Standby Failover on Cisco ASA 5506X firewalls and LACP link aggregation.",
+      by: "By"
+    },
+    sec1: {
+      title: "Network Architecture (2 & 3 Tiers)",
+      p1: "A redundant infrastructure is essential to ensure service continuity in the event of a hardware failure. This project explores the transition from a traditional 3-tier model to a 2-tier model (Collapsed Core Architecture).",
+      p2: "By combining the core and distribution layers, we reduce complexity and costs while maintaining high reliability through switch stacking and active/passive failover.",
+      l1: "Device-level failover (ASA)",
+      l2: "Catalyst 3750 switch stacking"
+    },
+    sec2: {
+      title: "Failover on ASA 5506X",
+      p1: "The core of our infrastructure's security relies on two Cisco ASA 5506X firewalls configured in Active/Standby Failover mode.",
+      p2: "The active unit handles traffic, while the standby unit monitors its status. In case of failure (hardware or link), the failover is automatic. Stateful replication ensures that ongoing connections are not interrupted.",
+      link: "View configuration steps"
+    },
+    sec3: {
+      title: "Core Switches & Multi-Chassis EtherChannel",
+      p1: "To ensure a robust connection between the firewalls and the internal network, we used stacked Catalyst 3750 switches (Stacking).",
+      p2: "This configuration allows us to create a Multi-Chassis EtherChannel using the LACP protocol. Even if one of the core switches fails, traffic continues to flow smoothly to the remaining switch."
+    },
+    sec4: {
+      title: "Validation & Resilience Testing",
+      p1: "The reliability of the infrastructure was verified by multiple tests in real conditions, illustrating the robustness of the failover at the hardware and interface levels.",
+      p2: "We simulated failures on the LACP links (`Fa1/0/1`, `Fa2/0/1`), verified continuous ping maintenance, and tested Static Route Tracking to the backup ISP router. The infrastructure automatically redirects traffic, confirming optimal fault tolerance with no service interruption."
+    },
+    dl: {
+      title: "Want to go further?",
+      desc: "The full document includes detailed commands (CLI), \"Static Route Tracking\" configuration for ISP links, and all troubleshooting steps.",
+      btn: "Download Full PDF",
+      file: "File: 01. Cluster Failover ASA 5506x.pdf (34 pages)"
+    },
+    footer: "Network Infrastructure and High Availability Project."
+  }
+};
+
+const Project01 = ({ onBack, lang, onToggleLanguage }) => {
+  const pt = project1Translations[lang] || project1Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#architecture" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.arch}</a>
+              <a href="#failover" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.failover}</a>
+              <a href="#switches" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.switches}</a>
+              <a href="#validation" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.validation}</a>
+            </div>
+            <div className="flex items-center">
+              <a href="https://assets.persys.fr/Portfolio/Projects/01. Cluster Failover ASA 5506x.pdf" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Download className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.pdf}</span>
+              </a>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/01.%20Cluster%20Failover%20ASA%205506x.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6 border border-blue-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-blue-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="architecture" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><LayoutDashboard className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+              <ul className="mt-6 space-y-3">
+                <li className="flex items-center text-slate-300"><ShieldCheck className="h-5 w-5 text-emerald-400 mr-3" />{pt.sec1.l1}</li>
+                <li className="flex items-center text-slate-300"><ShieldCheck className="h-5 w-5 text-emerald-400 mr-3" />{pt.sec1.l2}</li>
+              </ul>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project01/tier%202%20vs%20tier%203.PNG" alt="Architecture" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="failover" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project01/le%20schema%20du%20reseau%202%20tiers.png" alt="Failover" className="max-w-full h-auto rounded-xl shadow-sm bg-white mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><ShieldCheck className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 mb-6 leading-relaxed">{pt.sec2.p2}</p>
+              <a href="#download" className="text-blue-400 font-medium hover:text-blue-300 flex items-center transition-colors">{pt.sec2.link} <ArrowRight className="h-4 w-4 ml-1" /></a>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="switches" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><Network className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project01/switch%20stacking.PNG" alt="Switches" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="validation" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project01/validation.PNG" alt="Validation" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><CheckCircle className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <a href="https://assets.persys.fr/Portfolio/Projects/01. Cluster Failover ASA 5506x.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Download className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </a>
+            <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
+// --- PROJECT BLOC 5 (CAPSTONE) ---
+const projectBloc5Translations = {
+  fr: {
+    back: "retour au projet phare",
+    nav: { comprendre: "Comprendre", concevoir: "Concevoir", miseenplace: "Mise en place", transmettre: "Transmettre", contact: "Me Contacter" },
+    hero: {
+      badge: "Bloc 5 - Certification EASI",
+      titleStart: "Architecture & ",
+      titleHighlight: "Soutenance",
+      desc: "Conception, intégration de l'architecture SI et défense du projet de Cloud privé (VMware VCF) devant le jury.",
+      by: "Par"
+    },
+    sec1: {
+      title: "Comprendre : État des lieux (A5.1)",
+      p1: "La première étape indispensable a été de cartographier la structure existante du SI et d'analyser les orientations stratégiques du commanditaire. Il fallait comprendre les contraintes logistiques et réglementaires (RSE).",
+      p2: "Cette analyse approfondie a permis d'élaborer un cahier des charges technique rigoureux, définissant les attentes fonctionnelles et cadrant le périmètre de la nouvelle architecture."
+    },
+    sec2: {
+      title: "Concevoir : L'Architecture Cible (A5.2)",
+      p1: "Sur la base du cahier des charges, une architecture SI cible efficiente, hautement disponible (PRA/PCA) et sécurisée a été dessinée. Chaque choix technologique a été comparé aux bonnes pratiques actuelles du marché.",
+      p2: "Pour valider ces choix, un scénario de recette a été défini et un PoC (Proof of Concept) a été préparé, permettant d'éprouver la cohérence et l'interopérabilité des équipements proposés."
+    },
+    sec3: {
+      title: "Mise en place : Déploiement & Automatisation (A5.3)",
+      p1: "La phase d'intégration a nécessité le déploiement des systèmes et équipements réseaux selon des protocoles justifiés. Une place prépondérante a été donnée à l'automatisation (via scripts et Terraform) pour faciliter les déploiements récurrents.",
+      p2: "Suite à l'intégration, une campagne de tests exhaustive (basée sur le cahier de recettes) a été menée. Le compte-rendu de ces tests a démontré la pleine viabilité de la solution."
+    },
+    sec4: {
+      title: "Transmettre : Documentation & Passation (A5.4)",
+      p1: "Un projet n'est abouti que s'il est utilisable par les équipes. La dernière phase s'est concentrée sur la rédaction des documentations techniques et des procédures d'exploitation.",
+      p2: "Des guides d'utilisation structurés ont été transférés aux administrateurs pour garantir une totale autonomie opérationnelle sur la nouvelle infrastructure Cloudnex."
+    },
+    dl: {
+      title: "Envie d'échanger sur cette soutenance ?",
+      desc: "Le support de présentation complet utilisé face au jury contient des données stratégiques. N'hésitez pas à me contacter pour discuter de mon approche architecturale ou d'une éventuelle collaboration.",
+      btn: "Me Contacter pour en savoir plus",
+      file: ""
+    },
+    footer: "Projet de Fin d'Études - Master EASI."
+  },
+  en: {
+    back: "back to capstone",
+    nav: { comprendre: "Understand", concevoir: "Design", miseenplace: "Implement", transmettre: "Transfer", contact: "Contact Me" },
+    hero: {
+      badge: "Block 5 - EASI Certification",
+      titleStart: "Architecture & ",
+      titleHighlight: "Defense",
+      desc: "Design, integration of the IS architecture, and defense of the private Cloud project (VMware VCF) before the jury.",
+      by: "By"
+    },
+    sec1: {
+      title: "Understand: As-Is Audit (A5.1)",
+      p1: "The essential first step was to map the existing IS structure and analyze the sponsor's strategic orientations. It was necessary to understand the logistical and regulatory (CSR) constraints.",
+      p2: "This in-depth analysis led to the drafting of a rigorous technical specification document, defining the functional expectations and framing the scope of the new architecture."
+    },
+    sec2: {
+      title: "Design: Target Architecture (A5.2)",
+      p1: "Based on the specifications, an efficient, highly available (DRP/BCP), and secure target IS architecture was drawn. Each technological choice was compared to current market best practices.",
+      p2: "To validate these choices, a testing scenario was defined, and a PoC (Proof of Concept) was prepared, testing the consistency and interoperability of the proposed equipment."
+    },
+    sec3: {
+      title: "Implement: Deployment & Automation (A5.3)",
+      p1: "The integration phase required deploying systems and networking equipment according to justified protocols. A major emphasis was placed on automation (via scripts and Terraform) to facilitate recurring deployments.",
+      p2: "Following integration, an exhaustive testing campaign (based on the test plan) was conducted. The resulting test report demonstrated the full viability of the solution."
+    },
+    sec4: {
+      title: "Transfer: Documentation & Handover (A5.4)",
+      p1: "A project is only complete when it is usable by the teams. The final phase focused on drafting technical documentation and operational procedures.",
+      p2: "Structured user guides were handed over to administrators to ensure complete operational autonomy over the new Cloudnex infrastructure."
+    },
+    dl: {
+      title: "Want to discuss this defense?",
+      desc: "The full presentation deck used before the jury contains strategic data. Feel free to contact me to discuss my architectural approach or a potential collaboration.",
+      btn: "Contact Me for more info",
+      file: ""
+    },
+    footer: "Master's Capstone Project - EASI Certification."
+  }
+};
+
+const ProjectBloc5 = ({ onBack, lang, onToggleLanguage, onContactClick }) => {
+  const pt = projectBloc5Translations[lang] || projectBloc5Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#comprendre" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.comprendre}</a>
+              <a href="#concevoir" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.concevoir}</a>
+              <a href="#miseenplace" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.miseenplace}</a>
+              <a href="#transmettre" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.transmettre}</a>
+            </div>
+            <div className="flex items-center">
+              <button onClick={onContactClick} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.contact}</span>
+              </button>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/bloc5/premier%20page%20de%20powerpoint.PNG')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-amber-500 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-amber-500/20 text-amber-300 text-sm font-semibold mb-6 border border-amber-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-amber-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="comprendre" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc5/A5.1%20comprendre.PNG" alt="Comprendre" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><Search className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="concevoir" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><PenTool className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec2.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc5/A5.2%20concevoir.PNG" alt="Concevoir" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="miseenplace" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc5/A5.3%20mise%20en%20place.PNG" alt="Mise en place" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><Cpu className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="transmettre" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><BookOpen className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc5/A5.4%20transmettre.PNG" alt="Transmettre" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <button onClick={onContactClick} className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Mail className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </button>
+            {pt.dl.file && <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>}
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
+// --- MAIN DATA ---
 const translations = {
   fr: {
     nav: {
       home: "Accueil",
       profile: "Expertise",
       experience: "Parcours",
+      capstone: "Projet de fin d'études",
       projects: "Projets",
       contact: "Contact",
       resume: "Consulter mon CV",
-      resumeLink: "https://persys.fr/wp-content/uploads/2026/03/CV_fr_Ershad_Ramezani_Ingenieur_Systemes_Reseaux_fevrier_2026.pdf",
+      resumeLink: "https://assets.persys.fr/Portfolio/Resumes - CVs/CV_fr_Ershad_Ramezani_Ingénieur_Systèmes_Réseaux_fevrier_2026.pdf",
       language: "EN"
     },
     hero: {
@@ -98,6 +568,23 @@ const translations = {
       subtitle: "Évolution professionnelle et académique.",
       expTitle: "Expériences Professionnelles",
       eduTitle: "Formation"
+    },
+    capstone: {
+      badge: "Projet de Fin d'Études",
+      title: "Modernisation des Datacenters Cloudnex",
+      subtitle: "Déploiement d'une plateforme VMware Cloud Foundation (VCF)",
+      story1: "Durant les deux années de Master, j'ai découvert progressivement la puissance de la virtualisation de calcul avec VMware vSphere, puis la virtualisation réseau avec VMware NSX. Cette expérience m'a amené à explorer en profondeur l'écosystème VMware, en particulier VMware Cloud Foundation (VCF), une plateforme intégrée pour construire un cloud privé moderne.",
+      story2: "Pour mon projet de fin d'études et la validation de ma certification EASI (Expert en architecture des systèmes d'information), j'ai choisi de réaliser un cas fictif complet. Ce projet personnel renforce mes connaissances sur l'ensemble du portfolio VMware et illustre de manière concrète les 4 grands blocs de compétences techniques et managériales de la certification.",
+      blocksTitle: "Structuration du Projet (Référentiel RNCP)",
+      b1Title: "Bloc 1 : Stratégie du SI",
+      b1Desc: "Analyse du besoin, élaboration de la stratégie informatique, plan d'évolution, RSE et veille technologique.",
+      b2Title: "Bloc 2 : Gestion de Projet",
+      b2Desc: "Pilotage de projet informatique, budgétisation, gestion des ressources et des risques.",
+      b3Title: "Bloc 3 : MCO du SI",
+      b3Desc: "Maintien en condition opérationnelle du SI, supervision globale et tolérance aux pannes.",
+      b5Title: "Bloc 5 : Architecture du SI",
+      b5Desc: "(Spécialité Systèmes & Réseaux) Conception et mise en œuvre de l'architecture technique.",
+      viewDetails: "En savoir plus",
     },
     projectsSection: {
       title: "Projets & Architectures",
@@ -123,16 +610,17 @@ const translations = {
       home: "Home",
       profile: "Expertise",
       experience: "Experience",
+      capstone: "Capstone Project",
       projects: "Projects",
       contact: "Contact",
       resume: "View Resume",
-      resumeLink: "https://persys.fr/wp-content/uploads/2026/03/Resume_EN_Ershad_Ramezani_Systems_Network_Engineer_Feb_2026.pdf",
+      resumeLink: "https://assets.persys.fr/Portfolio/Resumes - CVs/Resume_EN_Ershad_Ramezani_Systems_Network_Engineer_Feb_2026.pdf",
       language: "FR"
     },
     hero: {
       greeting: "Ershad RAMEZANI",
       role: "Systems, Network & Cloud Engineer",
-      description: "IT Infrastructure Administrator with 4+ years of experience. Specializing in Build & Run, L2/L3 Support, and Operational Maintenance. Guaranteeing resilience and Business Continuity (BCP/DRP).",
+      description: "IT Infrastructure Administrator with 4+ experience. Specializing in Build & Run, L2/L3 Support, and Operational Maintenance. Guaranteeing resilience and Business Continuity (BCP/DRP).",
       certifications: "Certifications",
       viewProjects: "View my projects",
       status: "Availability: High"
@@ -148,6 +636,23 @@ const translations = {
       subtitle: "Professional and academic progression.",
       expTitle: "Professional Experience",
       eduTitle: "Education"
+    },
+    capstone: {
+      badge: "Master's Capstone Project",
+      title: "Cloudnex Datacenters Modernization",
+      subtitle: "Deploying a VMware Cloud Foundation (VCF) platform",
+      story1: "During the past two years, I progressively discovered the power of compute virtualization with VMware vSphere, then network virtualization with VMware NSX. This led me to deeply explore the VMware ecosystem, specifically VMware Cloud Foundation (VCF), an integrated platform for building a modern private cloud.",
+      story2: "To validate my EASI certification (IT Architecture Expert), I designed this comprehensive fictional case study. This personal project reinforces my knowledge of the entire VMware portfolio and concretely illustrates the 4 main technical and managerial competency blocks of the certification.",
+      blocksTitle: "Project Structure (RNCP Framework)",
+      b1Title: "Block 1: IT Strategy",
+      b1Desc: "Needs analysis, IT strategy development, evolution plan, CSR, and technology watch.",
+      b2Title: "Block 2: Project Management",
+      b2Desc: "IT project steering, budgeting, resource and risk management.",
+      b3Title: "Block 3: IT Operations (MCO)",
+      b3Desc: "Maintaining the Information System in operational condition, overall monitoring, and fault tolerance.",
+      b5Title: "Block 5: IT Architecture",
+      b5Desc: "(Systems & Networks Specialty) Design and technical implementation of the architecture.",
+      viewDetails: "View Details",
     },
     projectsSection: {
       title: "Projects & Architectures",
@@ -283,8 +788,8 @@ const educationData = {
 const projectsData = [
   {
     id: 1,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/cropped-ASA-failover.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-failover-ASA.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/01. Cluster Failover ASA 5506x.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/01. Cluster Failover ASA 5506x.pdf",
     icon: Network,
     fr: {
       title: "Cluster Failover ASA 5506x",
@@ -300,8 +805,8 @@ const projectsData = [
   },
   {
     id: 2,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/cropped-ansible_cisco_ios_new.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-ansible-cisco-sample-1.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/02. Automatisation Cisco avec Ansible.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/02. Automatisation Cisco avec Ansible.pdf",
     icon: Terminal,
     fr: {
       title: "Automatisation Cisco avec Ansible",
@@ -317,8 +822,8 @@ const projectsData = [
   },
   {
     id: 3,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/cropped-ansible_glpi2_new.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-ansible-1.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/03. Deploiement LAMP-GLPi avec Ansible.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/03. Deploiement LAMP-GLPi avec Ansible - sample.pdf",
     icon: Database,
     fr: {
       title: "Déploiement LAMP/GLPi avec Ansible",
@@ -334,8 +839,8 @@ const projectsData = [
   },
   {
     id: 4,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/cropped-IDSSIEMAtack.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/05/Projet-IDSSIEM_final.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/04.%20Deploiement%20d'IDS-IPS%20et%20SIEM.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/04. Deploiement d'IDS-IPS et SIEM.pdf",
     icon: ShieldCheck,
     fr: {
       title: "Déploiement d'IDS/IPS et SIEM",
@@ -351,8 +856,8 @@ const projectsData = [
   },
   {
     id: 5,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/aruba_ansible.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/automatisation_sw_aruba_ansible_sample.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/05. Automatisation des switches Aruba.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/05. Automatisation des switches Aruba - sample.pdf",
     icon: Terminal,
     fr: {
       title: "Automatisation des switches Aruba",
@@ -368,8 +873,8 @@ const projectsData = [
   },
   {
     id: 6,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/cropped-MDM-miradore1.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-MDM-sample.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/06. Mobile Device Management - MDM.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/06. Mobile Device Management - MDM - sample.pdf",
     icon: Server,
     fr: {
       title: "Mobile Device Management (MDM)",
@@ -385,8 +890,8 @@ const projectsData = [
   },
   {
     id: 7,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/cropped-powershell.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-powershell-sample-4.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/07. Administration Windows Server & PowerShell.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/07. Administration Windows Server & PowerShell - sample.pdf",
     icon: Terminal,
     fr: {
       title: "Administration Windows Server & PowerShell",
@@ -402,8 +907,8 @@ const projectsData = [
   },
   {
     id: 8,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/05/graylog_de_A_a_Z.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/05/projet-graylog-sample.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/08. Mise en place de Graylog de A a Z.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/08. Mise en place de Graylog de A a Z - sample.pdf",
     icon: Database,
     fr: {
       title: "Mise en place de Graylog de A à Z",
@@ -419,8 +924,8 @@ const projectsData = [
   },
   {
     id: 9,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/radius-nps.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-radius-sample-1.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/09. Serveur Radius Microsoft NPS.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/09. Serveur Radius Microsoft NPS - sample.pdf",
     icon: ShieldCheck,
     fr: {
       title: "Serveur Radius Microsoft NPS",
@@ -436,8 +941,8 @@ const projectsData = [
   },
   {
     id: 10,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/openvpn_project.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/openvpn_project_sample-1.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/10. Mise en place du serveur OpenVPN.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/10. Mise en place du serveur OpenVPN - sample.pdf",
     icon: Network,
     fr: {
       title: "Mise en place du serveur OpenVPN",
@@ -453,8 +958,8 @@ const projectsData = [
   },
   {
     id: 11,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/squid-proxy1.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-proxy-sample.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/11. Deploiement de Squid et SquidGuard.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/11. Deploiement de Squid et SquidGuard - sample.pdf",
     icon: ShieldCheck,
     fr: {
       title: "Déploiement de Squid & SquidGuard",
@@ -470,8 +975,8 @@ const projectsData = [
   },
   {
     id: 12,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/vpn_ipsec_asa.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/IPsec-over-ASAs.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/12. Mise en place de VPN IPSec.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/12. Mise en place de VPN IPSec.pdf",
     icon: Network,
     fr: {
       title: "Mise en place de VPN IPSec",
@@ -487,8 +992,8 @@ const projectsData = [
   },
   {
     id: 13,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/cropped-CheckMK.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-supervision-checkmk-sample.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/13. Supervision avec CheckMK.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/13. Supervision avec CheckMK - sample.pdf",
     icon: Server,
     fr: {
       title: "Supervision avec CheckMK",
@@ -504,8 +1009,8 @@ const projectsData = [
   },
   {
     id: 14,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/projet_dmz_pfsense.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet-DMZ-sur-pfsense_sample.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/14. Deploiement d'une DMZ sur pfSense.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/14. Deploiement d'une DMZ sur pfSense.pdf",
     icon: ShieldCheck,
     fr: {
       title: "Déploiement d'une DMZ sur pfSense",
@@ -521,8 +1026,8 @@ const projectsData = [
   },
   {
     id: 15,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/projet_glpi_actifs.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/projet_glpi_actifs.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/15. Gestion des actifs  GLPI et FusionInventory.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/15. Gestion des actifs  GLPI et FusionInventory.pdf",
     icon: Database,
     fr: {
       title: "Gestion des actifs : GLPI & FusionInventory",
@@ -538,8 +1043,8 @@ const projectsData = [
   },
   {
     id: 16,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/restructuration-du-reseau.jpg",
-    documentUrl: "https://persys.fr/wp-content/uploads/2023/04/restructuration_du_reseau.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/16. Restructuration Globale d'un Reseau.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/16. Restructuration Globale d'un Reseau.pdf",
     icon: Network,
     fr: {
       title: "Restructuration Globale d'un Réseau",
@@ -555,7 +1060,8 @@ const projectsData = [
   },
   {
     id: 17,
-    imageUrl: "https://persys.fr/wp-content/uploads/2023/04/vcenter_project.jpg",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/17. Deploiement d'un Serveur vCenter.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/17. Deploiement d'un Serveur vCenter.pdf",
     icon: Server,
     fr: {
       title: "Déploiement d'un Serveur vCenter",
@@ -582,11 +1088,8 @@ const App = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [showScrollTop, setShowScrollTop] = useState(false);
 
-  // Set Document Title and Favicon on Load
   useEffect(() => {
     document.title = "Ershad Ramezani's Portfolio";
-    
-    // Create a dynamic SVG Favicon (Server Icon)
     const svgIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%233b82f6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>`;
     let link = document.querySelector("link[rel~='icon']");
     if (!link) {
@@ -616,8 +1119,47 @@ const App = () => {
   const handleProjectClick = (project) => {
     setSavedScroll(window.scrollY); 
     setSelectedProject(project);
-    setView('project');
+    
+    if (project.id === 1) setView('project-1');
+    else if (project.id === 2) setView('project-2');
+    else if (project.id === 3) setView('project-3');
+    else if (project.id === 4) setView('project-4');
+    else setView('project');
+    
     window.scrollTo(0, 0); 
+  };
+
+  const handleBloc1Click = () => {
+    setSavedScroll(window.scrollY);
+    setView('project-bloc-1');
+    window.scrollTo(0, 0);
+  };
+
+  const handleBloc2Click = () => {
+    setSavedScroll(window.scrollY);
+    setView('project-bloc-2');
+    window.scrollTo(0, 0);
+  };
+
+  const handleBloc3Click = () => {
+    setSavedScroll(window.scrollY);
+    setView('project-bloc-3');
+    window.scrollTo(0, 0);
+  };
+
+  const handleBloc5Click = () => {
+    setSavedScroll(window.scrollY);
+    setView('project-bloc-5');
+    window.scrollTo(0, 0);
+  };
+
+  const handleContactRedirect = () => {
+    setView('home');
+    setSelectedProject(null);
+    setTimeout(() => {
+      const el = document.getElementById('contact');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }, 100);
   };
 
   const handleBack = () => {
@@ -626,28 +1168,160 @@ const App = () => {
     } else {
       setView('home');
       setSelectedProject(null);
-      setTimeout(() => {
-        window.scrollTo(0, savedScroll);
-      }, 0);
+      setTimeout(() => window.scrollTo(0, savedScroll), 0);
     }
   };
 
-  const closeMobileMenu = () => {
-    setIsMobileMenuOpen(false);
+  const closeMobileMenu = () => setIsMobileMenuOpen(false);
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
+  // Main navigation link helper
+  const NavLink = ({ href, children }) => (
+    <a 
+      href={href} 
+      className="text-sm font-medium text-slate-400 hover:text-white transition-colors"
+      onClick={(e) => {
+        if (view !== 'home') {
+          e.preventDefault();
+          handleBack();
+          setTimeout(() => {
+            const el = document.querySelector(href);
+            if (el) el.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      }}
+    >
+      {children}
+    </a>
+  );
+
+  // EARLY RETURN FOR CUSTOM PROJECT PAGES
+  // This completely removes the main App header/footer when inside standalone projects.
+  if (view === 'project-1') return <Project01 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} />;
+  if (view === 'project-2') return <Project02 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} />;
+  if (view === 'project-3') return <Project03 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} />;
+  if (view === 'project-4') return <Project04 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} />;
+  if (view === 'project-bloc-1') return <ProjectBloc1 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} onContactClick={handleContactRedirect} />;
+  if (view === 'project-bloc-2') return <ProjectBloc2 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} onContactClick={handleContactRedirect} />;
+  if (view === 'project-bloc-3') return <ProjectBloc3 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} onContactClick={handleContactRedirect} />;
+  if (view === 'project-bloc-5') return <ProjectBloc5 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} onContactClick={handleContactRedirect} />;
+
+
+  // --- GENERIC VIEW RENDERER ---
+  const renderGenericProjectView = () => {
+    if (!selectedProject) return null;
+
+    return (
+      <div className="min-h-screen pt-8 pb-32">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8">
+          <button 
+            onClick={handleBack}
+            className="group flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white transition-colors mb-10 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full w-fit relative z-20"
+          >
+            <ChevronLeft size={16} className="text-blue-400 group-hover:-translate-x-1 transition-transform" />
+            {t.projectDetail.back}
+          </button>
+
+          <article>
+            <FadeIn direction="up">
+              <header className="mb-12">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
+                  <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl w-fit">
+                    <selectedProject.icon size={28} className="text-blue-400" />
+                  </div>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
+                    {selectedProject[lang].title}
+                  </h1>
+                </div>
+                <p className="text-lg md:text-xl text-slate-400 border-l-4 border-blue-500 pl-4 py-1">
+                  {selectedProject[lang].subtitle}
+                </p>
+              </header>
+            </FadeIn>
+
+            <FadeIn delay={150} direction="up" className="flex justify-center">
+              <div className="relative aspect-[700/474] w-full max-w-3xl mb-12 rounded-2xl overflow-hidden border border-slate-800 shadow-xl bg-slate-900/50">
+                <img 
+                  src={selectedProject.imageUrl} 
+                  alt={selectedProject[lang].title} 
+                  className="w-full h-full object-contain"
+                />
+              </div>
+            </FadeIn>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+              <div className="lg:col-span-2 space-y-6">
+                <FadeIn delay={300} direction="up">
+                  <h2 className="text-xl font-bold text-white flex items-center gap-2 pb-4 border-b border-slate-800/80">
+                    <FileText size={20} className="text-blue-400" />
+                    {t.projectDetail.descriptionTitle}
+                  </h2>
+                  <p className="text-slate-300 text-base leading-relaxed">
+                    {selectedProject[lang].description}
+                  </p>
+                </FadeIn>
+              </div>
+
+              <div className="lg:col-span-1">
+                <div className="sticky top-32 space-y-6">
+                  {selectedProject.documentUrl && (
+                    <FadeIn delay={400} direction="up">
+                      <a 
+                        href={selectedProject.documentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex flex-col items-center justify-center gap-2 p-6 bg-blue-600 hover:bg-blue-500 rounded-2xl text-white transition-all shadow-lg shadow-blue-900/20 text-center"
+                      >
+                        <FileText size={28} className="mb-1" />
+                        <span className="font-bold text-sm">{t.projectDetail.viewPdf}</span>
+                        <span className="text-blue-200 text-xs flex items-center gap-1 mt-1 group-hover:text-white transition-colors">
+                          Ouvrir l'onglet <ArrowUpRight size={14} />
+                        </span>
+                      </a>
+                    </FadeIn>
+                  )}
+
+                  <FadeIn delay={500} direction="up">
+                    <div className="p-6 bg-slate-900 rounded-2xl border border-slate-800">
+                      <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-5 flex items-center gap-2">
+                        <Code size={16} className="text-slate-400" />
+                        {t.projectDetail.technologies}
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedProject.tags.map((tag, i) => (
+                          <span key={i} className="px-3 py-1.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-lg border border-slate-700/50">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </FadeIn>
+                </div>
+              </div>
+            </div>
+
+            <FadeIn delay={600} direction="up" className="mt-16 pt-8 border-t border-slate-800/80 flex justify-center sm:justify-start">
+              <button 
+                onClick={handleBack}
+                className="group flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white transition-colors bg-slate-900 border border-slate-800 px-5 py-2.5 rounded-full w-fit shadow-md relative z-20"
+              >
+                <ChevronLeft size={16} className="text-blue-400 group-hover:-translate-x-1 transition-transform" />
+                {t.projectDetail.back}
+              </button>
+            </FadeIn>
+          </article>
+        </div>
+      </div>
+    );
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200">
-
-      {/* Infrastructure / Cloud Grid Background */}
+    <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200 overflow-x-hidden relative">
+      {/* Background elements */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
         <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[50%] rounded-full bg-blue-600/15 blur-[120px] animate-pulse" style={{ animationDuration: '7s' }}></div>
         <div className="absolute top-[15%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }}></div>
-        
         <svg className="absolute inset-0 w-full h-full text-blue-400/[0.07]" xmlns="http://www.w3.org/2000/svg">
           <defs>
             <pattern id="network-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -658,85 +1332,65 @@ const App = () => {
           </defs>
           <rect width="100%" height="100%" fill="url(#network-grid)" />
         </svg>
-
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/80 to-slate-950"></div>
       </div>
 
-      {/* Top Corporate Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 shadow-lg py-1' : 'bg-transparent py-3'}`}>
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2 cursor-pointer" onClick={handleBack}>
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20">
-                ER
+      {/* Main Navigation - ONLY visible on the home page */}
+      {view === 'home' && (
+        <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 shadow-lg py-1' : 'bg-transparent py-3'}`}>
+          <div className="max-w-7xl mx-auto px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <div className="flex items-center gap-2 cursor-pointer" onClick={handleBack}>
+                <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-500/20">ER</div>
+                <span className="text-lg font-semibold tracking-tight text-white hidden sm:block">Ershad Ramezani</span>
               </div>
-              <span className="text-lg font-semibold tracking-tight text-white hidden sm:block">
-                Ershad Ramezani
-              </span>
-            </div>
-            
-            <div className="flex items-center gap-4 sm:gap-6">
-              {view === 'home' && (
-                <div className="hidden md:flex items-center gap-6">
-                  <a href="#about" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.profile}</a>
-                  <a href="#experience" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.experience}</a>
-                  <a href="#projects" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.projects}</a>
-                  <a href="#contact" className="text-sm font-medium text-slate-400 hover:text-white transition-colors">{t.nav.contact}</a>
-                </div>
-              )}
               
-              <div className="flex items-center gap-3 sm:gap-4 md:border-l md:border-slate-800 md:pl-6 md:ml-2">
-                <a 
-                  href={t.nav.resumeLink}
-                  target="_blank" rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-lg text-sm font-semibold bg-white text-slate-900 hover:bg-slate-200 transition-colors flex items-center gap-2"
-                >
-                  <FileText size={16} />
-                  <span className="hidden sm:inline">{t.nav.resume}</span>
-                </a>
-                <button 
-                  onClick={toggleLanguage}
-                  className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50"
-                >
-                  {t.nav.language}
-                </button>
-                {/* Mobile Menu Button */}
-                {view === 'home' && (
-                  <button 
-                    className="md:hidden p-2 text-slate-400 hover:text-white transition-colors"
-                    onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                  >
+              <div className="flex items-center gap-4 sm:gap-6">
+                <div className="hidden md:flex items-center gap-6">
+                <NavLink href="#about">{t.nav.profile}</NavLink>
+                <NavLink href="#experience">{t.nav.experience}</NavLink>
+                <NavLink href="#capstone">{t.nav.capstone}</NavLink>
+                <NavLink href="#projects">{t.nav.projects}</NavLink>
+                <NavLink href="#contact">{t.nav.contact}</NavLink>
+              </div>
+                
+                <div className="flex items-center gap-3 sm:gap-4 md:border-l md:border-slate-800 md:pl-6 md:ml-2">
+                  <a href={t.nav.resumeLink} target="_blank" rel="noopener noreferrer" className="px-4 py-2 rounded-lg text-sm font-semibold bg-white text-slate-900 hover:bg-slate-200 transition-colors flex items-center gap-2">
+                    <FileText size={16} />
+                    <span className="hidden sm:inline">{t.nav.resume}</span>
+                  </a>
+                  <button onClick={toggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50">
+                    {t.nav.language}
+                  </button>
+                  <button className="md:hidden p-2 text-slate-400 hover:text-white transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
                     {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                   </button>
-                )}
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Mobile Menu Dropdown */}
-        {view === 'home' && isMobileMenuOpen && (
-          <div className="md:hidden bg-slate-900 border-b border-slate-800 absolute top-full left-0 w-full shadow-xl">
-            <div className="px-6 py-4 flex flex-col gap-2">
-              <a href="#about" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.profile}</a>
-              <a href="#experience" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.experience}</a>
-              <a href="#projects" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.projects}</a>
-              <a href="#contact" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.contact}</a>
+          {isMobileMenuOpen && (
+            <div className="md:hidden bg-slate-900 border-b border-slate-800 absolute top-full left-0 w-full shadow-xl">
+              <div className="px-6 py-4 flex flex-col gap-2">
+                <a href="#about" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.profile}</a>
+                <a href="#experience" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.experience}</a>
+                <a href="#capstone" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.capstone}</a>
+                <a href="#projects" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.projects}</a>
+                <a href="#contact" onClick={closeMobileMenu} className="text-sm font-medium text-slate-300 hover:text-blue-400 transition-colors py-2">{t.nav.contact}</a>
+              </div>
             </div>
-          </div>
-        )}
-      </nav>
+          )}
+        </nav>
+      )}
 
-      {/* Main Content Area */}
+      {/* Content Rendering */}
       <main className="relative z-10 pt-20 pb-32">
         {view === 'home' ? (
           <>
             {/* HERO SECTION */}
             <section className="relative min-h-[85vh] flex flex-col pt-8 lg:pt-0">
-              {/* On ajoute une bordure basse pour créer une ligne de "sol" (floor) */}
               <div className="flex-1 max-w-7xl mx-auto px-6 lg:px-8 w-full flex flex-col lg:flex-row justify-between pt-12 pb-0 gap-8 border-b border-slate-800/40">
-                
-                {/* Colonne de Gauche : Texte */}
                 <div className="flex-1 max-w-3xl flex flex-col justify-center pb-8 lg:pb-16">
                   <FadeIn delay={100} direction="up">
                     <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-8 mt-4 lg:mt-0">
@@ -767,9 +1421,7 @@ const App = () => {
                   </FadeIn>
 
                   <FadeIn delay={500} direction="up">
-                    {/* On s'assure qu'il n'y a pas d'espace (margin/padding) en dessous des badges */}
                     <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 mb-0">
-                      {/* Credly Badges styled professionally */}
                       <a 
                         href="https://www.credly.com/badges/8a9c0877-0c28-4b90-977b-3a3963753091" 
                         target="_blank" rel="noopener noreferrer"
@@ -805,21 +1457,17 @@ const App = () => {
                   </FadeIn>
                 </div>
 
-                {/* Colonne de Droite : Photo Professionnelle */}
                 <div className="flex-1 relative flex justify-center lg:justify-end items-end w-full lg:pl-10 mt-8 lg:mt-0">
-                  {/* Image réduite et ancrée parfaitement sur la même ligne horizontale */}
                   <FadeIn delay={200} direction="left" className="relative z-10 w-full max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-[320px] xl:max-w-[340px] flex justify-center items-end mt-auto h-full">
-                    {/* Halo lumineux subtil derrière la silhouette */}
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[90%] h-[90%] bg-gradient-to-tr from-blue-600/20 to-indigo-500/20 blur-[60px] rounded-full -z-10"></div>
                     <img 
-                      src="https://persys.fr/wp-content/uploads/2026/03/Ershad_Ramezani.png" 
+                      src="https://assets.persys.fr/Portfolio/Resumes - CVs/Ershad_Ramezani.png" 
                       alt="Ershad Ramezani" 
                       className="w-full h-auto object-bottom object-contain drop-shadow-[0_15px_25px_rgba(0,0,0,0.5)] block"
                       style={{ marginBottom: "-1px" }}
                     />
                   </FadeIn>
                 </div>
-
               </div>
             </section>
 
@@ -834,7 +1482,6 @@ const App = () => {
                 </FadeIn>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-                  {/* Languages Card */}
                   <FadeIn delay={100} direction="up" className="h-full">
                     <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm h-full">
                       <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
@@ -851,7 +1498,6 @@ const App = () => {
                     </div>
                   </FadeIn>
 
-                  {/* Technical Stack Card */}
                   <FadeIn delay={200} direction="up" className="lg:col-span-2 h-full">
                     <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm h-full">
                       <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
@@ -876,7 +1522,7 @@ const App = () => {
               </div>
             </section>
 
-            {/* TIMELINE: EXPERIENCE & EDUCATION */}
+            {/* TIMELINE SECTION */}
             <section id="experience" className="py-24 border-t border-slate-800/50">
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
                 <FadeIn direction="up">
@@ -887,8 +1533,6 @@ const App = () => {
                 </FadeIn>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-                  
-                  {/* Experience Column */}
                   <div>
                     <FadeIn direction="up">
                       <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
@@ -921,7 +1565,6 @@ const App = () => {
                     </div>
                   </div>
 
-                  {/* Education Column */}
                   <div>
                     <FadeIn direction="up">
                       <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
@@ -944,15 +1587,114 @@ const App = () => {
                       ))}
                     </div>
                   </div>
-
                 </div>
+              </div>
+            </section>
+
+            {/* CAPSTONE PROJECT SECTION */}
+            <section id="capstone" className="py-24 border-t border-slate-800/50 relative overflow-hidden">
+              <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-blue-900/20 via-slate-950/0 to-transparent pointer-events-none"></div>
+              <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+                <FadeIn direction="up">
+                  <div className="bg-gradient-to-br from-slate-900 to-slate-900/50 border border-blue-500/20 rounded-[2.5rem] p-8 lg:p-12 shadow-2xl shadow-blue-900/10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+                      
+                      {/* Left: Story & Info */}
+                      <div>
+                        <span className="inline-block py-1.5 px-4 rounded-full bg-blue-500/20 text-blue-400 text-xs font-bold uppercase tracking-wider mb-6 border border-blue-500/30">
+                          {t.capstone.badge}
+                        </span>
+                        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white mb-4 leading-tight">
+                          {t.capstone.title}
+                        </h2>
+                        <p className="text-xl text-blue-400 mb-8 font-medium">
+                          {t.capstone.subtitle}
+                        </p>
+                        
+                        <div className="space-y-4 text-slate-300 leading-relaxed mb-10">
+                          <p>{t.capstone.story1}</p>
+                          <p>{t.capstone.story2}</p>
+                        </div>
+                      </div>
+
+                      {/* Right: Blocks Grid */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div className="col-span-1 sm:col-span-2 mb-2">
+                          <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest flex items-center gap-2">
+                            {t.capstone.blocksTitle}
+                          </h3>
+                        </div>
+
+                        {/* Block 1 */}
+                        <div 
+                          onClick={handleBloc1Click}
+                          className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-blue-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition-transform">
+                            <Target size={20} />
+                          </div>
+                          <h4 className="text-white font-bold mb-2">{t.capstone.b1Title}</h4>
+                          <p className="text-sm text-slate-400 leading-relaxed mb-4">{t.capstone.b1Desc}</p>
+                          <div className="flex items-center text-blue-400 text-xs font-semibold uppercase tracking-wider group-hover:text-blue-300">
+                            {t.capstone.viewDetails} <ArrowRight size={14} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+
+                        {/* Block 2 */}
+                        <div 
+                          onClick={handleBloc2Click}
+                          className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-indigo-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition-transform">
+                            <Briefcase size={20} />
+                          </div>
+                          <h4 className="text-white font-bold mb-2">{t.capstone.b2Title}</h4>
+                          <p className="text-sm text-slate-400 leading-relaxed mb-4">{t.capstone.b2Desc}</p>
+                          <div className="flex items-center text-indigo-400 text-xs font-semibold uppercase tracking-wider group-hover:text-indigo-300">
+                            {t.capstone.viewDetails} <ArrowRight size={14} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+
+                        {/* Block 3 */}
+                        <div 
+                          onClick={handleBloc3Click}
+                          className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-emerald-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
+                            <Settings size={20} />
+                          </div>
+                          <h4 className="text-white font-bold mb-2">{t.capstone.b3Title}</h4>
+                          <p className="text-sm text-slate-400 leading-relaxed mb-4">{t.capstone.b3Desc}</p>
+                          <div className="flex items-center text-emerald-400 text-xs font-semibold uppercase tracking-wider group-hover:text-emerald-300">
+                            {t.capstone.viewDetails} <ArrowRight size={14} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+
+                        {/* Block 5 */}
+                        <div 
+                          onClick={handleBloc5Click}
+                          className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-amber-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
+                        >
+                          <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-110 transition-transform">
+                            <Layers size={20} />
+                          </div>
+                          <h4 className="text-white font-bold mb-2">{t.capstone.b5Title}</h4>
+                          <p className="text-sm text-slate-400 leading-relaxed mb-4">{t.capstone.b5Desc}</p>
+                          <div className="flex items-center text-amber-400 text-xs font-semibold uppercase tracking-wider group-hover:text-amber-300">
+                            {t.capstone.viewDetails} <ArrowRight size={14} className="ml-1 group-hover:translate-x-1 transition-transform" />
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </FadeIn>
               </div>
             </section>
 
             {/* PROJECTS SECTION */}
             <section id="projects" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
               <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                
                 <FadeIn direction="up">
                   <div className="mb-12">
                     <h2 className="text-3xl font-bold text-white mb-3">{t.projectsSection.title}</h2>
@@ -1019,32 +1761,19 @@ const App = () => {
                     <p className="text-slate-400 mb-10 max-w-2xl mx-auto">{t.contact.subtitle}</p>
                     
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <a 
-                        href="mailto:ershad.ra@gmail.com"
-                        className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group"
-                      >
+                      <a href="mailto:ershad.ra@gmail.com" className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group">
                         <Mail className="text-slate-400 group-hover:text-blue-400 mb-3 transition-colors" size={28} />
                         <span className="text-sm font-semibold text-slate-200 mb-1">{t.contact.email}</span>
                         <span className="text-xs text-slate-500">ershad.ra@gmail.com</span>
                       </a>
 
-                      <a 
-                        href="https://www.linkedin.com/in/ershad-ramezani/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group"
-                      >
+                      <a href="https://www.linkedin.com/in/ershad-ramezani/" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group">
                         <Linkedin className="text-slate-400 group-hover:text-blue-400 mb-3 transition-colors" size={28} />
                         <span className="text-sm font-semibold text-slate-200 mb-1">{t.contact.linkedin}</span>
                         <span className="text-xs text-slate-500">ershad-ramezani</span>
                       </a>
 
-                      <a 
-                        href="https://github.com/ershad-ra"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group"
-                      >
+                      <a href="https://github.com/ershad-ra" target="_blank" rel="noopener noreferrer" className="flex flex-col items-center p-6 bg-slate-800/50 border border-slate-700/50 hover:bg-slate-800 hover:border-blue-500/50 rounded-2xl transition-all group">
                         <Github className="text-slate-400 group-hover:text-blue-400 mb-3 transition-colors" size={28} />
                         <span className="text-sm font-semibold text-slate-200 mb-1">{t.contact.github}</span>
                         <span className="text-xs text-slate-500">ershad-ra</span>
@@ -1056,149 +1785,34 @@ const App = () => {
             </section>
           </>
         ) : (
-          /* PROJECT DETAIL VIEW */
-          <div className="min-h-screen pt-8 pb-32">
-            <div className="max-w-5xl mx-auto px-6 lg:px-8">
-              <button 
-                onClick={handleBack}
-                className="group flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white transition-colors mb-10 bg-slate-900 border border-slate-800 px-4 py-2 rounded-full w-fit"
-              >
-                <ChevronLeft size={16} className="text-blue-400 group-hover:-translate-x-1 transition-transform" />
-                {t.projectDetail.back}
-              </button>
-
-              {selectedProject && (
-                <article>
-                  <FadeIn direction="up">
-                    <header className="mb-12">
-                      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-                        <div className="p-3 bg-slate-900 border border-slate-800 rounded-xl w-fit">
-                          <selectedProject.icon size={28} className="text-blue-400" />
-                        </div>
-                        <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight leading-tight">
-                          {selectedProject[lang].title}
-                        </h1>
-                      </div>
-                      <p className="text-lg md:text-xl text-slate-400 border-l-4 border-blue-500 pl-4 py-1">
-                        {selectedProject[lang].subtitle}
-                      </p>
-                    </header>
-                  </FadeIn>
-
-                  <FadeIn delay={150} direction="up" className="flex justify-center">
-                    <div className="relative aspect-[700/474] w-full max-w-3xl mb-12 rounded-2xl overflow-hidden border border-slate-800 shadow-xl bg-slate-900/50">
-                      <img 
-                        src={selectedProject.imageUrl} 
-                        alt={selectedProject[lang].title} 
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </FadeIn>
-
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-                    
-                    {/* Main Description */}
-                    <div className="lg:col-span-2 space-y-6">
-                      <FadeIn delay={300} direction="up">
-                        <h2 className="text-xl font-bold text-white flex items-center gap-2 pb-4 border-b border-slate-800/80">
-                          <FileText size={20} className="text-blue-400" />
-                          {t.projectDetail.descriptionTitle}
-                        </h2>
-                        <p className="text-slate-300 text-base leading-relaxed">
-                          {selectedProject[lang].description}
-                        </p>
-                      </FadeIn>
-                    </div>
-
-                    {/* Sidebar Details */}
-                    <div className="lg:col-span-1">
-                      <div className="sticky top-32 space-y-6">
-                        
-                        {selectedProject.documentUrl && (
-                          <FadeIn delay={400} direction="up">
-                            <a 
-                              href={selectedProject.documentUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="group flex flex-col items-center justify-center gap-2 p-6 bg-blue-600 hover:bg-blue-500 rounded-2xl text-white transition-all shadow-lg shadow-blue-900/20 text-center"
-                            >
-                              <FileText size={28} className="mb-1" />
-                              <span className="font-bold text-sm">{t.projectDetail.viewPdf}</span>
-                              <span className="text-blue-200 text-xs flex items-center gap-1 mt-1 group-hover:text-white transition-colors">
-                                Ouvrir l'onglet <ArrowUpRight size={14} />
-                              </span>
-                            </a>
-                          </FadeIn>
-                        )}
-
-                        <FadeIn delay={500} direction="up">
-                          <div className="p-6 bg-slate-900 rounded-2xl border border-slate-800">
-                            <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-5 flex items-center gap-2">
-                              <Code size={16} className="text-slate-400" />
-                              {t.projectDetail.technologies}
-                            </h3>
-                            <div className="flex flex-wrap gap-2">
-                              {selectedProject.tags.map((tag, i) => (
-                                <span key={i} className="px-3 py-1.5 text-xs font-semibold bg-slate-800 text-slate-300 rounded-lg border border-slate-700/50">
-                                  {tag}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </FadeIn>
-
-                      </div>
-                    </div>
-
-                  </div>
-
-                  {/* Bottom Back Button */}
-                  <FadeIn delay={600} direction="up" className="mt-16 pt-8 border-t border-slate-800/80 flex justify-center sm:justify-start">
-                    <button 
-                      onClick={handleBack}
-                      className="group flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-white transition-colors bg-slate-900 border border-slate-800 px-5 py-2.5 rounded-full w-fit shadow-md"
-                    >
-                      <ChevronLeft size={16} className="text-blue-400 group-hover:-translate-x-1 transition-transform" />
-                      {t.projectDetail.back}
-                    </button>
-                  </FadeIn>
-
-                </article>
-              )}
-            </div>
-          </div>
+          renderGenericProjectView()
         )}
       </main>
 
-      {/* FOOTER */}
-      <footer className="relative z-10 border-t border-slate-800/80 bg-slate-950 py-8">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded bg-blue-500/20 flex items-center justify-center text-blue-400 font-bold text-[10px]">ER</div>
+      {/* Footer - ONLY visible on the home page */}
+      {view === 'home' && (
+        <footer className="relative z-10 border-t border-slate-800/80 bg-slate-950 py-8">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-slate-500 text-sm text-center">
+              &copy; {new Date().getFullYear()} {t.footer}
+            </p>
+            <div className="flex space-x-4">
+              <a href="https://www.linkedin.com/in/ershad-ramezani/" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
+                <Linkedin size={18} />
+              </a>
+              <a href="https://github.com/ershad-ra" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
+                <Github size={18} />
+              </a>
+            </div>
           </div>
-          <p className="text-slate-500 text-sm text-center">
-            &copy; {new Date().getFullYear()} {t.footer}
-          </p>
-          <div className="flex space-x-4">
-            <a href="https://www.linkedin.com/in/ershad-ramezani/" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
-              <span className="sr-only">LinkedIn</span>
-              <Linkedin size={18} />
-            </a>
-            <a href="https://github.com/ershad-ra" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
-              <span className="sr-only">GitHub</span>
-              <Github size={18} />
-            </a>
-          </div>
-        </div>
-      </footer>
+        </footer>
+      )}
 
-      {/* Scroll To Top Button */}
       <button
         onClick={scrollToTop}
         className={`fixed bottom-6 right-6 z-40 p-3 rounded-full bg-blue-600 text-white shadow-lg shadow-blue-900/50 hover:bg-blue-500 hover:-translate-y-1 transition-all duration-300 ${
-          showScrollTop ? 'opacity-100 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'
+          showScrollTop ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
-        aria-label="Retour en haut"
       >
         <ArrowUp size={20} />
       </button>
