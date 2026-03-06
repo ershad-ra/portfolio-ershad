@@ -315,6 +315,1369 @@ const Project01 = ({ onBack, lang, onToggleLanguage }) => {
 };
 
 
+// Project 2
+const project2Translations = {
+  fr: {
+    back: "retour au portfolio",
+    nav: { topo: "Topologie", inventory: "Inventaire", modules: "Modules", playbooks: "Playbooks", pdf: "PDF Complet" },
+    hero: {
+      badge: "Projet d'Automatisation (IaC)",
+      titleStart: "Automatisation ",
+      titleHighlight: "Cisco avec Ansible",
+      desc: "Déploiement, configuration automatisée et gestion des sauvegardes des équipements Cisco via des playbooks Ansible.",
+      by: "Par"
+    },
+    sec1: {
+      title: "Topologie de l'Infrastructure",
+      p1: "L'architecture réseau est composée de routeurs (Cisco 1921) et de commutateurs Catalyst (couches Core et Access). Le but est de gérer l'intégralité des configurations depuis un serveur Ansible centralisé.",
+      p2: "L'environnement inclut également des serveurs TFTP pour la sauvegarde des images IOS et des outils de supervision comme CheckMK pour la surveillance du protocole SNMP déployé."
+    },
+    sec2: {
+      title: "Inventaire & Configuration",
+      p1: "L'inventaire Ansible est structuré en fichiers INI et répertoires YAML (group_vars, host_vars). Les hôtes sont organisés en groupes logiques (router, core, access) permettant un ciblage précis.",
+      p2: "Cette hiérarchie permet de séparer les données sensibles (identifiants, mots de passe de privilège) du code d'automatisation, tout en configurant efficacement le module de connexion 'network_cli'."
+    },
+    sec3: {
+      title: "Modules, Plugins et Collections",
+      p1: "L'automatisation repose sur la robustesse des collections officielles 'cisco.ios' et 'ansible.netcommon'.",
+      p2: "Ces collections fournissent des modules puissants tels que 'ios_facts' pour la récupération de données dynamiques, 'ios_command' pour exécuter des commandes CLI, et 'ios_config' pour appliquer des configurations de manière idempotente."
+    },
+    sec4: {
+      title: "Développement des Playbooks",
+      p1: "Les playbooks YAML exécutent des tâches complexes et conditionnelles. Par exemple, la vérification de la version de l'image IOS avant de procéder à une mise à jour automatisée via TFTP.",
+      p2: "D'autres playbooks gèrent la création et l'attribution massives de VLANs ou configurent automatiquement les utilisateurs et clés de cryptage SNMPv3 sur l'ensemble du parc matériel."
+    },
+    dl: {
+      title: "Envie d'aller plus loin ?",
+      desc: "Le document complet de 30 pages détaille le processus d'installation d'Ansible, la gestion des connexions SSH avec les équipements Cisco, et inclut le code source complet de tous les playbooks.",
+      btn: "Télécharger le PDF Complet",
+      file: "Fichier: 02. Automatisation Cisco avec Ansible.pdf (30 pages)"
+    },
+    footer: "Projet d'Automatisation Réseau (Infrastructure as Code)."
+  },
+  en: {
+    back: "back to portfolio",
+    nav: { topo: "Topology", inventory: "Inventory", modules: "Modules", playbooks: "Playbooks", pdf: "Full PDF" },
+    hero: {
+      badge: "Automation Project (IaC)",
+      titleStart: "Cisco Automation ",
+      titleHighlight: "with Ansible",
+      desc: "Deployment, automated configuration, and backup management of Cisco equipment via Ansible playbooks.",
+      by: "By"
+    },
+    sec1: {
+      title: "Infrastructure Topology",
+      p1: "The network architecture consists of Cisco routers (1921) and Catalyst switches (Core and Access layers). The goal is to manage all configurations from a centralized Ansible server.",
+      p2: "The environment also includes TFTP servers for IOS image backups and monitoring tools like CheckMK to monitor the deployed SNMP protocol."
+    },
+    sec2: {
+      title: "Inventory & Configuration",
+      p1: "The Ansible inventory is structured in INI files and YAML directories (group_vars, host_vars). Hosts are organized into logical groups (router, core, access) allowing precise targeting.",
+      p2: "This hierarchy separates sensitive data (credentials, privilege passwords) from the automation code, while efficiently configuring the 'network_cli' connection module."
+    },
+    sec3: {
+      title: "Modules, Plugins and Collections",
+      p1: "The automation relies on the robustness of official collections like 'cisco.ios' and 'ansible.netcommon'.",
+      p2: "These collections provide powerful modules such as 'ios_facts' for dynamic data retrieval, 'ios_command' to execute CLI commands, and 'ios_config' to apply configurations idempotently."
+    },
+    sec4: {
+      title: "Playbook Development",
+      p1: "YAML playbooks execute complex and conditional tasks. For example, checking the IOS image version before performing an automated upgrade via TFTP.",
+      p2: "Other playbooks handle the massive creation and assignment of VLANs or automatically configure users and SNMPv3 encryption keys across the entire hardware fleet."
+    },
+    dl: {
+      title: "Want to go further?",
+      desc: "The full 30-page document details the Ansible installation process, managing SSH connections with Cisco equipment, and includes the complete source code for all playbooks.",
+      btn: "Download Full PDF",
+      file: "File: 02. Automatisation Cisco avec Ansible.pdf (30 pages)"
+    },
+    footer: "Network Automation Project (Infrastructure as Code)."
+  }
+};
+
+const Project02 = ({ onBack, lang, onToggleLanguage }) => {
+  const pt = project2Translations[lang] || project2Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#topology" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.topo}</a>
+              <a href="#inventory" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.inventory}</a>
+              <a href="#modules" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.modules}</a>
+              <a href="#playbooks" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.playbooks}</a>
+            </div>
+            <div className="flex items-center">
+              <a href="https://assets.persys.fr/Portfolio/Projects/02. Automatisation Cisco avec Ansible.pdf" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Download className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.pdf}</span>
+              </a>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/02.%20Automatisation%20Cisco%20avec%20Ansible.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6 border border-blue-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-blue-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="topology" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><Network className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project02/topologie.png" alt="Topology" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="inventory" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project02/inventory.PNG" alt="Inventory" className="max-w-full h-auto rounded-xl shadow-sm bg-white mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><Database className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec2.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="modules" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><Cpu className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex flex-col justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/project02/module%2C%20plugins%20and%20collections.png" alt="Modules" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="playbooks" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/project02/Back%20up%20running%20configuration%20with%20ios_command%20playbook.png" alt="Playbook" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/project02/result%20of%20running%20playbook%20-%20Back%20up%20running%20configuration%20with%20ios_command%20playbook.PNG" alt="Result" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><Terminal className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <a href="https://assets.persys.fr/Portfolio/Projects/02. Automatisation Cisco avec Ansible.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Download className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </a>
+            <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
+// Project 3
+const project3Translations = {
+  fr: {
+    back: "retour au portfolio",
+    nav: { topo: "Topologie", lamp: "Stack LAMP", org: "Organisation", playbook: "Playbooks", pdf: "PDF Complet" },
+    hero: {
+      badge: "Déploiement Web Automatisé",
+      titleStart: "Déploiement LAMP/GLPi ",
+      titleHighlight: "avec Ansible",
+      desc: "Automatisation de l'installation et de la configuration complète d'une stack LAMP, de GLPI, FusionInventory et Fail2ban avec Ansible.",
+      by: "Par"
+    },
+    sec1: {
+      title: "Architecture & Topologie",
+      p1: "Le projet repose sur une machine de contrôle Ansible (Control Node) qui déploie les configurations vers des serveurs cibles via VirtualBox.",
+      p2: "La topologie inclut un accès via SSH avec une authentification par clés (password-less) et une élévation de privilèges (sudo) automatisée pour garantir la sécurité et l'efficacité des déploiements."
+    },
+    sec2: {
+      title: "La Stack LAMP",
+      p1: "La solution GLPI s'appuie sur une pile logicielle standard : Linux, Apache, MySQL, et PHP. Le but du projet est de transformer le déploiement de ces éléments en Infrastructure as Code.",
+      p2: "Chaque composant fait l'objet d'une automatisation Ansible précise, garantissant des versions spécifiques, la création de bases de données, et l'application des bonnes pratiques de sécurité (HTTPS, TLS)."
+    },
+    sec3: {
+      title: "Organisation du Projet",
+      p1: "Pour gérer la complexité, le projet Ansible est structuré de manière rigoureuse avec des Rôles distincts (apache, mysql, php, fail2ban).",
+      p2: "L'inventaire, les variables globales (group_vars), les templates (Jinja2) et un fichier principal `master.yml` orchestrent l'ensemble du déploiement de façon modulaire."
+    },
+    sec4: {
+      title: "Anatomie des Playbooks",
+      p1: "Les playbooks YAML décrivent l'état désiré du système. Ils déploient les serveurs, génèrent les certificats SSL/TLS, téléchargent l'archive GLPI et injectent les paramètres de base de données.",
+      p2: "Des tâches conditionnelles configurées dans Ansible permettent également d'installer le plugin FusionInventory et de configurer automatiquement les filtres et jails Fail2ban pour bloquer les attaques."
+    },
+    dl: {
+      title: "Envie d'aller plus loin ?",
+      desc: "Le document complet de 42 pages détaille le fonctionnement des rôles Ansible, l'intégration de la gestion Windows avec WinRM, et les configurations avancées de sécurité HTTP.",
+      btn: "Télécharger le PDF Complet",
+      file: "Fichier: 03. Deploiement LAMP-GLPi avec Ansible - sample.pdf (42 pages)"
+    },
+    footer: "Projet d'Automatisation de Services Cloud et Sécurité."
+  },
+  en: {
+    back: "back to portfolio",
+    nav: { topo: "Topology", lamp: "LAMP Stack", org: "Organization", playbook: "Playbooks", pdf: "Full PDF" },
+    hero: {
+      badge: "Automated Web Deployment",
+      titleStart: "LAMP/GLPi Deployment ",
+      titleHighlight: "with Ansible",
+      desc: "Automation of the complete installation and configuration of a LAMP stack, GLPI, FusionInventory, and Fail2ban using Ansible.",
+      by: "By"
+    },
+    sec1: {
+      title: "Architecture & Topology",
+      p1: "The project relies on an Ansible Control Node that pushes configurations to target servers hosted on VirtualBox.",
+      p2: "The topology involves SSH access configured with key-based authentication (password-less) and automated privilege escalation (sudo) to ensure secure and efficient deployments."
+    },
+    sec2: {
+      title: "The LAMP Stack",
+      p1: "The GLPI solution is built on a standard software stack: Linux, Apache, MySQL, and PHP. The project aims to transform the deployment of these elements into Infrastructure as Code.",
+      p2: "Each component is handled by precise Ansible automation, ensuring specific versions, database creation, and security best practices application (HTTPS, TLS)."
+    },
+    sec3: {
+      title: "Project Organization",
+      p1: "To handle complexity, the Ansible project is rigorously structured into distinct Roles (apache, mysql, php, fail2ban).",
+      p2: "Inventory files, global variables (group_vars), templates (Jinja2), and a main `master.yml` file orchestrate the entire modular deployment."
+    },
+    sec4: {
+      title: "Playbook Anatomy",
+      p1: "YAML playbooks define the desired system state. They deploy servers, generate SSL/TLS certificates, fetch the GLPI archive, and inject database parameters.",
+      p2: "Conditional tasks in Ansible also allow the automated installation of the FusionInventory plugin and the dynamic configuration of Fail2ban filters and jails to block attacks."
+    },
+    dl: {
+      title: "Want to go further?",
+      desc: "The full 42-page document details the inner workings of Ansible roles, Windows management integration with WinRM, and advanced HTTP security configurations.",
+      btn: "Download Full PDF",
+      file: "File: 03. Deploiement LAMP-GLPi avec Ansible - sample.pdf (42 pages)"
+    },
+    footer: "Cloud Services Automation and Security Project."
+  }
+};
+
+const Project03 = ({ onBack, lang, onToggleLanguage }) => {
+  const pt = project3Translations[lang] || project3Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#topology" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.topo}</a>
+              <a href="#lamp" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.lamp}</a>
+              <a href="#organization" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.org}</a>
+              <a href="#playbooks" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.playbook}</a>
+            </div>
+            <div className="flex items-center">
+              <a href="https://assets.persys.fr/Portfolio/Projects/03.%20Deploiement%20LAMP-GLPi%20avec%20Ansible%20-%20sample.pdf" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Download className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.pdf}</span>
+              </a>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/03.%20Deploiement%20LAMP-GLPi%20avec%20Ansible.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6 border border-blue-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-blue-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="topology" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><Network className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project03/topologie%20in%20project's%20overview.PNG" alt="Topology" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="lamp" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-6 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/project03/lamp%20stack.png" alt="LAMP Stack" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block bg-white p-4" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><Server className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec2.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="organization" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><LayoutDashboard className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="order-2 lg:order-1 flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex flex-col justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/project03/organizing%20our%20glpi%20project.png" alt="Organization" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex flex-col justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/project03/tree%20command%20on%20the%20etc%20ansible%20directory.png" alt="Tree" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="playbooks" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/project03/anatomy%20of%20the%20playbook.png" alt="Anatomy" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block bg-white" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/project03/apache%20role%20files%20and%20directories.png" alt="Roles" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/project03/verifying%20the%20webserver.png" alt="Verify" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><Terminal className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <a href="https://assets.persys.fr/Portfolio/Projects/03.%20Deploiement%20LAMP-GLPi%20avec%20Ansible%20-%20sample.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Download className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </a>
+            <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
+// Project 4
+const project4Translations = {
+  fr: {
+    back: "retour au portfolio",
+    nav: { topo: "Topologie", snort: "Snort IDS", graylog: "SIEM Graylog", attacks: "Attaques", pdf: "PDF Complet" },
+    hero: {
+      badge: "Cybersécurité & Supervision",
+      titleStart: "Déploiement d'IDS/IPS ",
+      titleHighlight: "et SIEM",
+      desc: "Mise en place de Snort et Graylog pour la détection d'intrusions, la centralisation des logs et la simulation d'attaques réseau.",
+      by: "Par"
+    },
+    sec1: {
+      title: "Topologie de l'Infrastructure",
+      p1: "L'architecture s'articule autour d'un pare-feu pfSense configuré en tant que NIDS (Network Intrusion Detection System) grâce au paquet Snort.",
+      p2: "Il est couplé à un serveur Graylog (SIEM) chargé de collecter, parser et analyser les logs générés. Cet environnement isolé permet de simuler et d'observer des attaques complexes en toute sécurité."
+    },
+    sec2: {
+      title: "Déploiement de Snort (IDS/IPS)",
+      p1: "Snort analyse en temps réel le trafic traversant le pare-feu. Nous l'avons configuré avec des règles personnalisées et communautaires pour détecter les signatures malveillantes (exploits CVE, scans Nmap).",
+      p2: "En mode IPS, il est capable de bloquer activement les trames suspectes, offrant une première ligne de défense proactive contre les intrusions."
+    },
+    sec3: {
+      title: "Centralisation & SIEM (Graylog)",
+      p1: "Le serveur Graylog centralise les alertes de sécurité de l'infrastructure. Des extracteurs (Grok patterns) sont configurés pour structurer les logs bruts provenant de Snort.",
+      p2: "La création de tableaux de bord interactifs et la configuration d'alertes automatisées par e-mail (Grace Period) permettent une réactivité immédiate de l'équipe de sécurité (SOC)."
+    },
+    sec4: {
+      title: "Simulation d'Attaques & Détection",
+      p1: "Pour valider l'efficacité de nos règles, plusieurs attaques réelles ont été orchestrées : DDoS (SYN Flood, HTTP Flood), Mac Flooding, et exploitation de failles (EternalBlue, VSFTPD Backdoor).",
+      p2: "L'analyse granulaire des trames (via Wireshark) corrélée aux alertes remontées dans le SIEM confirme le déclenchement précis des mesures de protection."
+    },
+    dl: {
+      title: "Envie d'aller plus loin ?",
+      desc: "Le document détaillé plonge dans l'anatomie des règles Snort, la configuration de Graylog, et l'analyse technique (Wireshark) de 8 attaques distinctes.",
+      btn: "Télécharger le PDF Complet",
+      file: "Fichier: 04. Deploiement d'IDS-IPS et SIEM.pdf"
+    },
+    footer: "Projet de Cybersécurité et SOC (Security Operations Center)."
+  },
+  en: {
+    back: "back to portfolio",
+    nav: { topo: "Topology", snort: "Snort IDS", graylog: "Graylog SIEM", attacks: "Attacks", pdf: "Full PDF" },
+    hero: {
+      badge: "Cybersecurity & Monitoring",
+      titleStart: "IDS/IPS & SIEM ",
+      titleHighlight: "Deployment",
+      desc: "Implementing Snort and Graylog for intrusion detection, log centralization, and network attack simulation.",
+      by: "By"
+    },
+    sec1: {
+      title: "Infrastructure Topology",
+      p1: "The architecture revolves around a pfSense firewall configured as a NIDS (Network Intrusion Detection System) using the Snort package.",
+      p2: "It is coupled with a Graylog server (SIEM) responsible for collecting, parsing, and analyzing the generated logs. This isolated environment allows for the safe simulation and observation of complex attacks."
+    },
+    sec2: {
+      title: "Snort Deployment (IDS/IPS)",
+      p1: "Snort analyzes real-time traffic crossing the firewall. We configured it with custom and community rules to detect malicious signatures (CVE exploits, Nmap scans).",
+      p2: "In IPS mode, it can actively block suspicious frames, providing a proactive first line of defense against intrusions."
+    },
+    sec3: {
+      title: "Centralization & SIEM (Graylog)",
+      p1: "The Graylog server centralizes security alerts from the infrastructure. Extractors (Grok patterns) are configured to structure raw logs coming from Snort.",
+      p2: "The creation of interactive dashboards and the configuration of automated email alerts (Grace Period) ensure immediate responsiveness from the security team (SOC)."
+    },
+    sec4: {
+      title: "Attack Simulation & Detection",
+      p1: "To validate the effectiveness of our rules, several real attacks were orchestrated: DDoS (SYN Flood, HTTP Flood), Mac Flooding, and vulnerability exploitation (EternalBlue, VSFTPD Backdoor).",
+      p2: "The granular analysis of frames (via Wireshark) correlated with the alerts triggered in the SIEM confirms the precise activation of the protection measures."
+    },
+    dl: {
+      title: "Want to go further?",
+      desc: "The detailed document explores the anatomy of Snort rules, Graylog configuration, and the technical analysis (Wireshark) of 8 distinct attacks.",
+      btn: "Download Full PDF",
+      file: "File: 04. Deploiement d'IDS-IPS et SIEM.pdf"
+    },
+    footer: "Cybersecurity and SOC (Security Operations Center) Project."
+  }
+};
+
+const Project04 = ({ onBack, lang, onToggleLanguage }) => {
+  const pt = project4Translations[lang] || project4Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#topology" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.topo}</a>
+              <a href="#snort" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.snort}</a>
+              <a href="#graylog" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.graylog}</a>
+              <a href="#attacks" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.attacks}</a>
+            </div>
+            <div className="flex items-center">
+              <a href="https://assets.persys.fr/Portfolio/Projects/04. Deploiement d'IDS-IPS et SIEM.pdf" target="_blank" rel="noopener noreferrer" className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Download className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.pdf}</span>
+              </a>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/04.%20Deploiement%20d%27IDS-IPS%20et%20SIEM.jpg')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-400 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6 border border-blue-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-blue-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="topology" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><Network className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/project04/topology%20of%20the%20project.png" alt="Topology" className="max-w-full h-auto rounded-xl shadow-sm bg-white mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="snort" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/project04/CVE%20structure.PNG" alt="Snort Rules" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><ShieldCheck className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec2.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="graylog" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><Database className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex flex-col justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/project04/alerts%20in%20the%20idsips.png" alt="Graylog SIEM" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="attacks" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/project04/syn%20flood%201.png" alt="SYN Flood Attack" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/project04/frame%20analyse%20in%20wireshark.png" alt="Wireshark Analysis" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><Terminal className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <a href="https://assets.persys.fr/Portfolio/Projects/04. Deploiement d'IDS-IPS et SIEM.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Download className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </a>
+            <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
+// --- PROJECT BLOC 1 (CAPSTONE) ---
+const projectBloc1Translations = {
+  fr: {
+    back: "retour au projet phare",
+    nav: { hld: "Stratégie & HLD", sdn: "Évolution SDN", pra: "Continuité (PRA)", rse: "Veille & RSE", contact: "Me Contacter" },
+    hero: {
+      badge: "Bloc 1 - Certification EASI",
+      titleStart: "Élaboration de la ",
+      titleHighlight: "Stratégie du SI",
+      desc: "Analyse des besoins, définition de l'architecture cible (HLD) et planification stratégique pour la modernisation vers VMware Cloud Foundation.",
+      by: "Par"
+    },
+    sec1: {
+      title: "Analyse du Besoin & Stratégie (A1.1 / A1.2)",
+      p1: "La première étape du projet a consisté à analyser en profondeur les besoins du commanditaire (Cloudnex) pour proposer une stratégie de modernisation cohérente. Le choix de VMware Cloud Foundation (VCF) s'est imposé pour répondre aux enjeux de scalabilité et de multi-tenant.",
+      p2: "Nous avons conçu un High-Level Design (HLD) post-audit, illustrant la nouvelle architecture logique. Ce schéma directeur structure les différents clusters (Management, Compute) et prépare le terrain pour l'intégration globale du calcul, du stockage et du réseau."
+    },
+    sec2: {
+      title: "Plan d'Évolution & Virtualisation Réseau (A1.3)",
+      p1: "L'élaboration du plan d'évolution du Système d'Information requiert une refonte de l'infrastructure réseau sous-jacente. L'intégration de VMware NSX transforme le réseau physique en un Software-Defined Network (SDN).",
+      p2: "Cette cartographie logique met en évidence la flexibilité apportée par le SDN : micro-segmentation, routage distribué (Tier-0/Tier-1) et automatisation du provisionnement réseau pour les différents locataires (tenants) de l'infrastructure Cloudnex."
+    },
+    sec3: {
+      title: "Continuité d'Activité & Résilience",
+      p1: "La stratégie du SI ne peut faire l'impasse sur la sécurité et la disponibilité des données. Une cartographie globale du Plan de Reprise d'Activité (PRA) a été définie pour garantir la résilience des datacenters.",
+      p2: "Le document illustre les mécanismes de réplication, la gestion des sauvegardes et le basculement (Failover) inter-sites, garantissant ainsi un RTO et un RPO alignés avec les exigences critiques (SLA) de l'entreprise."
+    },
+    sec4: {
+      title: "Veille, Planification & Démarche RSE (A1.4 / A1.5)",
+      p1: "La modernisation s'accompagne d'une planification rigoureuse (Plan indicatif) et d'une démarche RSE (Responsabilité Sociétale et Environnementale). Le passage au cloud privé via VCF favorise la consolidation matérielle (Green IT), réduisant ainsi l'empreinte carbone et la consommation énergétique globale.",
+      p2: "En parallèle, une veille technologique et réglementaire (RGPD, normes de sécurité) a été formalisée pour assurer que l'évolution de l'infrastructure reste pérenne, conforme et technologiquement à l'avant-garde."
+    },
+    dl: {
+      title: "Envie de lire le dossier complet ?",
+      desc: "Pour des raisons de confidentialité et de propriété intellectuelle, le dossier complet n'est pas en libre accès. N'hésitez pas à me contacter directement pour échanger sur les détails de cette architecture.",
+      btn: "Me Contacter pour en savoir plus",
+      file: ""
+    },
+    footer: "Projet de Fin d'Études - Master EASI."
+  },
+  en: {
+    back: "back to capstone",
+    nav: { hld: "Strategy & HLD", sdn: "SDN Evolution", pra: "Continuity (DRP)", rse: "Watch & CSR", contact: "Contact Me" },
+    hero: {
+      badge: "Block 1 - EASI Certification",
+      titleStart: "Elaborating the ",
+      titleHighlight: "IT Strategy",
+      desc: "Needs analysis, target architecture definition (HLD), and strategic planning for the modernization towards VMware Cloud Foundation.",
+      by: "By"
+    },
+    sec1: {
+      title: "Needs Analysis & Strategy (A1.1 / A1.2)",
+      p1: "The first step of the project involved deeply analyzing the sponsor's (Cloudnex) needs to propose a coherent modernization strategy. VMware Cloud Foundation (VCF) was chosen to address scalability and multi-tenant challenges.",
+      p2: "We designed a post-audit High-Level Design (HLD), illustrating the new logical architecture. This master plan structures the different clusters (Management, Compute) and paves the way for the global integration of compute, storage, and network."
+    },
+    sec2: {
+      title: "Evolution Plan & Network Virtualization (A1.3)",
+      p1: "Developing the Information System evolution plan requires an overhaul of the underlying network infrastructure. The integration of VMware NSX transforms the physical network into a Software-Defined Network (SDN).",
+      p2: "This logical mapping highlights the flexibility brought by SDN: micro-segmentation, distributed routing (Tier-0/Tier-1), and automated network provisioning for the different tenants of the Cloudnex infrastructure."
+    },
+    sec3: {
+      title: "Business Continuity & Resilience",
+      p1: "The IT strategy must not overlook data security and availability. A comprehensive map of the Disaster Recovery Plan (DRP) was defined to ensure datacenter resilience.",
+      p2: "The document illustrates replication mechanisms, backup management, and inter-site failover, thereby guaranteeing an RTO and RPO aligned with the company's critical requirements (SLAs)."
+    },
+    sec4: {
+      title: "Tech Watch, Planning & CSR (A1.4 / A1.5)",
+      p1: "The modernization is accompanied by rigorous planning (Indicative Plan) and a CSR (Corporate Social Responsibility) approach. Moving to a private cloud via VCF promotes hardware consolidation (Green IT), thereby reducing the carbon footprint and overall energy consumption.",
+      p2: "In parallel, a technological and regulatory watch (GDPR, security standards) was formalized to ensure the infrastructure's evolution remains sustainable, compliant, and technologically at the forefront."
+    },
+    dl: {
+      title: "Want to read the full report?",
+      desc: "For confidentiality and intellectual property reasons, the full document is not publicly available. Feel free to contact me directly to discuss the details of this architecture.",
+      btn: "Contact Me for more info",
+      file: ""
+    },
+    footer: "Master's Capstone Project - EASI Certification."
+  }
+};
+
+const ProjectBloc1 = ({ onBack, lang, onToggleLanguage, onContactClick }) => {
+  const pt = projectBloc1Translations[lang] || projectBloc1Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#hld" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.hld}</a>
+              <a href="#sdn" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.sdn}</a>
+              <a href="#pra" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.pra}</a>
+              <a href="#rse" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.rse}</a>
+            </div>
+            <div className="flex items-center">
+              <button onClick={onContactClick} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.contact}</span>
+              </button>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/bloc1/hld-detaille-post-audit.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-blue-500 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-blue-500/20 text-blue-300 text-sm font-semibold mb-6 border border-blue-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-blue-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="hld" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc1/hld-detaille-post-audit.png" alt="High Level Design" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><Target className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="sdn" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><Network className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec2.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc1/cartographie%20logique%20fonctionnement%20sdn.png" alt="SDN Logical Mapping" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block bg-white" />
+          </FadeIn>
+        </section>
+
+        <section id="pra" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc1/cartographi%20global%20de%20si%20plan%20pra.png" alt="PRA / DRP Mapping" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block bg-white p-2" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><ShieldCheck className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="rse" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><LayoutDashboard className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc1/plan%20indicatif.png" alt="Indicative Plan" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <button onClick={onContactClick} className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Mail className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </button>
+            {pt.dl.file && <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>}
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
+// --- PROJECT BLOC 2 (CAPSTONE) ---
+const projectBloc2Translations = {
+  fr: {
+    back: "retour au projet phare",
+    nav: { cadrage: "Planification", gantt: "Gantt", avancement: "Jalons", arbitrage: "Arbitrage", contact: "Me Contacter" },
+    hero: {
+      badge: "Bloc 2 - Certification EASI",
+      titleStart: "Gérer un ",
+      titleHighlight: "Projet Informatique",
+      desc: "Cadrage, planification, pilotage par jalons et arbitrage stratégique pour le déploiement de la plateforme VCF.",
+      by: "Par"
+    },
+    sec1: {
+      title: "Cadrage & Planification Initiale (A2.1)",
+      p1: "La réussite de la modernisation du datacenter repose sur un cadrage rigoureux. Cette phase a permis de formaliser les attendus, le périmètre fonctionnel et le dimensionnement global du projet selon le triangle QCD (Qualité, Coût, Délai).",
+      p2: "Une planification détaillée a été établie, divisant le déploiement de VMware Cloud Foundation en phases logiques (Audit, Design, Build, Run), permettant une visibilité claire sur le chemin critique du projet."
+    },
+    sec2: {
+      title: "Diagramme de Gantt & Suivi (A2.2)",
+      p1: "Pour orchestrer les différentes équipes et garantir le respect des délais, un diagramme de Gantt complet a été élaboré. Il illustre les dépendances entre les tâches techniques complexes de l'intégration réseau (NSX) et calcul (vSphere).",
+      p2: "Ce suivi temporel permet l'allocation optimale des ressources (ingénieurs, architectes, prestataires) tout en prévoyant des marges de manœuvre pour l'absorption des risques."
+    },
+    sec3: {
+      title: "Rapports de Jalons & Avancement (A2.3)",
+      p1: "Le pilotage opérationnel s'effectue via des indicateurs clés de performance (KPI) et des tableaux de bord d'avancement. À chaque étape critique du projet, un rapport de jalon est généré.",
+      p2: "Ces rapports permettent de mesurer l'état d'avancement réel par rapport au prévisionnel, de valider la qualité des livrables (ex: HLD validé) et d'assurer une communication transparente avec le comité de pilotage (COPIL)."
+    },
+    sec4: {
+      title: "Analyse des Écarts & Arbitrage",
+      p1: "Face aux aléas inhérents à tout projet d'infrastructure majeur, des processus de gestion des risques ont été documentés. La présentation d'un cas d'arbitrage réel montre l'identification d'un écart (dérapage budgétaire ou retard technique).",
+      p2: "L'analyse des écarts a conduit à des prises de décision stratégiques, nécessitant des compromis évalués et validés par la direction pour remettre le projet sur les rails sans compromettre la sécurité globale."
+    },
+    dl: {
+      title: "Envie de lire le dossier complet ?",
+      desc: "Pour des raisons de confidentialité et de propriété intellectuelle, le dossier complet n'est pas en libre accès. N'hésitez pas à me contacter directement pour échanger sur les méthodes de gestion appliquées à ce projet.",
+      btn: "Me Contacter pour en savoir plus",
+      file: ""
+    },
+    footer: "Projet de Fin d'Études - Master EASI."
+  },
+  en: {
+    back: "back to capstone",
+    nav: { cadrage: "Planning", gantt: "Gantt", avancement: "Milestones", arbitrage: "Trade-offs", contact: "Contact Me" },
+    hero: {
+      badge: "Block 2 - EASI Certification",
+      titleStart: "Managing an ",
+      titleHighlight: "IT Project",
+      desc: "Scoping, scheduling, milestone-based steering, and strategic trade-offs for the VCF platform deployment.",
+      by: "By"
+    },
+    sec1: {
+      title: "Project Scoping & Initial Planning (A2.1)",
+      p1: "The success of the datacenter modernization relies on rigorous scoping. This phase formalized the deliverables, functional scope, and overall project sizing according to the QCD triangle (Quality, Cost, Deadline).",
+      p2: "A detailed schedule was established, dividing the VMware Cloud Foundation deployment into logical phases (Audit, Design, Build, Run), providing clear visibility on the project's critical path."
+    },
+    sec2: {
+      title: "Gantt Chart & Tracking (A2.2)",
+      p1: "To orchestrate the various teams and ensure deadlines are met, a comprehensive Gantt chart was developed. It illustrates the dependencies between complex technical tasks of network (NSX) and compute (vSphere) integration.",
+      p2: "This timeline tracking enables optimal resource allocation (engineers, architects, contractors) while providing buffer times for risk absorption."
+    },
+    sec3: {
+      title: "Milestone Reports & Progress (A2.3)",
+      p1: "Operational steering is carried out via Key Performance Indicators (KPIs) and progress dashboards. At each critical stage of the project, a milestone report is generated.",
+      p2: "These reports help measure actual progress against forecasts, validate the quality of deliverables (e.g., approved HLD), and ensure transparent communication with the steering committee (SteerCo)."
+    },
+    sec4: {
+      title: "Gap Analysis & Strategic Trade-offs",
+      p1: "Faced with the uncertainties inherent in any major infrastructure project, risk management processes were documented. The presentation of an arbitration case highlights the identification of a gap (budget overrun or technical delay).",
+      p2: "The gap analysis led to strategic decision-making, requiring compromises evaluated and validated by management to get the project back on track without compromising overall security."
+    },
+    dl: {
+      title: "Want to read the full report?",
+      desc: "For confidentiality and intellectual property reasons, the full document is not publicly available. Feel free to contact me directly to discuss the management methodologies applied to this project.",
+      btn: "Contact Me for more info",
+      file: ""
+    },
+    footer: "Master's Capstone Project - EASI Certification."
+  }
+};
+
+const ProjectBloc2 = ({ onBack, lang, onToggleLanguage, onContactClick }) => {
+  const pt = projectBloc2Translations[lang] || projectBloc2Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#cadrage" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.cadrage}</a>
+              <a href="#gantt" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.gantt}</a>
+              <a href="#avancement" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.avancement}</a>
+              <a href="#arbitrage" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.arbitrage}</a>
+            </div>
+            <div className="flex items-center">
+              <button onClick={onContactClick} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.contact}</span>
+              </button>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/bloc2/diagramme%20gantt.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-indigo-500 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-indigo-500/20 text-indigo-300 text-sm font-semibold mb-6 border border-indigo-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-indigo-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="cadrage" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc2/planning%20du%20projet.png" alt="Planning du projet" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc2/planning%20du%20projet%202.png" alt="Planning détaillé" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><Calendar className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="gantt" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><BarChart className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec2.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc2/diagramme%20gantt.png" alt="Diagramme de Gantt" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+
+        <section id="avancement" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc2/rapport%20de%20jalon.png" alt="Rapport de jalon" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block bg-white" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc2/avancement.png" alt="Avancement" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><Target className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="arbitrage" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><Scale className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc2/presentation%20d'un%20cas%20d'arbitrage%20-%20analyse%20des%20%C3%A9carts.png" alt="Analyse des écarts" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <button onClick={onContactClick} className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Mail className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </button>
+            {pt.dl.file && <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>}
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
+// --- PROJECT BLOC 3 (CAPSTONE) ---
+const projectBloc3Translations = {
+  fr: {
+    back: "retour au projet phare",
+    nav: { tools: "Outils de MCO", itsm: "ITSM Jira", incident: "Résolution Incident", pra: "Test PRA", contact: "Me Contacter" },
+    hero: {
+      badge: "Bloc 3 - Certification EASI",
+      titleStart: "Maintien en Condition ",
+      titleHighlight: "Opérationnelle",
+      desc: "Déploiement des outils de supervision, ITSM, automatisation et validation du plan de reprise d'activité (PRA).",
+      by: "Par"
+    },
+    sec1: {
+      title: "Mise en place des Outils de MCO (A3.1)",
+      p1: "Pour assurer la résilience de Cloudnex, une suite complète d'outils de MCO a été déployée. VMware Aria Operations et Log Insight assurent une supervision proactive (monitoring) de l'infrastructure physique et virtuelle.",
+      p2: "En parallèle, VMware Aria Automation permet de standardiser et d'accélérer la fourniture de ressources IT via des portails de self-service, réduisant les erreurs humaines et le Shadow IT."
+    },
+    sec2: {
+      title: "Gestion des Services IT - Jira JSM",
+      p1: "La centralisation des demandes s'est faite via Jira Service Management (JSM). Un projet ITSM complet a été configuré avec des workflows personnalisés pour catégoriser efficacement les incidents et les demandes de service.",
+      p2: "Ce portail client sur-mesure offre aux utilisateurs de Cloudnex un point d'entrée unique, garantissant des temps de réponse (SLA) maîtrisés et un suivi transparent des tickets."
+    },
+    sec3: {
+      title: "Résolution d'Incidents Complexes (A3.2)",
+      p1: "Ce bloc démontre la capacité d'intervention face à une crise. Un cas concret de défaillance réseau a été documenté : la perte de connectivité des tunnels TEP (Tunnel Endpoint) dans l'environnement NSX.",
+      p2: "La démarche de troubleshooting, allant de l'analyse des logs dans Aria à la vérification des tables de routage BGP, a permis d'isoler l'origine du problème (MTU mismatch) et de restaurer le flux de données critique."
+    },
+    sec4: {
+      title: "Validation du Plan de Reprise (PRA)",
+      p1: "Maintenir le SI en condition opérationnelle implique d'être préparé au pire. Un test réel de basculement (Failover) a été orchestré pour valider le Plan de Reprise d'Activité (PRA).",
+      p2: "L'exercice a consisté à simuler la perte totale du site principal et à vérifier le redémarrage automatisé des machines virtuelles (VMs) critiques sur le site de secours, confirmant l'atteinte des objectifs RTO/RPO."
+    },
+    dl: {
+      title: "Envie de lire le dossier complet ?",
+      desc: "Pour des raisons de confidentialité et de propriété intellectuelle, le dossier complet n'est pas en libre accès. N'hésitez pas à me contacter directement pour échanger sur les méthodes de MCO appliquées à ce projet.",
+      btn: "Me Contacter pour en savoir plus",
+      file: ""
+    },
+    footer: "Projet de Fin d'Études - Master EASI."
+  },
+  en: {
+    back: "back to capstone",
+    nav: { tools: "MCO Tools", itsm: "Jira ITSM", incident: "Incident Resolution", pra: "DRP Testing", contact: "Contact Me" },
+    hero: {
+      badge: "Block 3 - EASI Certification",
+      titleStart: "Maintaining IT ",
+      titleHighlight: "Operations",
+      desc: "Deploying monitoring tools, ITSM, automation, and validating the Disaster Recovery Plan (DRP).",
+      by: "By"
+    },
+    sec1: {
+      title: "Implementing Operations Tools (A3.1)",
+      p1: "To ensure Cloudnex's resilience, a comprehensive suite of operations management tools was deployed. VMware Aria Operations and Log Insight provide proactive monitoring of the physical and virtual infrastructure.",
+      p2: "In parallel, VMware Aria Automation standardizes and accelerates IT resource provisioning via self-service portals, reducing human errors and Shadow IT."
+    },
+    sec2: {
+      title: "IT Service Management - Jira JSM",
+      p1: "Request centralization was achieved using Jira Service Management (JSM). A complete ITSM project was configured with custom workflows to effectively categorize incidents and service requests.",
+      p2: "This tailored client portal provides Cloudnex users with a single point of entry, ensuring controlled response times (SLAs) and transparent ticket tracking."
+    },
+    sec3: {
+      title: "Complex Incident Resolution (A3.2)",
+      p1: "This block demonstrates crisis intervention capabilities. A concrete case of network failure was documented: the loss of TEP (Tunnel Endpoint) connectivity in the NSX environment.",
+      p2: "The troubleshooting process, from log analysis in Aria to checking BGP routing tables, isolated the root cause (MTU mismatch) and restored the critical data flow."
+    },
+    sec4: {
+      title: "Disaster Recovery Validation (DRP)",
+      p1: "Maintaining IT operations implies being prepared for the worst. A real failover test was orchestrated to validate the Disaster Recovery Plan (DRP).",
+      p2: "The exercise involved simulating the total loss of the main site and verifying the automated restart of critical Virtual Machines (VMs) on the disaster recovery site, confirming the achievement of RTO/RPO objectives."
+    },
+    dl: {
+      title: "Want to read the full report?",
+      desc: "For confidentiality and intellectual property reasons, the full document is not publicly available. Feel free to contact me directly to discuss the operations management methodologies applied to this project.",
+      btn: "Contact Me for more info",
+      file: ""
+    },
+    footer: "Master's Capstone Project - EASI Certification."
+  }
+};
+
+const ProjectBloc3 = ({ onBack, lang, onToggleLanguage, onContactClick }) => {
+  const pt = projectBloc3Translations[lang] || projectBloc3Translations.fr;
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
+            <div className="flex items-center space-x-4">
+              <button onClick={onBack} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+                <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
+                <span className="hidden sm:inline">{pt.back}</span>
+              </button>
+            </div>
+            <div className="hidden lg:flex space-x-8">
+              <a href="#tools" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.tools}</a>
+              <a href="#itsm" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.itsm}</a>
+              <a href="#incident" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.incident}</a>
+              <a href="#pra" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.pra}</a>
+            </div>
+            <div className="flex items-center">
+              <button onClick={onContactClick} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+                <Mail className="h-4 w-4" />
+                <span className="hidden sm:inline">{pt.nav.contact}</span>
+              </button>
+              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+                {lang === 'fr' ? 'EN' : 'FR'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <section className="bg-slate-900 text-white pt-20 pb-24 lg:pt-32 lg:pb-40 px-4 relative overflow-hidden" style={{ backgroundImage: "linear-gradient(rgba(2, 6, 23, 0.85), rgba(2, 6, 23, 0.95)), url('https://assets.persys.fr/Portfolio/Images/bloc3/aria%20suite%20comme%20la%20supervision.png')", backgroundSize: 'cover', backgroundPosition: 'center' }}>
+        <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-emerald-500 via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto relative z-10 text-center">
+          <FadeIn direction="up">
+            <span className="inline-block py-1 px-3 rounded-full bg-emerald-500/20 text-emerald-300 text-sm font-semibold mb-6 border border-emerald-500/30">{pt.hero.badge}</span>
+          </FadeIn>
+          <FadeIn delay={100} direction="up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight mb-6 leading-tight">{pt.hero.titleStart} <span className="text-emerald-400">{pt.hero.titleHighlight}</span></h1>
+          </FadeIn>
+          <FadeIn delay={200} direction="up">
+            <p className="mt-4 max-w-2xl mx-auto text-xl text-slate-300">{pt.hero.desc}</p>
+          </FadeIn>
+          <FadeIn delay={300} direction="up">
+            <div className="mt-8 flex justify-center items-center space-x-4">
+              <div className="text-slate-400">{pt.hero.by} <span className="text-white font-medium">Ershad RAMEZANI</span></div>
+            </div>
+          </FadeIn>
+        </div>
+      </section>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
+        <section id="tools" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc3/tableau%20de%20bord%20personalis%C3%A9e.png" alt="Aria Dashboard" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc3/aria%20automation.png" alt="Aria Automation" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-emerald-500/10 rounded-xl text-emerald-400 mb-6 border border-emerald-500/20"><Activity className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec1.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec1.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec1.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="itsm" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-blue-500/10 rounded-xl text-blue-400 mb-6 border border-blue-500/20"><LifeBuoy className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec2.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec2.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec2.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="flex flex-col gap-4">
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc3/support%20client%20CloudNex%20sur%20jira%20jsm.png" alt="Jira Client Portal" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+            <div className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+              <img src="https://assets.persys.fr/Portfolio/Images/bloc3/workflow%20personalis%C3%A9%20dans%20jira%20jsm.png" alt="Jira Workflow" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="incident" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+          <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc3/rappel%20du%20context%20de%20l'incident%20concernant%20reseau%20teps%20dans%20nsx.png" alt="NSX TEP Incident" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+          <FadeIn direction="left" className="order-1 lg:order-2">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-red-500/10 rounded-xl text-red-400 mb-6 border border-red-500/20"><Target className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec3.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec3.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec3.p2}</p>
+            </div>
+          </FadeIn>
+        </section>
+
+        <section id="pra" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <FadeIn direction="right">
+            <div>
+              <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><RefreshCw className="h-6 w-6" /></div>
+              <h2 className="text-3xl font-bold mb-4 text-white">{pt.sec4.title}</h2>
+              <p className="text-slate-400 mb-4 leading-relaxed">{pt.sec4.p1}</p>
+              <p className="text-slate-400 leading-relaxed">{pt.sec4.p2}</p>
+            </div>
+          </FadeIn>
+          <FadeIn direction="left" className="bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800">
+            <img src="https://assets.persys.fr/Portfolio/Images/bloc3/test%20du%20plan%20de%20reprise%20d'activit%C3%A9%20pra.png" alt="PRA / DRP Test" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
+          </FadeIn>
+        </section>
+      </main>
+
+      <section id="download" className="bg-slate-900 border-y border-slate-800/80 py-20 mt-12">
+        <div className="max-w-4xl mx-auto px-4 text-center">
+          <FadeIn direction="up">
+            <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">{pt.dl.title}</h2>
+            <p className="text-slate-400 text-lg mb-10 max-w-2xl mx-auto">{pt.dl.desc}</p>
+            <button onClick={onContactClick} className="inline-flex bg-blue-600 text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/20 items-center space-x-3 mx-auto">
+              <Mail className="h-6 w-6" />
+              <span>{pt.dl.btn}</span>
+            </button>
+            {pt.dl.file && <p className="text-sm text-slate-500 mt-4">{pt.dl.file}</p>}
+          </FadeIn>
+        </div>
+      </section>
+
+      <footer className="bg-slate-950 text-slate-500 py-8 text-center">
+        <div className="max-w-7xl mx-auto px-4">
+          <p>© {new Date().getFullYear()} Ershad RAMEZANI. Tous droits réservés.</p>
+          <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+
 // --- PROJECT BLOC 5 (CAPSTONE) ---
 const projectBloc5Translations = {
   fr: {
@@ -1026,8 +2389,8 @@ const projectsData = [
   },
   {
     id: 15,
-    imageUrl: "https://assets.persys.fr/Portfolio/Images/15. Gestion des actifs  GLPI et FusionInventory.jpg",
-    documentUrl: "https://assets.persys.fr/Portfolio/Projects/15. Gestion des actifs  GLPI et FusionInventory.pdf",
+    imageUrl: "https://assets.persys.fr/Portfolio/Images/15. Gestion des actifs GLPI et FusionInventory.jpg",
+    documentUrl: "https://assets.persys.fr/Portfolio/Projects/15. Gestion des actifs GLPI et FusionInventory.jpg",
     icon: Database,
     fr: {
       title: "Gestion des actifs : GLPI & FusionInventory",
@@ -1196,7 +2559,6 @@ const App = () => {
   );
 
   // EARLY RETURN FOR CUSTOM PROJECT PAGES
-  // This completely removes the main App header/footer when inside standalone projects.
   if (view === 'project-1') return <Project01 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} />;
   if (view === 'project-2') return <Project02 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} />;
   if (view === 'project-3') return <Project03 onBack={handleBack} lang={lang} onToggleLanguage={toggleLanguage} />;
@@ -1789,33 +3151,26 @@ const App = () => {
         )}
       </main>
 
-      {/* Footer - ONLY visible on the home page */}
+      {/* Footer (only on home view as project views have their own) */}
       {view === 'home' && (
-        <footer className="relative z-10 border-t border-slate-800/80 bg-slate-950 py-8">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <p className="text-slate-500 text-sm text-center">
-              &copy; {new Date().getFullYear()} {t.footer}
-            </p>
-            <div className="flex space-x-4">
-              <a href="https://www.linkedin.com/in/ershad-ramezani/" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
-                <Linkedin size={18} />
-              </a>
-              <a href="https://github.com/ershad-ra" target="_blank" rel="noopener noreferrer" className="text-slate-500 hover:text-blue-400 transition-colors">
-                <Github size={18} />
-              </a>
-            </div>
+        <footer className="bg-slate-950 py-8 border-t border-slate-800/50 text-center relative z-10">
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col items-center justify-center">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-slate-800 to-slate-900 flex items-center justify-center text-slate-500 font-bold text-xs mb-4 border border-slate-800">ER</div>
+            <p className="text-slate-500 text-sm">{t.footer}</p>
           </div>
         </footer>
       )}
 
-      <button
-        onClick={scrollToTop}
-        className={`fixed bottom-6 right-6 z-40 p-3 rounded-full bg-blue-600 text-white shadow-lg shadow-blue-900/50 hover:bg-blue-500 hover:-translate-y-1 transition-all duration-300 ${
-          showScrollTop ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <ArrowUp size={20} />
-      </button>
+      {/* Scroll to Top Button */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-900/20 transition-all hover:-translate-y-1"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
     </div>
   );
 };
