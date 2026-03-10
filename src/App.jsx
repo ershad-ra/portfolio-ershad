@@ -1909,7 +1909,7 @@ const translations = {
       projects: "Projets",
       contact: "Contact",
       resume: "Consulter mon CV",
-      resumeLink: "https://assets.persys.fr/Portfolio/Resumes - CVs/CV_fr_Ershad_Ramezani_Ingénieur_Systèmes_Réseaux_fevrier_2026.pdf",
+      resumeLink: "/cv/cv-fr.html",
       language: "EN"
     },
     hero: {
@@ -1977,7 +1977,7 @@ const translations = {
       projects: "Projects",
       contact: "Contact",
       resume: "View Resume",
-      resumeLink: "https://assets.persys.fr/Portfolio/Resumes - CVs/Resume_EN_Ershad_Ramezani_Systems_Network_Engineer_Feb_2026.pdf",
+      resumeLink: "/cv/cv-en.html",
       language: "FR"
     },
     hero: {
