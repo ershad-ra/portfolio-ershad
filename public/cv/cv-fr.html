@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern A4 Resume</title>
+    <title>CV_Ershad_Ramezani_Ingenieur_Systemes_Reseaux</title>
     <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for crisp vector icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- html2pdf.js for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         /* Import a clean, modern sans-serif font */
@@ -29,7 +27,7 @@
         .a4-page {
             width: 210mm;
             height: 297mm;
-            background-color: #1e293b; /* Couleur slate-800 pour le fond global */
+            background-color: #1e293b; /* Couleur pour masquer les potentiels micro-décalages */
             position: relative;
             overflow: hidden;
             display: flex;
@@ -38,14 +36,19 @@
 
         @media print {
             @page {
-                size: A4;
+                size: A4 portrait;
                 margin: 0;
             }
             body, html {
                 background-color: white; 
             }
+            /* Pour s'assurer que l'impression est parfaite, sans marges ni ombres */
+            .flex.justify-center.w-full.pb-10 {
+                padding-bottom: 0 !important;
+            }
             .a4-page {
                 box-shadow: none; 
+                margin: 0;
             }
             .no-print {
                 display: none !important;
@@ -56,10 +59,11 @@
 <body class="text-slate-800 antialiased flex flex-col min-h-screen">
 
     <!-- Bouton de téléchargement PDF (visible uniquement à l'écran) -->
-    <div class="no-print flex justify-center mt-6 mb-6">
-        <button onclick="downloadPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-colors shadow-lg flex items-center gap-2 cursor-pointer border-none">
-            <i class="fas fa-file-pdf"></i> Imprimer / Sauvegarder en PDF
+    <div class="no-print flex flex-col items-center justify-center mt-6 mb-6 gap-2">
+        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-colors shadow-lg flex items-center gap-2 cursor-pointer border-none">
+            <i class="fas fa-file-pdf"></i> Sauvegarder en PDF (Format ATS)
         </button>
+        <span class="text-xs text-slate-500 font-medium"><i class="fas fa-info-circle text-indigo-400"></i> Choisissez "Enregistrer au format PDF" comme destination dans la fenêtre d'impression.</span>
     </div>
 
     <!-- Conteneur Flex pour centrer le CV sans utiliser de marges sur la page A4 elle-même -->
@@ -76,7 +80,7 @@
                     <div class="w-36 h-36 rounded-full bg-slate-700 mx-auto mb-0 border-4 border-slate-600 overflow-hidden flex items-center justify-center">
                         <img src="https://assets.persys.fr/Portfolio/Resumes%20-%20CVs/ershad_ramezani_circle.png" alt="Ershad Ramezani" class="w-full h-full object-cover">
                     </div>
-                    <h2 class="text-[22px] font-black text-white tracking-wider uppercase text-center w-full mt-0">Ershad <span class="text-indigo-400">RAMEZANI</span></h2>
+                    <h2 class="text-[22px] font-black text-white tracking-wider uppercase text-center w-full mt-3 -mb-3">Ershad <span class="text-indigo-400">RAMEZANI</span></h2>
                 </div>
 
                 <!-- Contact Information -->
@@ -201,7 +205,7 @@
                     <p class="text-[12.5px] leading-relaxed text-slate-700 font-medium">
                         <span class="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded text-xs mr-1 font-bold">CDI Toulouse</span>
                         <span class="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded text-xs mr-1 font-bold">Conseil & Services IT</span>
-                        Concevoir et déployer des infrastructures hybrides, puis en assurer le support N2/N3 et le MCO pour garantir la performance du SI et la sérénité de vos clients. 
+                        Concevoir et déployer des infrastructures hybrides, puis en assurer le support N2/N3 et le MCO pour garantir la performance du SI et la sérénité de vos clients.
                     </p>
                     <div class="text-center mt-0.5">
                         <strong class="text-green-600 text-[12px] whitespace-nowrap"><i class="fas fa-check-circle mr-1"></i>Disponibilité : Immédiate</strong>
@@ -368,40 +372,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function downloadPDF() {
-            window.scrollTo(0, 0); // Remettre à zéro le scroll
-            const element = document.getElementById('cv-canvas');
-            
-            // Retirer temporairement l'ombre de la page
-            const originalShadow = element.style.boxShadow;
-            element.style.boxShadow = 'none';
-
-            const opt = {
-                margin:       0,
-                filename:     'CV_Ershad_Ramezani_Ingenieur_Systemes_Reseaux.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { 
-                    scale: 3, 
-                    useCORS: true, 
-                    backgroundColor: '#1e293b' // Force la couleur pour éviter le trait blanc !
-                },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            // Génération du PDF
-            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
-                // S'assurer de ne garder qu'une seule page
-                const totalPages = pdf.internal.getNumberOfPages();
-                for (let i = totalPages; i > 1; i--) {
-                    pdf.deletePage(i);
-                }
-            }).save().then(() => {
-                // Remettre l'ombre
-                element.style.boxShadow = originalShadow;
-            });
-        }
-    </script>
 </body>
 </html>

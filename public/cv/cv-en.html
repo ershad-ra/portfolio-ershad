@@ -3,13 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern A4 Resume</title>
+    <title>Resume_Ershad_Ramezani_Systems_Network_Engineer</title>
     <!-- Tailwind CSS for rapid styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Font Awesome for crisp vector icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- html2pdf.js for PDF generation -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         /* Import a clean, modern sans-serif font */
@@ -29,7 +27,7 @@
         .a4-page {
             width: 210mm;
             height: 297mm;
-            background-color: #1e293b; /* Couleur slate-800 pour le fond global */
+            background-color: #1e293b; /* Couleur pour masquer les potentiels micro-décalages */
             position: relative;
             overflow: hidden;
             display: flex;
@@ -38,14 +36,19 @@
 
         @media print {
             @page {
-                size: A4;
+                size: A4 portrait;
                 margin: 0;
             }
             body, html {
                 background-color: white; 
             }
+            /* Pour s'assurer que l'impression est parfaite, sans marges ni ombres */
+            .flex.justify-center.w-full.pb-10 {
+                padding-bottom: 0 !important;
+            }
             .a4-page {
                 box-shadow: none; 
+                margin: 0;
             }
             .no-print {
                 display: none !important;
@@ -56,10 +59,11 @@
 <body class="text-slate-800 antialiased flex flex-col min-h-screen">
 
     <!-- Bouton de téléchargement PDF (visible uniquement à l'écran) -->
-    <div class="no-print flex justify-center mt-6 mb-6">
-        <button onclick="downloadPDF()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-colors shadow-lg flex items-center gap-2 cursor-pointer border-none">
-            <i class="fas fa-file-pdf"></i> Print / Save as PDF
+    <div class="no-print flex flex-col items-center justify-center mt-6 mb-6 gap-2">
+        <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-colors shadow-lg flex items-center gap-2 cursor-pointer border-none">
+            <i class="fas fa-file-pdf"></i> Save as PDF (ATS Friendly)
         </button>
+        <span class="text-xs text-slate-500 font-medium"><i class="fas fa-info-circle text-indigo-400"></i> Choose "Save as PDF" as the destination in the print dialog.</span>
     </div>
 
     <!-- Conteneur Flex pour centrer le CV sans utiliser de marges sur la page A4 elle-même -->
@@ -368,40 +372,5 @@
             </div>
         </div>
     </div>
-
-    <script>
-        function downloadPDF() {
-            window.scrollTo(0, 0); // Remettre à zéro le scroll
-            const element = document.getElementById('cv-canvas');
-            
-            // Retirer temporairement l'ombre de la page
-            const originalShadow = element.style.boxShadow;
-            element.style.boxShadow = 'none';
-
-            const opt = {
-                margin:       0,
-                filename:     'Resume_Ershad_Ramezani_Systems_Network_Engineer.pdf',
-                image:        { type: 'jpeg', quality: 1 },
-                html2canvas:  { 
-                    scale: 3, 
-                    useCORS: true, 
-                    backgroundColor: '#1e293b' // Force la couleur pour éviter le trait blanc !
-                },
-                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            // Génération du PDF
-            html2pdf().set(opt).from(element).toPdf().get('pdf').then(function(pdf) {
-                // S'assurer de ne garder qu'une seule page
-                const totalPages = pdf.internal.getNumberOfPages();
-                for (let i = totalPages; i > 1; i--) {
-                    pdf.deletePage(i);
-                }
-            }).save().then(() => {
-                // Remettre l'ombre
-                element.style.boxShadow = originalShadow;
-            });
-        }
-    </script>
 </body>
 </html>
