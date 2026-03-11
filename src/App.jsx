@@ -55,9 +55,27 @@ const App = () => {
       <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200 overflow-x-hidden relative">
         {/* Background elements */}
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
-          <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[50%] rounded-full bg-blue-600/15 blur-[120px] animate-pulse" style={{ animationDuration: '7s' }}></div>
-          <div className="absolute top-[15%] right-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-500/10 blur-[120px] animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }}></div>
-          <svg className="absolute inset-0 w-full h-full text-blue-400/[0.07]" xmlns="http://www.w3.org/2000/svg">
+          
+          {/* Remplacement du blur par des dégradés radiaux (Radial Gradients) ultra légers */}
+          <div 
+            className="absolute top-[-10%] left-[-10%] w-[60%] h-[50%] rounded-full animate-pulse" 
+            style={{ 
+              animationDuration: '7s',
+              background: 'radial-gradient(circle, rgba(37,99,235,0.15) 0%, rgba(37,99,235,0) 70%)'
+            }}
+          ></div>
+          
+          <div 
+            className="absolute top-[15%] right-[-10%] w-[40%] h-[40%] rounded-full animate-pulse" 
+            style={{ 
+              animationDuration: '5s', 
+              animationDelay: '1s',
+              background: 'radial-gradient(circle, rgba(99,102,241,0.10) 0%, rgba(99,102,241,0) 70%)'
+            }}
+          ></div>
+
+          {/* On cache la grille SVG sur les petits écrans (téléphones) avec "hidden md:block" car elle est très lourde à calculer */}
+          <svg className="absolute inset-0 w-full h-full text-blue-400/[0.07] hidden md:block" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="network-grid" width="40" height="40" patternUnits="userSpaceOnUse">
                 <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" />
@@ -67,6 +85,7 @@ const App = () => {
             </defs>
             <rect width="100%" height="100%" fill="url(#network-grid)" />
           </svg>
+
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/80 to-slate-950"></div>
         </div>
 
