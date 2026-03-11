@@ -154,12 +154,12 @@ export const translations = {
 export const profileData = {
   languages: {
     fr: [
-      { name: "Français", level: "Langue maternelle", code: "FR", cert: null },
+      { name: "Français", level: "Bilingue", code: "FR", cert: null },
       { name: "Anglais", level: "Bilingue", code: "EN", cert: "C1" },
       { name: "Persan", level: "Langue maternelle", code: "FA", cert: null }
     ],
     en: [
-      { name: "French", level: "Native", code: "FR", cert: null },
+      { name: "French", level: "Bilingual", code: "FR", cert: null },
       { name: "English", level: "Bilingual", code: "EN", cert: "C1" },
       { name: "Persian", level: "Native", code: "FA", cert: null }
     ]
