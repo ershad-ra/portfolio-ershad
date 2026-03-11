@@ -1,4 +1,4 @@
-import { Network, ShieldCheck, Server, Terminal, Database } from 'lucide-react';
+import { Network, ShieldCheck, Server, Terminal, Database, Plane, Bike, Mountain } from 'lucide-react';
 
 export const translations = {
   fr: {
@@ -22,14 +22,20 @@ export const translations = {
       status: "Disponibilité: Haute"
     },
     aboutSection: {
-      title: "Domaines d'Expertise",
-      subtitle: "Compétences techniques et environnements maîtrisés.",
+      badge: "Profil Technique",
+      titleStart: "Mes Domaines d'",
+      titleHighlight: "Expertise",
+      subtitle: "Technologies et infrastructures que je conçois, déploie et maintiens au quotidien.",
       languagesTitle: "Langues",
-      skillsTitle: "Stack Technologique"
+      skillsTitle: "Stack Technologique",
+      softSkillsTitle: "Atouts",
+      hobbiesTitle: "Centres d'intérêt"
     },
-    timelineSection: {
-      title: "Parcours & Expérience",
-      subtitle: "Évolution professionnelle et académique.",
+      timelineSection: {
+      badge: "Mon Parcours",
+      titleStart: "Mon Parcours & ",
+      titleHighlight: "Expériences",
+      subtitle: "Les étapes clés de mon évolution professionnelle et académique.",
       expTitle: "Expériences Professionnelles",
       eduTitle: "Formation"
     },
@@ -37,7 +43,7 @@ export const translations = {
       badge: "Projet de Fin d'Études",
       title: "Modernisation des Datacenters Cloudnex",
       subtitle: "Déploiement d'une plateforme VMware Cloud Foundation (VCF)",
-      story1: "Durant les deux années de Master, j'ai découvert progressivement la puissance de la virtualisation de calcul avec VMware vSphere, puis la virtualisation réseau avec VMware NSX. Cette expérience m'a amené à explorer en profondeur l'écosystème VMware, en particulier VMware Cloud Foundation (VCF), une plateforme intégrée pour construire un cloud privé moderne.",
+      story1: "Durant mes deux années de Master, j'ai découvert progressivement la puissance de la virtualisation de calcul avec VMware vSphere, puis la virtualisation réseau avec VMware NSX. Cette expérience m'a amené à explorer en profondeur l'écosystème VMware, en particulier VMware Cloud Foundation (VCF), une plateforme intégrée pour construire un cloud privé moderne.",
       story2: "Pour mon projet de fin d'études et la validation de ma certification EASI (Expert en architecture des systèmes d'information), j'ai choisi de réaliser un cas fictif complet. Ce projet personnel renforce mes connaissances sur l'ensemble du portfolio VMware et illustre de manière concrète les 4 grands blocs de compétences techniques et managériales de la certification.",
       blocksTitle: "Structuration du Projet (Référentiel RNCP)",
       b1Title: "Bloc 1 : Stratégie du SI",
@@ -90,14 +96,20 @@ export const translations = {
       status: "Availability: High"
     },
     aboutSection: {
-      title: "Areas of Expertise",
-      subtitle: "Technical skills and mastered environments.",
+      badge: "Technical Profile",
+      titleStart: "My Core ",
+      titleHighlight: "Expertise",
+      subtitle: "Technologies and infrastructures I design, build, and maintain daily.",
       languagesTitle: "Languages",
-      skillsTitle: "Technology Stack"
+      skillsTitle: "Technology Stack",
+      softSkillsTitle: "Strengths",
+      hobbiesTitle: "Interests"
     },
-    timelineSection: {
-      title: "Career & Experience",
-      subtitle: "Professional and academic progression.",
+      timelineSection: {
+      badge: "Career Path",
+      titleStart: "My Career & ",
+      titleHighlight: "Experience",
+      subtitle: "The key milestones of my professional and academic journey.",
       expTitle: "Professional Experience",
       eduTitle: "Education"
     },
@@ -105,7 +117,7 @@ export const translations = {
       badge: "Master's Capstone Project",
       title: "Cloudnex Datacenters Modernization",
       subtitle: "Deploying a VMware Cloud Foundation (VCF) platform",
-      story1: "During the past two years, I progressively discovered the power of compute virtualization with VMware vSphere, then network virtualization with VMware NSX. This led me to deeply explore the VMware ecosystem, specifically VMware Cloud Foundation (VCF), an integrated platform for building a modern private cloud.",
+      story1: "During my two-year Master’s program, I progressively discovered the power of compute virtualization with VMware vSphere, then network virtualization with VMware NSX. This led me to deeply explore the VMware ecosystem, specifically VMware Cloud Foundation (VCF), an integrated platform for building a modern private cloud.",
       story2: "To validate my EASI certification (IT Architecture Expert), I designed this comprehensive fictional case study. This personal project reinforces my knowledge of the entire VMware portfolio and concretely illustrates the 4 main technical and managerial competency blocks of the certification.",
       blocksTitle: "Project Structure (RNCP Framework)",
       b1Title: "Block 1: IT Strategy",
@@ -125,7 +137,7 @@ export const translations = {
     projectDetail: {
       back: "Back to projects",
       descriptionTitle: "Context & Implementation",
-      technologies: "Technologies Used",
+      technologies: "Technologies Used", 
       viewPdf: "Download full technical study (PDF)"
     },
     contact: {
@@ -142,59 +154,146 @@ export const translations = {
 export const profileData = {
   languages: {
     fr: [
-      { name: "Français", level: "Bilingue" },
-      { name: "Anglais", level: "Bilingue" },
-      { name: "Persan (Farsi)", level: "Langue maternelle" }
+      { name: "Français", level: "Langue maternelle", code: "FR", cert: null },
+      { name: "Anglais", level: "Bilingue", code: "EN", cert: "C1" },
+      { name: "Persan", level: "Langue maternelle", code: "FA", cert: null }
     ],
     en: [
-      { name: "French", level: "Bilingual" },
-      { name: "English", level: "Bilingual" },
-      { name: "Persian (Farsi)", level: "Native" }
+      { name: "French", level: "Native", code: "FR", cert: null },
+      { name: "English", level: "Bilingual", code: "EN", cert: "C1" },
+      { name: "Persian", level: "Native", code: "FA", cert: null }
+    ]
+  },
+  softSkills: {
+    fr: [
+      { name: "Polyvalent", level: 5 },
+      { name: "Esprit d’équipe", level: 5 },
+      { name: "Autonome", level: 4 },
+      { name: "Rigoureux", level: 5 }
+    ],
+    en: [
+      { name: "Versatile", level: 5 },
+      { name: "Team Player", level: 5 },
+      { name: "Autonomous", level: 4 },
+      { name: "Rigorous", level: 5 }
+    ]
+  },
+  hobbies: {
+    fr: [
+      { label: "Voyages", desc: "Europe & Asie", icon: Plane },
+      { label: "Sport", desc: "VTT & Outdoor", icon: Bike },
+      { label: "Randonnée", desc: "Pyrénées", icon: Mountain }
+    ],
+    en: [
+      { label: "Travels", desc: "Europe & Asia", icon: Plane },
+      { label: "Sports", desc: "MTB & Outdoor", icon: Bike },
+      { label: "Hiking", desc: "Pyrenees", icon: Mountain }
     ]
   },
   skills: [
-    { id: "net", icon: Network, category: "Network", tools: "Cisco, Aruba, D-Link, OSPF, BGP, VLANs, HA, LAN/WAN/WLAN, Wireshark" },
-    { id: "sec", icon: ShieldCheck, category: "Security", tools: "Fortinet, Cisco ASA, SonicWall, VPN (IPsec/SSL), ACLs, RADIUS, MFA" },
-    { id: "cloud", icon: Server, category: "Cloud & Virt", tools: "Azure, AWS, VMware (vSphere, NSX), Hyper-V, Infra Hybride" },
-    { id: "sys", icon: Terminal, category: "Systems & Auto", tools: "Windows, Linux, Ansible, Terraform, PowerShell, Bash" },
-    { id: "bcp", icon: Database, category: "Resilience", tools: "Veeam Backup & Replication, Gestion PCA/PRA" }
+    { 
+      id: "net", 
+      icon: Network, 
+      color: "from-blue-500 to-cyan-400",
+      fr: {
+        category: "Réseaux",
+        subtitle: "Architecture Multi-sites",
+        tools: ["Cisco", "Aruba", "D-Link", "Meraki", "OSPF", "BGP", "LAN", "WAN", "WLAN", "VLAN", "Gestion des flux", "Link Aggregation", "LACP", "Failover"]
+      },
+      en: {
+        category: "Network",
+        subtitle: "Multi-site Architecture",
+        tools: ["Cisco", "Aruba", "D-Link", "Meraki", "OSPF", "BGP", "LAN", "WAN", "WLAN", "VLAN", "Traffic Management", "Link Aggregation", "LACP", "Failover"]
+      }
+    },
+    { 
+      id: "cloud", 
+      icon: Server, 
+      color: "from-indigo-500 to-purple-400",
+      fr: {
+        category: "Cloud & Virt.",
+        subtitle: "Infrastructures Hybrides",
+        tools: ["VMware vSphere", "VCF", "NSX", "Hyper-V", "AWS", "Azure", "Docker", "Kubernetes", "IaaS", "SaaS"]
+      },
+      en: {
+        category: "Cloud & Virt.",
+        subtitle: "Hybrid Infrastructures",
+        tools: ["VMware vSphere", "VCF", "NSX", "Hyper-V", "AWS", "Azure", "Docker", "Kubernetes", "IaaS", "SaaS"]
+      }
+    },
+    { 
+      id: "sec", 
+      icon: ShieldCheck, 
+      color: "from-emerald-500 to-green-400",
+      fr: {
+        category: "Sécurité",
+        subtitle: "Sécurité Périmétrique",
+        tools: ["SonicWall", "Fortinet", "Cisco ASA", "VPN IPsec", "VPN SSL", "Hardening", "Audit", "Certificats TLS", "EDR", "IDS/IPS", "Radius", "MFA", "IAM"]
+      },
+      en: {
+        category: "Security",
+        subtitle: "Perimeter Security",
+        tools: ["SonicWall", "Fortinet", "Cisco ASA", "VPN IPsec", "VPN SSL", "Hardening", "Audit", "TLS Certificates", "EDR", "IDS/IPS", "Radius", "MFA", "IAM"]
+      }
+    },
+    { 
+      id: "ops", 
+      icon: Terminal, 
+      color: "from-amber-500 to-orange-400",
+      fr: {
+        category: "Gouvernance & Ops",
+        subtitle: "Automation & Pilotage",
+        tools: ["Windows", "Linux", "PowerShell", "Bash", "Veeam", "PRA/PCA", "Ansible", "Terraform", "ITIL", "Jira"]
+      },
+      en: {
+        category: "Governance & Ops",
+        subtitle: "Automation & Steering",
+        tools: ["Windows", "Linux", "PowerShell", "Bash", "Veeam", "DRP/BCP", "Ansible", "Terraform", "ITIL", "Jira"]
+      }
+    }
   ]
+
 };
 
 export const experienceData = {
   fr: [
     {
       year: "2022 — 2025",
-      role: "Administrateur Systèmes & Réseaux (Alternance)",
-      company: "PME",
-      description: "Gestion d'infrastructures hybrides pour un parc de PME avec une double approche Build & Run. Responsable du support technique N2/N3, du MCO et de l'implémentation de projets d'infrastructure de A à Z.",
+      role: "Administrateur Systèmes et Réseaux (Alternance)",
+      company: "MISMO Informatique, Toulouse",
+      description: "Référent technique en infogérance dédiée pour un client et ingénierie d’infrastructure pour un portefeuille de PME.",
       details: [
-        "Réseau & Sécurité : Audits et refontes LAN multi-sites (Cisco, Aruba, Meraki), gestion sécurité périmétrique (SonicWall, Fortinet).",
-        "Cloud & Virtualisation : Migrations Azure/M365 (IaaS), maintien clusters virtualisés (VMware vSphere, Hyper-V).",
-        "Opérations & MCO : Support N2/N3, gestion des sauvegardes/restaurations (Veeam) pour garantir PCA/PRA.",
-        "Automatisation : Ansible et PowerShell pour l'administration redondante et les mises à jour."
+        "Audit & Ingénierie : Cartographie, matrices de flux, refonte LAN multisites et déploiement d'équipements réseau.",
+        "Sécurité & Identité : Administration des pare-feux, politiques ACL, durcissement et gestion des annuaires/accès.",
+        "Cloud & Virtualisation : Migrations Cloud (IaaS/SaaS) et administration des clusters HA.",
+        "MCO & Résilience : Support technique N2/N3, supervision proactive, gestion de parc, PRA et automatisation.",
+        "Conseil Client : Accompagnement en avant-vente, conseil technique et déploiement de solutions sur site.",
+        "Environnement : Cisco, Aruba, Meraki, Fortinet, SonicWall, Azure, M365, vSphere, Hyper-V, Veeam, Ansible, PowerShell."
       ]
     },
     {
       year: "Août 2021",
       role: "Technicien Systèmes & Réseaux (Stage)",
-      company: "Support Client",
+      company: "Data Expertise, Toulouse",
       description: "Support technique N1/N2 et maintien en condition opérationnelle des infrastructures clients.",
       details: [
-        "Point de contact principal pour clients via système de permanence (on-call).",
-        "Qualification et résolution des demandes techniques via GLPI.",
-        "Mise à jour matérielle (firmware) et sauvegarde configurations sur switchs/routeurs HP et D-Link."
+        "Relation Client : Point de contact pour les clients via un système de permanence (on-call).",
+        "Gestion d'Incidents : Qualification et résolution des demandes techniques via l'outil GLPI.",
+        "Maintenance Réseau : Mise à jour matérielle (firmware) et sauvegarde des configurations sur switchs et routeurs.",
+        "Environnement : GLPI, Networking HP & D-Link, environnements Windows."
       ]
     },
     {
       year: "2016 — 2019",
-      role: "Technicien Systèmes & Réseaux",
-      company: "Secteur Public",
-      description: "Support infrastructure et gestion de parc informatique pour les services municipaux.",
+      role: "Technicien Systèmes & Réseaux (CDI)",
+      company: "Mairie de Téhéran, Téhéran, Iran",
+      description: "Support et gestion de parc informatique pour les services municipaux du secteur public.",
       details: [
-        "Gestion des déploiements massifs de postes de travail et renouvellement matériel.",
-        "Assistance technique N1/N2 et dépannage sur site pour continuité des services.",
-        "Garantie de la stabilité du réseau local, brassage et câblage des baies de serveurs."
+        "Déploiement à grande échelle : Gestion des déploiements massifs de postes de travail.",
+        "Support de proximité : Assistance technique N1/N2 et dépannage sur site pour garantir la continuité des services.",
+        "Maintenance du parc : Réalisation de la maintenance préventive et mises à jour logicielles.",
+        "Connectivité Réseau : Garantie de la stabilité du LAN, brassage des baies de serveurs.",
+        "Environnement : Windows Server, Active Directory, Câblage LAN, Support Desktop."
       ]
     }
   ],
@@ -202,35 +301,40 @@ export const experienceData = {
     {
       year: "2022 — 2025",
       role: "Systems & Network Administrator (Work-Study)",
-      company: "SMB Sector",
-      description: "Management of hybrid infrastructures for SMBs with a dual Build & Run approach. Responsible for L2/L3 technical support, operational maintenance, and end-to-end infrastructure project implementation.",
+      company: "MISMO Informatique, Toulouse",
+      description: "Technical referent in dedicated managed services for a client and infrastructure engineering for a portfolio of SMBs.",
       details: [
-        "Network & Security: Multi-site LAN audits and redesigns (Cisco, Aruba, Meraki), perimeter security management (SonicWall, Fortinet).",
-        "Cloud & Virtualization: Azure/M365 (IaaS) migrations, maintaining virtualized clusters (VMware vSphere, Hyper-V).",
-        "Operations & Maintenance: L2/L3 support, backup/restore management (Veeam) to ensure BCP/DRP.",
-        "Automation: Ansible and PowerShell for redundant administration tasks and updates."
+        "Audit & Engineering : Mapping, traffic matrices, multi-site LAN redesign, and network equipment deployment.",
+        "Security & Identity : Firewall administration, ACL policies, hardening, and directory/access management.",
+        "Cloud & Virtualization : Cloud migrations (IaaS/SaaS) and HA cluster administration.",
+        "Operations & Resilience : L2/L3 technical support, proactive monitoring, asset management, DRP, and automation.",
+        "Client Consulting : Pre-sales support, technical consulting, and on-site solution deployment.",
+        "Environment : Cisco, Aruba, Meraki, Fortinet, SonicWall, Azure, M365, vSphere, Hyper-V, Veeam, Ansible, PowerShell."
       ]
     },
     {
       year: "August 2021",
       role: "Systems & Network Technician (Internship)",
-      company: "Client Support",
+      company: "Data Expertise, Toulouse",
       description: "L1/L2 technical support and operational maintenance of client infrastructures.",
       details: [
-        "Main point of contact for clients via an on-call system.",
-        "Qualification and resolution of technical requests using GLPI ticketing tool.",
-        "Hardware updates (firmware) and configuration backups on HP and D-Link switches/routers."
+        "Client Relations : Point of contact for clients via an on-call system.",
+        "Incident Management : Qualification and resolution of technical requests using the GLPI tool.",
+        "Network Maintenance : Hardware updates (firmware) and configuration backups on switches and routers.",
+        "Environment : GLPI, HP & D-Link Networking, Windows environments."
       ]
     },
     {
       year: "2016 — 2019",
-      role: "Systems & Network Technician",
-      company: "Public Sector",
-      description: "Infrastructure support and IT asset management for municipal services.",
+      role: "Systems & Network Technician (Permanent)",
+      company: "Tehran Municipality, Tehran, Iran",
+      description: "IT asset management and support for public sector municipal services.",
       details: [
-        "Management of massive workstation deployments and hardware renewals.",
-        "L1/L2 technical assistance and on-site troubleshooting for digital service continuity.",
-        "Ensuring local network stability, patching, and cabling of server racks."
+        "Large-scale Deployment : Management of massive workstation deployments.",
+        "On-site Support : L1/L2 technical assistance and on-site troubleshooting to ensure service continuity.",
+        "Asset Maintenance : Preventive maintenance and software updates.",
+        "Network Connectivity : Ensuring LAN stability, patching and cabling of server racks.",
+        "Environment : Windows Server, Active Directory, LAN Cabling, Desktop Support."
       ]
     }
   ]

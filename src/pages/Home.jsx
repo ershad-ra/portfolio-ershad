@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import FadeIn from '../components/FadeIn';
 import { translations, profileData, experienceData, educationData, projectsData } from '../data/data';
 import { 
-  Menu, X, FileText, Globe, Cpu, Briefcase, GraduationCap, Target, ArrowRight, Settings, Layers, Mail, Linkedin, Github, Award, ExternalLink, ArrowUp
+  Menu, X, FileText, Globe, Cpu, Briefcase, GraduationCap, Target, ArrowRight, Settings, Layers, Mail, Linkedin, Github, Award, ExternalLink, ArrowUp, UserCheck, Compass 
 } from 'lucide-react';
 
 const Home = ({ lang, onToggleLanguage }) => {
@@ -197,63 +197,166 @@ const handleProjectNavigation = (project) => {
         </section>
 
         {/* PROFILE & SKILLS SECTION */}
-        <section id="about" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
-          <div className="max-w-7xl mx-auto px-6 lg:px-8">
-            <FadeIn direction="up">
-              <div className="mb-12">
-                <h2 className="text-3xl font-bold text-white mb-3">{t.aboutSection.title}</h2>
-                <p className="text-slate-400">{t.aboutSection.subtitle}</p>
-              </div>
-            </FadeIn>
-
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-              <FadeIn delay={100} direction="up" className="h-full">
-                <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm h-full">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
-                    <Globe size={16} /> {t.aboutSection.languagesTitle}
-                  </h3>
-                  <div className="space-y-4">
-                    {profileData.languages[lang].map((l, i) => (
-                      <div key={i} className="flex justify-between items-center pb-3 border-b border-slate-800/50 last:border-0">
-                        <span className="text-slate-200 font-medium">{l.name}</span>
-                        <span className="text-sm text-blue-400 bg-blue-500/10 px-3 py-1 rounded-full">{l.level}</span>
+                <section id="about" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
+                  <div className="max-w-6xl mx-auto px-6 lg:px-8">
+                    
+                    <FadeIn direction="up">
+                      <div className="mb-12">
+                        <span className="inline-block py-1 px-3 rounded-full bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider mb-4 border border-blue-500/20">
+                          {t.aboutSection.badge}
+                        </span>
+                        <h2 className="text-3xl font-bold text-white mb-3 tracking-tight">
+                          {t.aboutSection.titleStart}
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-indigo-400">
+                            {t.aboutSection.titleHighlight}
+                          </span>
+                        </h2>
+                        <p className="text-base text-slate-400 max-w-2xl">{t.aboutSection.subtitle}</p>
                       </div>
-                    ))}
-                  </div>
-                </div>
-              </FadeIn>
+                    </FadeIn>
 
-              <FadeIn delay={200} direction="up" className="lg:col-span-2 h-full">
-                <div className="bg-slate-900 rounded-2xl border border-slate-800 p-8 shadow-sm h-full">
-                  <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-6 flex items-center gap-2">
-                    <Cpu size={16} /> {t.aboutSection.skillsTitle}
-                  </h3>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    {profileData.skills.map(skill => (
-                      <div key={skill.id} className="flex items-start gap-4">
-                        <div className="p-2.5 bg-slate-800 rounded-lg text-blue-400 shrink-0">
-                          <skill.icon size={20} />
-                        </div>
-                        <div>
-                          <h4 className="text-slate-200 font-semibold mb-1">{skill.category}</h4>
-                          <p className="text-sm text-slate-400 leading-relaxed">{skill.tools}</p>
-                        </div>
+                    {/* TECH STACK GRID (2x2) */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mb-14">
+                      {profileData.skills.map((skill, i) => (
+                        <FadeIn key={skill.id} delay={i * 100} direction="up" className="h-full">
+                          <div className="group flex flex-col p-6 sm:p-7 bg-slate-900/40 border border-slate-800/60 rounded-2xl hover:bg-slate-900/80 hover:border-slate-700/80 transition-all duration-300 h-full">
+                            
+                            {/* Card Header */}
+                            <div className="flex items-center gap-4 mb-6">
+                              <div className={`p-2.5 rounded-xl bg-slate-800/50 ${skill.color} group-hover:scale-105 transition-transform duration-300`}>
+                                <skill.icon size={22} strokeWidth={2} />
+                              </div>
+                              <div>
+                                <h3 className="text-lg font-semibold text-slate-200 tracking-tight leading-tight">{skill[lang].category}</h3>
+                                <p className="text-xs font-medium text-slate-500 uppercase tracking-wider mt-1">{skill[lang].subtitle}</p>
+                              </div>
+                            </div>
+
+                            {/* Tool Pills */}
+                            <div className="flex flex-wrap gap-2 mt-auto">
+                              {skill[lang].tools.map((tool, index) => (
+                                <span 
+                                  key={index} 
+                                  className="px-2.5 py-1 text-[11px] sm:text-xs font-medium text-slate-300 bg-slate-800/30 border border-slate-700/40 rounded-md hover:text-white hover:bg-slate-800 transition-colors duration-200 cursor-default"
+                                >
+                                  {tool}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        </FadeIn>
+                      ))}
+                    </div>
+
+                    {/* PERSONAL PROFILE (Languages, Atouts, Hobbies) */}
+                    {/* LIGNE DE SÉPARATION HORIZONTALE */}
+                    <FadeIn delay={200} direction="up">
+                      <div className="w-full flex items-center justify-center my-14 opacity-40">
+                        <div className="h-px bg-gradient-to-r from-transparent via-slate-500 to-transparent w-full max-w-4xl"></div>
                       </div>
-                    ))}
+                    </FadeIn>
+
+                    {/* PERSONAL PROFILE (Languages, Atouts, Hobbies) */}
+                    <FadeIn delay={300} direction="up">
+                      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        
+                        {/* 1. Carte Langues */}
+                        <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg">
+                          <div className="flex items-center gap-3 mb-6">
+                            <Globe size={20} className="text-blue-400" />
+                            <h3 className="text-base font-bold text-white tracking-wide">{t.aboutSection.languagesTitle}</h3>
+                          </div>
+                          <div className="space-y-5">
+                            {profileData.languages[lang].map((l, idx) => (
+                              <div key={idx} className="flex flex-col gap-1">
+                                <div className="flex justify-between items-center">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-sm font-semibold text-slate-200">{l.name}</span>
+                                    {/* Badge C1 conditionnel */}
+                                    {l.cert && (
+                                      <span className="px-1.5 py-0.5 bg-blue-500/20 text-blue-400 text-[10px] font-bold rounded border border-blue-500/30">
+                                        {l.cert}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">{l.code}</span>
+                                </div>
+                                <span className="text-xs text-slate-400">{l.level}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 2. Carte Atouts (Avec barres de progression tech) */}
+                        <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg relative overflow-hidden">
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-[50px] rounded-full pointer-events-none"></div>
+                          <div className="flex items-center gap-3 mb-6 relative z-10">
+                            <UserCheck size={20} className="text-emerald-400" />
+                            <h3 className="text-base font-bold text-white tracking-wide">{t.aboutSection.softSkillsTitle}</h3>
+                          </div>
+                          <div className="space-y-4 relative z-10">
+                            {profileData.softSkills[lang].map((skill, idx) => (
+                              <div key={idx} className="flex items-center justify-between">
+                                <span className="text-sm font-medium text-slate-300">{skill.name}</span>
+                                {/* Jauge visuelle (5 tirets inclinés) */}
+                                <div className="flex gap-1">
+                                  {[...Array(5)].map((_, i) => (
+                                    <div 
+                                      key={i} 
+                                      className={`w-3.5 h-1.5 rounded-sm transform skew-x-[-15deg] transition-colors duration-500 ${
+                                        i < skill.level ? 'bg-emerald-400' : 'bg-slate-800'
+                                      }`}
+                                    ></div>
+                                  ))}
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 3. Carte Hobbies */}
+                        <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg relative overflow-hidden">
+                          <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-[50px] rounded-full pointer-events-none"></div>
+                          <div className="flex items-center gap-3 mb-6 relative z-10">
+                            <Compass size={20} className="text-amber-400" />
+                            <h3 className="text-base font-bold text-white tracking-wide">{t.aboutSection.hobbiesTitle}</h3>
+                          </div>
+                          <div className="space-y-5 relative z-10">
+                            {profileData.hobbies[lang].map((hobby, idx) => (
+                              <div key={idx} className="flex items-center gap-4">
+                                <div className="p-2 bg-slate-800/50 rounded-lg text-amber-400 border border-slate-700/50">
+                                  <hobby.icon size={16} />
+                                </div>
+                                <div className="flex flex-col">
+                                  <span className="text-sm font-semibold text-slate-200">{hobby.label}</span>
+                                  <span className="text-xs text-slate-400 mt-0.5">{hobby.desc}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+
+                      </div>
+                    </FadeIn>
+
                   </div>
-                </div>
-              </FadeIn>
-            </div>
-          </div>
-        </section>
+                </section>
 
         {/* TIMELINE SECTION */}
         <section id="experience" className="py-24 border-t border-slate-800/50">
           <div className="max-w-7xl mx-auto px-6 lg:px-8">
             <FadeIn direction="up">
               <div className="mb-16">
-                <h2 className="text-3xl font-bold text-white mb-3">{t.timelineSection.title}</h2>
-                <p className="text-slate-400">{t.timelineSection.subtitle}</p>
+                <span className="inline-block py-1 px-3 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider mb-4 border border-indigo-500/20">
+                  {t.timelineSection.badge}
+                </span>
+                <h2 className="text-3xl font-bold text-white mb-3 tracking-tight">
+                  {t.timelineSection.titleStart}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-400">
+                    {t.timelineSection.titleHighlight}
+                  </span>
+                </h2>
+                <p className="text-base text-slate-400 max-w-2xl">{t.timelineSection.subtitle}</p>
               </div>
             </FadeIn>
 
@@ -277,12 +380,49 @@ const handleProjectNavigation = (project) => {
                         <span className="text-sm text-slate-500 mb-4 block">{exp.company}</span>
                         <p className="text-slate-400 mb-4 leading-relaxed text-sm">{exp.description}</p>
                         <ul className="space-y-2">
-                          {exp.details.map((detail, j) => (
-                            <li key={j} className="text-sm text-slate-400 flex items-start gap-2">
-                              <span className="text-slate-600 mt-0.5">•</span>
-                              <span>{detail}</span>
-                            </li>
-                          ))}
+                          {exp.details.map((detail, j) => {
+                            const parts = detail.split(' : ');
+                            const isEnvironment = parts[0] === 'Environnement' || parts[0] === 'Environment';
+
+                            // Si c'est la ligne "Environnement", on crée un design de badges
+                            if (isEnvironment) {
+                              // On sépare les outils par la virgule et on retire le point final éventuel
+                              const tools = parts.slice(1).join(' : ').replace('.', '').split(', ');
+                              
+                              return (
+                                <li key={j} className="pt-4 mt-4 border-t border-slate-800/60 flex flex-wrap items-center gap-2">
+                                  <span className="text-xs font-bold text-slate-500 uppercase tracking-wider mr-1">
+                                    {parts[0]}
+                                  </span>
+                                  {tools.map((tool, idx) => (
+                                    <span 
+                                      key={idx} 
+                                      className="px-2 py-1 text-[10px] font-semibold text-blue-300 bg-blue-500/10 border border-blue-500/20 rounded-md"
+                                    >
+                                      {tool.trim()}
+                                    </span>
+                                  ))}
+                                </li>
+                              );
+                            }
+
+                            // Design classique pour les autres lignes
+                            return (
+                              <li key={j} className="text-sm text-slate-400 flex items-start gap-2">
+                                <span className="text-blue-500/50 mt-0.5">•</span>
+                                <span>
+                                  {parts.length > 1 ? (
+                                    <>
+                                      <strong className="text-slate-200 font-semibold">{parts[0]} : </strong>
+                                      {parts.slice(1).join(' : ')}
+                                    </>
+                                  ) : (
+                                    detail
+                                  )}
+                                </span>
+                              </li>
+                            );
+                          })}
                         </ul>
                       </div>
                     </FadeIn>
