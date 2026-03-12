@@ -146,38 +146,59 @@ const handleProjectNavigation = (project) => {
               </FadeIn>
 
               <FadeIn delay={500} direction="up">
-                <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 mb-0">
+                <div className="flex flex-col lg:flex-row items-stretch justify-center lg:justify-start gap-4 pt-4 mb-0">
+                  
+                  {/* YNOV - Taille fixe et alignée */}
+                  <a 
+                    href="https://ynov.mycertif.app/certification/parchemin/1f0d0537-1c81-6a86-a84d-b9240b704ee0" 
+                    target="_blank" rel="noopener noreferrer"
+                    className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-emerald-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full lg:w-[280px] min-h-[72px]"
+                  >
+                    <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-emerald-500/10 transition-colors shrink-0">
+                      <Award className="text-emerald-400" size={24} />
+                    </div>
+                    <div className="flex flex-col">
+                      <p className="text-[10px] uppercase text-slate-500 font-semibold mb-0.5">{t.hero.certifications}</p>
+                      <p className="font-semibold text-slate-200 text-sm leading-tight flex items-center gap-1">
+                        Expert Architecture SI <ExternalLink size={12} className="text-slate-500 group-hover:text-emerald-400 shrink-0" />
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* AWS - Taille fixe et alignée */}
                   <a 
                     href="https://www.credly.com/badges/8a9c0877-0c28-4b90-977b-3a3963753091" 
                     target="_blank" rel="noopener noreferrer"
-                    className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full sm:w-auto"
+                    className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full lg:w-[280px] min-h-[72px]"
                   >
-                    <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-blue-500/10 transition-colors">
+                    <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-blue-500/10 transition-colors shrink-0">
                       <Award className="text-amber-500" size={24} />
                     </div>
-                    <div>
+                    <div className="flex flex-col">
                       <p className="text-[10px] uppercase text-slate-500 font-semibold mb-0.5">{t.hero.certifications}</p>
-                      <p className="font-semibold text-slate-200 text-sm flex items-center gap-1">
-                        AWS Solutions Architect <ExternalLink size={12} className="text-slate-500 group-hover:text-blue-400 transition-colors" />
+                      <p className="font-semibold text-slate-200 text-sm leading-tight flex items-center gap-1">
+                        AWS Solutions Architect <ExternalLink size={12} className="text-slate-500 group-hover:text-blue-400 shrink-0" />
                       </p>
                     </div>
                   </a>
                   
+                  {/* CISCO - Taille fixe et alignée */}
                   <a 
                     href="https://www.credly.com/badges/cc18fb0c-6597-485b-ac93-903aed039c4d"
                     target="_blank" rel="noopener noreferrer"
-                    className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full sm:w-auto"
+                    className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-blue-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full lg:w-[280px] min-h-[72px]"
                   >
-                    <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-blue-500/10 transition-colors">
+                    <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-blue-500/10 transition-colors shrink-0">
                       <Award className="text-blue-400" size={24} />
                     </div>
-                    <div>
+                    <div className="flex flex-col">
                       <p className="text-[10px] uppercase text-slate-500 font-semibold mb-0.5">{t.hero.certifications}</p>
-                      <p className="font-semibold text-slate-200 text-sm flex items-center gap-1">
-                        Cisco CCNA <ExternalLink size={12} className="text-slate-500 group-hover:text-blue-400 transition-colors" />
+                      <p className="font-semibold text-slate-200 text-sm leading-tight flex items-center gap-1">
+                        Cisco CCNA <ExternalLink size={12} className="text-slate-500 group-hover:text-blue-400 shrink-0" />
                       </p>
                     </div>
                   </a>
+
                 </div>
               </FadeIn>
             </div>
