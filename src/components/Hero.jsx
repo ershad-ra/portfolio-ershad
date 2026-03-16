@@ -1,8 +1,11 @@
 import React from 'react';
 import FadeIn from './FadeIn';
 import { Award, ExternalLink, Activity } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // 1. Ajout de l'import
 
 const Hero = ({ t, lang }) => {
+  const navigate = useNavigate(); // 2. Initialisation de la navigation
+
   return (
     <section className="relative min-h-[85vh] flex flex-col pt-8 lg:pt-0">
       <div className="flex-1 max-w-7xl mx-auto px-6 lg:px-8 w-full flex flex-col lg:flex-row justify-between pt-12 pb-0 gap-8 border-b border-slate-800/40">
@@ -90,10 +93,11 @@ const Hero = ({ t, lang }) => {
                 </div>
               </div>
 
-              {/* 5. TERRAFORM (En préparation) */}
+              {/* 5. TERRAFORM (En préparation - CLIQUABLE VERS LA PAGE) */}
               <div 
-                className="group flex items-center gap-4 bg-slate-900/30 border border-slate-700 border-dashed hover:border-purple-500/50 rounded-xl px-5 py-3 shadow-sm transition-all w-full min-h-[72px] opacity-60 grayscale hover:grayscale-0 hover:opacity-100 cursor-help"
-                title={lang === 'fr' ? "Certification en cours de préparation" : "Certification in progress"}
+                onClick={() => navigate('/certification/terraform')} // 3. L'événement de clic
+                className="group flex items-center gap-4 bg-slate-900/30 border border-slate-700 border-dashed hover:border-purple-500/50 rounded-xl px-5 py-3 shadow-sm transition-all w-full min-h-[72px] opacity-60 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer" // cursor-pointer au lieu de cursor-help
+                title={lang === 'fr' ? "Voir mes notes de préparation" : "View my preparation notes"}
               >
                 <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-purple-500/10 transition-colors shrink-0">
                   <Award className="text-purple-400" size={24} />

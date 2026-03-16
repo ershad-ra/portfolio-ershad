@@ -4,11 +4,12 @@ import { ArrowUp } from 'lucide-react';
 
 import { translations, profileData, experienceData, educationData, projectsData } from '../data/data';
 
-// Import de vos nouveaux composants
+// Import de vos composants
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Timeline from '../components/Timeline';
+import CurrentLearning from '../components/CurrentLearning'; // <-- 1. Nouvel import ajouté ici
 import Capstone from '../components/Capstone';
 import ProjectsGrid from '../components/ProjectsGrid';
 import Contact from '../components/Contact';
@@ -64,6 +65,10 @@ const Home = ({ lang, onToggleLanguage }) => {
         <Hero t={t} lang={lang} />
         <About t={t} lang={lang} profileData={profileData} />
         <Timeline t={t} lang={lang} experienceData={experienceData} educationData={educationData} />
+        
+        {/* <-- 2. Le composant est inséré ici, entre Timeline et Capstone ! --> */}
+        <CurrentLearning lang={lang} />
+        
         <Capstone t={t} navigate={navigate} />
         <ProjectsGrid t={t} lang={lang} projectsData={projectsData} handleProjectNavigation={handleProjectNavigation} />
         <Contact t={t} />

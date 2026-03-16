@@ -30,6 +30,9 @@ import Project15 from './pages/Project15';
 import Project16 from './pages/Project16';
 import Project17 from './pages/Project17';
 
+// Terraform - In process
+import TerraformCert from './pages/TerraformCert';
+
 const App = () => {
   const [lang, setLang] = useState('fr');
 
@@ -52,11 +55,12 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop />
-      <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200 overflow-x-hidden relative">
-        {/* Background elements */}
+      {/* SUPPRESSION DE overflow-x-hidden ICI ! */}
+      <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200 relative">
+        
+        {/* Background elements - C'est ici qu'on met overflow-hidden pour confiner les dégradés ! */}
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
           
-          {/* Remplacement du blur par des dégradés radiaux (Radial Gradients) ultra légers */}
           <div 
             className="absolute top-[-10%] left-[-10%] w-[60%] h-[50%] rounded-full animate-pulse" 
             style={{ 
@@ -74,7 +78,6 @@ const App = () => {
             }}
           ></div>
 
-          {/* On cache la grille SVG sur les petits écrans (téléphones) avec "hidden md:block" car elle est très lourde à calculer */}
           <svg className="absolute inset-0 w-full h-full text-blue-400/[0.07] hidden md:block" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="network-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -115,6 +118,9 @@ const App = () => {
           <Route path="/project/15" element={<Project15 lang={lang} />} />
           <Route path="/project/16" element={<Project16 lang={lang} />} />
           <Route path="/project/17" element={<Project17 lang={lang} />} />
+          
+          {/* TERRAFORM */}
+          <Route path="/certification/terraform" element={<TerraformCert lang={lang} />} />
         </Routes>
       </div>
     </Router>
