@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; // <-- AJOUT DE useState ICI
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Mail, Search, PenTool, Cpu, BookOpen } from 'lucide-react';
+// Ajout des icônes manquantes : Search, PenTool, Cpu, BookOpen, ArrowUp
+import { ChevronLeft, Mail, Search, PenTool, Cpu, BookOpen, ArrowUp } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
 
 const projectBloc5Translations = {
@@ -82,31 +83,47 @@ const projectBloc5Translations = {
   }
 };
 
-const ProjectBloc5 = ({lang, onToggleLanguage, onContactClick }) => {
+const ProjectBloc5 = ({lang, onToggleLanguage }) => {
   const navigate = useNavigate();
   const pt = projectBloc5Translations[lang] || projectBloc5Translations.fr;
+  
+  // AJOUT DE L'ÉTAT ICI
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // FUSION DES Useeffects
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
       <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
+            
             <div className="flex items-center space-x-4">
-              <button onClick={() => navigate('/')} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+              <button onClick={() => navigate('/#capstone')} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
                 <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
                 <span className="hidden sm:inline">{pt.back}</span>
               </button>
             </div>
+
             <div className="hidden lg:flex space-x-8">
-              <a href="#comprendre" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.comprendre}</a>
-              <a href="#concevoir" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.concevoir}</a>
-              <a href="#miseenplace" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.miseenplace}</a>
-              <a href="#transmettre" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.transmettre}</a>
+              <a href="#hld" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.comprendre}</a>
+              <a href="#sdn" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.concevoir}</a>
+              <a href="#pra" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.miseenplace}</a>
+              <a href="#rse" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.transmettre}</a>
             </div>
+
             <div className="flex items-center">
               <button onClick={() => navigate('/#contact')} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
                 <Mail className="h-4 w-4" />
@@ -116,6 +133,7 @@ const ProjectBloc5 = ({lang, onToggleLanguage, onContactClick }) => {
                 {lang === 'fr' ? 'EN' : 'FR'}
               </button>
             </div>
+
           </div>
         </div>
       </nav>
@@ -141,7 +159,7 @@ const ProjectBloc5 = ({lang, onToggleLanguage, onContactClick }) => {
       </section>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 space-y-24">
-        <section id="comprendre" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+        <section id="hld" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
           <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
             <img src="https://assets.persys.fr/Portfolio/Images/bloc5/A5.1%20comprendre.PNG" alt="Comprendre" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
           </FadeIn>
@@ -155,7 +173,7 @@ const ProjectBloc5 = ({lang, onToggleLanguage, onContactClick }) => {
           </FadeIn>
         </section>
 
-        <section id="concevoir" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section id="sdn" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <FadeIn direction="right">
             <div>
               <div className="inline-flex items-center justify-center p-3 bg-indigo-500/10 rounded-xl text-indigo-400 mb-6 border border-indigo-500/20"><PenTool className="h-6 w-6" /></div>
@@ -169,7 +187,7 @@ const ProjectBloc5 = ({lang, onToggleLanguage, onContactClick }) => {
           </FadeIn>
         </section>
 
-        <section id="miseenplace" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
+        <section id="pra" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center lg:flex-row-reverse">
           <FadeIn direction="right" className="order-2 lg:order-1 bg-slate-900 p-2 rounded-2xl shadow-xl border border-slate-800 flex justify-center items-center">
             <img src="https://assets.persys.fr/Portfolio/Images/bloc5/A5.3%20mise%20en%20place.PNG" alt="Mise en place" className="max-w-full h-auto rounded-xl shadow-sm mx-auto block" />
           </FadeIn>
@@ -183,7 +201,7 @@ const ProjectBloc5 = ({lang, onToggleLanguage, onContactClick }) => {
           </FadeIn>
         </section>
 
-        <section id="transmettre" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <section id="rse" className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <FadeIn direction="right">
             <div>
               <div className="inline-flex items-center justify-center p-3 bg-amber-500/10 rounded-xl text-amber-400 mb-6 border border-amber-500/20"><BookOpen className="h-6 w-6" /></div>
@@ -218,6 +236,17 @@ const ProjectBloc5 = ({lang, onToggleLanguage, onContactClick }) => {
           <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
         </div>
       </footer>
+      
+      {/* AJOUT DU BOUTON ICI */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-[100] p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-900/20 transition-all duration-300 hover:-translate-y-1"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
     </div>
   );
 };

@@ -16,7 +16,7 @@ export const translations = {
     hero: {
       greeting: "Ershad RAMEZANI",
       role: "Ingénieur Systèmes, Réseaux & Cloud",
-      description: "Administrateur d'infrastructures IT avec plus de 4 ans d'expérience. Spécialisé en Build & Run, Support N2/N3 et Maintien en Condition Opérationnelle (MCO). Garant de la résilience et de la continuité d'activité (PCA/PRA).",
+      description: "Garant de la stabilité et de l'évolution de vos infrastructures IT. Fort de plus de 4 ans d'expérience en Build & Run et support avancé (N2/N3), je conçois des architectures cloud robustes et assure le maintien en condition opérationnelle (MCO) de vos environnements critiques (PCA/PRA).",
       certifications: "Certifications",
       viewProjects: "Découvrir mes projets",
       status: "Disponibilité: Haute"

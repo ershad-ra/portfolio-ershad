@@ -35,8 +35,12 @@ const Capstone = ({ t, navigate }) => {
                   </h3>
                 </div>
 
+                {/* BLOC 1 */}
                 <div 
-                  onClick={() => navigate('/project/bloc-1')}
+                  onClick={() => {
+                    window.history.replaceState(null, '', '/#capstone');
+                    navigate('/project/bloc-1');
+                  }}
                   className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-blue-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
                 >
                   <div className="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400 mb-4 group-hover:scale-110 transition-transform">
@@ -49,8 +53,12 @@ const Capstone = ({ t, navigate }) => {
                   </div>
                 </div>
 
+                {/* BLOC 2 */}
                 <div 
-                  onClick={() => navigate('/project/bloc-2')}
+                  onClick={() => {
+                    window.history.replaceState(null, '', '/#capstone');
+                    navigate('/project/bloc-2');
+                  }}
                   className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-indigo-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
                 >
                   <div className="w-10 h-10 rounded-lg bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-4 group-hover:scale-110 transition-transform">
@@ -63,8 +71,12 @@ const Capstone = ({ t, navigate }) => {
                   </div>
                 </div>
 
+                {/* BLOC 3 */}
                 <div 
-                  onClick={() => navigate('/project/bloc-3')}
+                  onClick={() => {
+                    window.history.replaceState(null, '', '/#capstone');
+                    navigate('/project/bloc-3');
+                  }}
                   className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-emerald-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
                 >
                   <div className="w-10 h-10 rounded-lg bg-emerald-500/10 flex items-center justify-center text-emerald-400 mb-4 group-hover:scale-110 transition-transform">
@@ -77,8 +89,12 @@ const Capstone = ({ t, navigate }) => {
                   </div>
                 </div>
 
+                {/* BLOC 5 */}
                 <div 
-                  onClick={() => navigate('/project/bloc-5')}
+                  onClick={() => {
+                    window.history.replaceState(null, '', '/#capstone');
+                    navigate('/project/bloc-5');
+                  }}
                   className="bg-slate-950/50 border border-slate-800 p-6 rounded-2xl hover:border-amber-500/50 hover:bg-slate-900 transition-all group cursor-pointer relative"
                 >
                   <div className="w-10 h-10 rounded-lg bg-amber-500/10 flex items-center justify-center text-amber-400 mb-4 group-hover:scale-110 transition-transform">

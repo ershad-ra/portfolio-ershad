@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Mail, Target, Network, ShieldCheck, LayoutDashboard } from 'lucide-react';
+import { ChevronLeft, Mail, Target, Network, ShieldCheck, LayoutDashboard, ArrowUp } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
 
 const projectBloc1Translations = {
@@ -82,40 +82,69 @@ const projectBloc1Translations = {
   }
 };
 
-const ProjectBloc1 = ({lang, onToggleLanguage, onContactClick }) => {
+const ProjectBloc1 = ({ lang, onToggleLanguage }) => { // J'ai retiré onContactClick qui n'était pas utilisé
   const navigate = useNavigate();
   const pt = projectBloc1Translations[lang] || projectBloc1Translations.fr;
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // Remonter en haut de page au chargement
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  // Détection du scroll pour afficher/masquer le bouton "Retour en haut"
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+
   return (
     <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
+      
+      {/* NAVBAR */}
       <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
+            
+            {/* BOUTON RETOUR CAPSTONE */}
             <div className="flex items-center space-x-4">
-              <button onClick={() => navigate('/')} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+              <button 
+                onClick={() => navigate('/#capstone')} 
+                className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm"
+              >
                 <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
                 <span className="hidden sm:inline">{pt.back}</span>
               </button>
             </div>
+
             <div className="hidden lg:flex space-x-8">
               <a href="#hld" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.hld}</a>
               <a href="#sdn" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.sdn}</a>
               <a href="#pra" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.pra}</a>
               <a href="#rse" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.rse}</a>
             </div>
+
             <div className="flex items-center">
-              <button onClick={() => navigate('/#contact')} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
+              <button 
+                onClick={() => navigate('/#contact')} 
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30"
+              >
                 <Mail className="h-4 w-4" />
                 <span className="hidden sm:inline">{pt.nav.contact}</span>
               </button>
-              <button onClick={onToggleLanguage} className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3">
+              <button 
+                onClick={onToggleLanguage} 
+                className="flex items-center justify-center w-10 h-10 rounded-lg bg-slate-800/50 hover:bg-slate-700 text-sm font-bold text-white transition-colors border border-slate-700/50 ml-3"
+              >
                 {lang === 'fr' ? 'EN' : 'FR'}
               </button>
             </div>
+
           </div>
         </div>
       </nav>
@@ -218,6 +247,18 @@ const ProjectBloc1 = ({lang, onToggleLanguage, onContactClick }) => {
           <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
         </div>
       </footer>
+
+      {/* BOUTON RETOUR EN HAUT */}
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-[100] p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-900/20 transition-all duration-300 hover:-translate-y-1"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
+
     </div>
   );
 };

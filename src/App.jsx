@@ -32,6 +32,7 @@ import Project17 from './pages/Project17';
 
 // Terraform - In process
 import TerraformCert from './pages/TerraformCert';
+import CcnpCert from './pages/CcnpCert';
 
 const App = () => {
   const [lang, setLang] = useState('fr');
@@ -119,8 +120,9 @@ const App = () => {
           <Route path="/project/16" element={<Project16 lang={lang} />} />
           <Route path="/project/17" element={<Project17 lang={lang} />} />
           
-          {/* TERRAFORM */}
+          {/* TERRAFORM et CCNP */}
           <Route path="/certification/terraform" element={<TerraformCert lang={lang} />} />
+          <Route path="/certification/ccnp" element={<CcnpCert lang={lang} />} />
         </Routes>
       </div>
     </Router>

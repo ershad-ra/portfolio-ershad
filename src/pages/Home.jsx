@@ -9,7 +9,7 @@ import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import About from '../components/About';
 import Timeline from '../components/Timeline';
-import CurrentLearning from '../components/CurrentLearning'; // <-- 1. Nouvel import ajouté ici
+import CurrentLearning from '../components/CurrentLearning';
 import Capstone from '../components/Capstone';
 import ProjectsGrid from '../components/ProjectsGrid';
 import Contact from '../components/Contact';
@@ -44,8 +44,11 @@ const Home = ({ lang, onToggleLanguage }) => {
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
-  // Navigation dynamique des projets
+  // Navigation dynamique des projets avec sauvegarde de l'historique
   const handleProjectNavigation = (project) => {
+    // On sauvegarde l'ancre #projects dans l'historique avant de naviguer
+    window.history.replaceState(null, '', '/#projects');
+    
     const idStr = project.id.toString().padStart(2, '0');
     navigate(`/project/${idStr}`);
   };
@@ -66,11 +69,14 @@ const Home = ({ lang, onToggleLanguage }) => {
         <About t={t} lang={lang} profileData={profileData} />
         <Timeline t={t} lang={lang} experienceData={experienceData} educationData={educationData} />
         
-        {/* <-- 2. Le composant est inséré ici, entre Timeline et Capstone ! --> */}
+        {/* Projets et Certifications en cours */}
         <CurrentLearning lang={lang} />
         
         <Capstone t={t} navigate={navigate} />
+        
+        {/* On s'assure que ProjectsGrid reçoit bien la fonction mise à jour */}
         <ProjectsGrid t={t} lang={lang} projectsData={projectsData} handleProjectNavigation={handleProjectNavigation} />
+        
         <Contact t={t} />
       </main>
 

@@ -96,9 +96,9 @@ const Project02 = ({lang, onToggleLanguage }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
             <div className="flex items-center space-x-4">
-              <button onClick={() => navigate('/')} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+              <button onClick={() => navigate('/#projects')} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
                 <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
-                <span className="hidden sm:inline">{pt.back}</span>
+                <span className="hidden sm:inline">Retour aux projets</span>
               </button>
             </div>
             <div className="hidden lg:flex space-x-8">

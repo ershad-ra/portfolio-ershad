@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, Mail, Calendar, BarChart, Target, Scale } from 'lucide-react';
+import { ChevronLeft, Mail, Target, Calendar, BarChart, Scale, ArrowUp } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
 
 const projectBloc2Translations = {
@@ -82,31 +82,45 @@ const projectBloc2Translations = {
   }
 };
 
-const ProjectBloc2 = ({lang, onToggleLanguage, onContactClick }) => {
+const ProjectBloc2 = ({lang, onToggleLanguage }) => {
   const navigate = useNavigate();
   const pt = projectBloc2Translations[lang] || projectBloc2Translations.fr;
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
+  // Un seul useEffect pour le scrollTo(0,0) et l'écouteur d'événement de scroll
   useEffect(() => {
     window.scrollTo(0, 0);
+
+    const handleScroll = () => {
+      setShowScrollTop(window.scrollY > 400);
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
     <div className="min-h-screen bg-slate-950 font-sans text-slate-300">
       <nav className="bg-slate-950/80 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-slate-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16 items-center">
+            
             <div className="flex items-center space-x-4">
-              <button onClick={() => navigate('/')} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
+              <button onClick={() => navigate('/#capstone')} className="group flex items-center text-slate-400 hover:text-white transition-colors font-medium text-sm">
                 <ChevronLeft className="h-5 w-5 mr-1 group-hover:-translate-x-1 transition-transform" />
                 <span className="hidden sm:inline">{pt.back}</span>
               </button>
             </div>
+
             <div className="hidden lg:flex space-x-8">
-              <a href="#cadrage" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.cadrage}</a>
-              <a href="#gantt" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.gantt}</a>
-              <a href="#avancement" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.avancement}</a>
-              <a href="#arbitrage" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.arbitrage}</a>
+              <a href="#hld" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.cadrage}</a>
+              <a href="#sdn" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.gantt}</a>
+              <a href="#pra" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.avancement}</a>
+              <a href="#rse" className="text-slate-400 hover:text-white font-medium text-sm transition-colors">{pt.nav.arbitrage}</a>
             </div>
+
             <div className="flex items-center">
               <button onClick={() => navigate('/#contact')} className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium text-sm hover:bg-blue-500 transition flex items-center space-x-2 shadow-sm shadow-blue-900/30">
                 <Mail className="h-4 w-4" />
@@ -116,6 +130,7 @@ const ProjectBloc2 = ({lang, onToggleLanguage, onContactClick }) => {
                 {lang === 'fr' ? 'EN' : 'FR'}
               </button>
             </div>
+
           </div>
         </div>
       </nav>
@@ -228,6 +243,16 @@ const ProjectBloc2 = ({lang, onToggleLanguage, onContactClick }) => {
           <p className="text-sm mt-2 opacity-60">{pt.footer}</p>
         </div>
       </footer>
+
+      {showScrollTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-[100] p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-900/20 transition-all duration-300 hover:-translate-y-1"
+          aria-label="Scroll to top"
+        >
+          <ArrowUp size={20} />
+        </button>
+      )}
     </div>
   );
 };

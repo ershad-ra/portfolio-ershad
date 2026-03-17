@@ -3,8 +3,7 @@ import FadeIn from './FadeIn';
 
 const ProjectsGrid = ({ t, lang, projectsData, handleProjectNavigation }) => {
   return (
-    <section id="projects" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section id="projects" className="py-24 relative">      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <FadeIn direction="up">
           <div className="mb-12">
             <h2 className="text-3xl font-bold text-white mb-3">{t.projectsSection.title}</h2>

@@ -45,20 +45,17 @@ const learningData = [
 const CurrentLearning = ({ lang }) => {
   const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const activeItem = learningData[currentIndex];
 
-  // CHANGEMENT AUTOMATIQUE SIMPLE (10 SECONDES)
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex === 0 ? 1 : 0));
+    const timer = setTimeout(() => {
+      setCurrentIndex((prevIndex) => (prevIndex === learningData.length - 1 ? 0 : prevIndex + 1));
     }, 10000);
-
-    return () => clearInterval(timer);
-  }, []);
+    return () => clearTimeout(timer);
+  }, [currentIndex]);
 
   return (
-    <section className="py-20 md:py-24 border-t border-b border-slate-800/40 bg-slate-900/20 relative">
+    <section id="current-learning" className="py-20 md:py-24 border-t border-b border-slate-800/40 bg-slate-900/20 relative">
       <FadeIn direction="up">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           
@@ -72,52 +69,56 @@ const CurrentLearning = ({ lang }) => {
             </h2>
           </div>
 
-          {/* RECTANGLE À TAILLE FIXE (h-[500px] et md:h-[450px]) */}
-          <div className="bg-slate-950/40 border border-slate-800/60 rounded-3xl overflow-hidden shadow-2xl flex flex-col h-[520px] sm:h-[480px] md:h-[450px]">
+          {/* RECTANGLE À TAILLE FIXE - Ajusté pour le mobile */}
+          <div className="bg-slate-950/40 border border-slate-800/60 rounded-3xl overflow-hidden shadow-2xl flex flex-col min-h-[580px] sm:min-h-[500px] md:h-[450px]">
             
-            <div className="flex flex-col md:flex-row p-8 md:p-12 gap-8 md:gap-16 flex-1 items-center overflow-hidden">
+            <div className="flex flex-col md:flex-row p-6 md:p-12 gap-6 md:gap-16 flex-1 items-center">
               
-              <div className="flex-1 flex flex-col justify-center h-full min-w-0">
-                <div key={activeItem.id} className="animate-fade-in-up">
-                  <p className={`text-sm font-bold tracking-widest uppercase mb-3 ${activeItem.theme.text}`}>
+              {/* IMAGE RESPONSIVE - Placée en haut sur mobile pour la visibilité */}
+              <div key={`img-${activeItem.id}`} className="w-28 h-28 sm:w-40 sm:h-40 md:w-64 md:h-64 flex items-center justify-center relative shrink-0 animate-fade-in">
+                <div className={`absolute inset-0 rounded-full blur-[40px] md:blur-[80px] opacity-20 transition-colors duration-1000 ${activeItem.theme.bg}`}></div>
+                <img 
+                  src={activeItem.image} 
+                  alt={activeItem.title}
+                  className="w-full h-full object-contain relative z-10 drop-shadow-2xl shrink-0" 
+                />
+              </div>
+
+              {/* CONTENU TEXTE */}
+              <div className="flex-1 flex flex-col justify-center min-w-0 w-full text-center md:text-left">
+                <div key={`text-${activeItem.id}`} className="animate-fade-in">
+                  <p className={`text-xs md:text-sm font-bold tracking-widest uppercase mb-2 ${activeItem.theme.text}`}>
                     {activeItem.category}
                   </p>
-                  <h3 className="text-3xl md:text-5xl font-extrabold text-white mb-6 tracking-tight truncate">
+                  <h3 className="text-2xl sm:text-3xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">
                     {activeItem.title}
                   </h3>
-                  <p className="text-slate-400 text-base md:text-lg leading-relaxed mb-8 max-w-2xl line-clamp-3">
+                  <p className="text-slate-400 text-sm md:text-lg leading-relaxed mb-6 max-w-2xl line-clamp-4 md:line-clamp-3">
                     {activeItem.description[lang]}
                   </p>
                 </div>
 
-                <div className="flex items-center gap-6 mt-auto">
+                <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mt-auto">
                   <button
-                    onClick={() => navigate(activeItem.link)}
-                    className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-1 ${activeItem.theme.bg} hover:brightness-110 shadow-lg`}
+                    onClick={() => {
+                      window.history.replaceState(null, '', '/#current-learning');
+                      navigate(activeItem.link);
+                    }}
+                    className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-1 ${activeItem.theme.bg} shadow-lg w-full sm:w-auto justify-center`}
                   >
                     <FileText size={18} />
                     {lang === 'fr' ? 'Voir mes travaux' : 'View my work'}
                     <ArrowRight size={16} className="ml-1" />
                   </button>
-                  <span className="text-sm font-medium text-slate-500 border border-slate-700/50 bg-slate-800/80 px-3 py-1.5 rounded-lg whitespace-nowrap">
+                  <span className="text-xs font-medium text-slate-500 border border-slate-700/50 bg-slate-800/80 px-3 py-1.5 rounded-lg whitespace-nowrap">
                     {activeItem.progressText[lang]}
                   </span>
                 </div>
               </div>
 
-              {/* IMAGE FIXE */}
-              <div className="w-40 h-40 md:w-64 md:h-64 flex items-center justify-center relative shrink-0">
-                <div className={`absolute inset-0 rounded-full blur-[80px] opacity-20 transition-colors duration-1000 ${activeItem.theme.bg}`}></div>
-                <img 
-                  key={`img-${activeItem.id}`}
-                  src={activeItem.image} 
-                  alt={activeItem.title}
-                  className="w-full h-full object-contain relative z-10 animate-fade-in-up drop-shadow-2xl"
-                />
-              </div>
             </div>
 
-            {/* ONGLETS SANS BARRE DE PROGRESSION */}
+            {/* ONGLETS BAS DE CARTE */}
             <div className="grid grid-cols-2 bg-slate-900/40 border-t border-slate-800">
               {learningData.map((item, idx) => {
                 const isActive = currentIndex === idx;
@@ -125,17 +126,18 @@ const CurrentLearning = ({ lang }) => {
                   <button
                     key={item.id}
                     onClick={() => setCurrentIndex(idx)}
-                    className={`relative p-5 text-center transition-colors duration-500 ${
+                    className={`relative p-4 md:p-5 text-center transition-colors duration-300 ${
                       isActive ? item.theme.tabActive : 'text-slate-500 hover:bg-slate-800/30'
                     } ${idx === 0 ? 'border-r border-slate-800' : ''}`}
                   >
-                    <p className={`font-bold text-sm md:text-base ${isActive ? 'text-white' : 'text-slate-500'}`}>
+                    <p className={`font-bold text-xs md:text-base ${isActive ? 'text-white' : 'text-slate-500'}`}>
                       {item.title}
                     </p>
                   </button>
                 );
               })}
             </div>
+
           </div>
         </div>
       </FadeIn>
