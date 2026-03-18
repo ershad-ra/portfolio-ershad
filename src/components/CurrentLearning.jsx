@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { ArrowRight, FileText, Award, ExternalLink, CheckCircle2 } from 'lucide-react';
 import FadeIn from './FadeIn';
 
-// --- 1. DONNÉES DES CERTIFICATIONS OBTENUES (Avec détails officiels) ---
 const achievedCerts = [
   {
     id: 'easi',
@@ -13,7 +12,7 @@ const achievedCerts = [
       en: "RNCP Level 7 (Master's Degree Equivalent)"
     },
     issuer: 'Ynov Campus',
-    date: '2025',
+    date: '2024',
     iconColor: 'text-emerald-400',
     bgColor: 'bg-emerald-500/10',
     borderColor: 'group-hover:border-emerald-500/50',
@@ -27,7 +26,7 @@ const achievedCerts = [
       en: 'Associate (SAA-C03)'
     },
     issuer: 'Amazon Web Services',
-    date: '2025',
+    date: '2023',
     iconColor: 'text-amber-500',
     bgColor: 'bg-amber-500/10',
     borderColor: 'group-hover:border-amber-500/50',
@@ -41,7 +40,7 @@ const achievedCerts = [
       en: 'Cisco Certified Network Associate'
     },
     issuer: 'Cisco',
-    date: '2023',
+    date: '2022',
     iconColor: 'text-blue-400',
     bgColor: 'bg-blue-500/10',
     borderColor: 'group-hover:border-blue-500/50',
@@ -49,7 +48,6 @@ const achievedCerts = [
   }
 ];
 
-// --- 2. DONNÉES DES CERTIFICATIONS EN COURS ---
 const learningData = [
   {
     id: 'terraform',
@@ -90,11 +88,9 @@ const learningData = [
 ];
 
 const CurrentLearning = ({ lang }) => {
-  const navigate = useNavigate();
   const [currentIndex, setCurrentIndex] = useState(0);
   const activeItem = learningData[currentIndex];
 
-  // Écouteur d'événement pour le clic depuis le Hero
   useEffect(() => {
     const handleTabChange = (e) => {
       const tabId = e.detail;
@@ -107,7 +103,6 @@ const CurrentLearning = ({ lang }) => {
     return () => window.removeEventListener('changeLearningTab', handleTabChange);
   }, []);
 
-  // Chronomètre automatique
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex === learningData.length - 1 ? 0 : prevIndex + 1));
@@ -119,7 +114,6 @@ const CurrentLearning = ({ lang }) => {
     <section id="current-learning" className="py-20 md:py-24 border-t border-b border-slate-800/40 bg-slate-900/20 relative">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
-        {/* EN-TÊTE DE LA SECTION */}
         <FadeIn direction="up">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
@@ -133,7 +127,6 @@ const CurrentLearning = ({ lang }) => {
           </div>
         </FadeIn>
 
-        {/* --- PARTIE 1 : CERTIFICATIONS OBTENUES --- */}
         <FadeIn direction="up" delay={100}>
           <div className="mb-8 flex items-center gap-3">
             <CheckCircle2 className="text-emerald-500" size={24} />
@@ -142,7 +135,6 @@ const CurrentLearning = ({ lang }) => {
             </h3>
           </div>
           
-          {/* GRILLE DES CARTES */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
             {achievedCerts.map((cert) => (
               <a 
@@ -155,20 +147,14 @@ const CurrentLearning = ({ lang }) => {
                 <div className={`p-3 rounded-xl shrink-0 transition-colors mt-1 ${cert.bgColor}`}>
                   <Award className={cert.iconColor} size={28} />
                 </div>
-                
                 <div className="flex flex-col flex-1 h-full">
                   <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">{cert.issuer}</p>
-                  
                   <h4 className="text-lg font-bold text-slate-200 group-hover:text-white transition-colors leading-tight mb-1.5">
                     {cert.title}
                   </h4>
-                  
-                  {/* NOUVEAU : Le sous-titre officiel / technique */}
                   <p className="text-sm font-medium text-blue-400/80 mb-4 leading-snug">
                     {cert.subtitle[lang]}
                   </p>
-                  
-                  {/* LIGNE DE SÉPARATION & FOOTER */}
                   <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-800/60">
                     <span className="text-sm font-medium text-slate-400">{cert.date}</span>
                     <span className="flex items-center gap-1 text-xs font-semibold text-slate-500 group-hover:text-blue-400 transition-colors">
@@ -176,13 +162,11 @@ const CurrentLearning = ({ lang }) => {
                     </span>
                   </div>
                 </div>
-
               </a>
             ))}
           </div>
         </FadeIn>
 
-        {/* --- PARTIE 2 : CERTIFICATIONS EN COURS --- */}
         <FadeIn direction="up" delay={200}>
           <div className="mb-8 flex items-center gap-3">
             <span className="relative flex h-2.5 w-2.5 ml-2">
@@ -220,17 +204,16 @@ const CurrentLearning = ({ lang }) => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mt-auto">
-                  <button
-                    onClick={() => {
-                      window.history.replaceState(null, '', '/#current-learning');
-                      navigate(activeItem.link);
-                    }}
+                  {/* CHANGEMENT SEO : Utilisation de <Link> au lieu de <button> */}
+                  <Link
+                    to={activeItem.link}
+                    onClick={() => window.history.replaceState(null, '', '/#current-learning')}
                     className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white transition-all duration-300 hover:-translate-y-1 ${activeItem.theme.bg} shadow-lg w-full sm:w-auto justify-center`}
                   >
                     <FileText size={18} />
                     {lang === 'fr' ? 'Voir mes travaux' : 'View my work'}
                     <ArrowRight size={16} className="ml-1" />
-                  </button>
+                  </Link>
                   <span className="text-xs font-medium text-slate-500 border border-slate-700/50 bg-slate-800/80 px-3 py-1.5 rounded-lg whitespace-nowrap">
                     {activeItem.progressText[lang]}
                   </span>
