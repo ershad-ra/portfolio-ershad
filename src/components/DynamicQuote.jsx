@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 
 const DynamicQuote = ({ lang, isMobile = false }) => {
-  // Définition des textes
   const prefixes = useMemo(() => lang === 'fr' ? ["Madame,", "Monsieur,"] : ["Madam,", "Sir,"], [lang]);
   
-  // Suffixe adapté : sur mobile, pas de retours à la ligne (\n)
   const suffixText = useMemo(() => {
     if (isMobile) {
       return lang === 'fr' ? " bienvenue sur mon portfolio." : " welcome to my portfolio.";
@@ -16,6 +14,14 @@ const DynamicQuote = ({ lang, isMobile = false }) => {
   const [suffix, setSuffix] = useState('');
   const [wordIndex, setWordIndex] = useState(0);
   const [phase, setPhase] = useState('type-prefix-initial');
+
+  // LE CORRECTIF EST ICI : Dès que 'lang' change, on remet la machine à zéro !
+  useEffect(() => {
+    setPrefix('');
+    setSuffix('');
+    setWordIndex(0);
+    setPhase('type-prefix-initial');
+  }, [lang]);
 
   useEffect(() => {
     const targetPrefix = prefixes[wordIndex];
@@ -73,11 +79,9 @@ const DynamicQuote = ({ lang, isMobile = false }) => {
     return () => clearTimeout(timer);
   }, [phase, prefix, suffix, wordIndex, prefixes, suffixText]);
 
-  // Détermination de la position du curseur "█"
-  const isEditingPrefix = ['type-prefix-initial', 'delete-prefix', 'type-prefix', 'wait'].includes(phase);
-  const fullText = prefix + (isEditingPrefix ? "█" : "") + suffix + (!isEditingPrefix ? "█" : "");
+  const isEditingPrefix = ['type-prefix-initial', 'delete-prefix', 'type-prefix', 'wait', 'pause'].includes(phase);
   
-  // Sur mobile, on garde tout sur une ligne
+  const fullText = prefix + (isEditingPrefix ? "█" : "") + suffix + (!isEditingPrefix ? "█" : "");
   const lines = isMobile ? [fullText] : fullText.split('\n');
 
   return (

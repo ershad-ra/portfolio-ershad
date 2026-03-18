@@ -1,8 +1,55 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, FileText } from 'lucide-react';
+import { ArrowRight, FileText, Award, ExternalLink, CheckCircle2 } from 'lucide-react';
 import FadeIn from './FadeIn';
 
+// --- 1. DONNÉES DES CERTIFICATIONS OBTENUES (Avec détails officiels) ---
+const achievedCerts = [
+  {
+    id: 'easi',
+    title: 'Expert Architecture SI',
+    subtitle: {
+      fr: 'Titre RNCP Niveau 7 (Équivalent Master 2)',
+      en: "RNCP Level 7 (Master's Degree Equivalent)"
+    },
+    issuer: 'Ynov Campus',
+    date: '2024',
+    iconColor: 'text-emerald-400',
+    bgColor: 'bg-emerald-500/10',
+    borderColor: 'group-hover:border-emerald-500/50',
+    link: 'https://ynov.mycertif.app/certification/parchemin/1f0d0537-1c81-6a86-a84d-b9240b704ee0'
+  },
+  {
+    id: 'aws',
+    title: 'AWS Solutions Architect',
+    subtitle: {
+      fr: 'Associate (SAA-C03)',
+      en: 'Associate (SAA-C03)'
+    },
+    issuer: 'Amazon Web Services',
+    date: '2023',
+    iconColor: 'text-amber-500',
+    bgColor: 'bg-amber-500/10',
+    borderColor: 'group-hover:border-amber-500/50',
+    link: 'https://www.credly.com/badges/8a9c0877-0c28-4b90-977b-3a3963753091'
+  },
+  {
+    id: 'ccna',
+    title: 'Cisco CCNA',
+    subtitle: {
+      fr: 'Cisco Certified Network Associate',
+      en: 'Cisco Certified Network Associate'
+    },
+    issuer: 'Cisco',
+    date: '2022',
+    iconColor: 'text-blue-400',
+    bgColor: 'bg-blue-500/10',
+    borderColor: 'group-hover:border-blue-500/50',
+    link: 'https://www.credly.com/badges/cc18fb0c-6597-485b-ac93-903aed039c4d'
+  }
+];
+
+// --- 2. DONNÉES DES CERTIFICATIONS EN COURS ---
 const learningData = [
   {
     id: 'terraform',
@@ -47,6 +94,20 @@ const CurrentLearning = ({ lang }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const activeItem = learningData[currentIndex];
 
+  // Écouteur d'événement pour le clic depuis le Hero
+  useEffect(() => {
+    const handleTabChange = (e) => {
+      const tabId = e.detail;
+      const index = learningData.findIndex(item => item.id === tabId);
+      if (index !== -1) {
+        setCurrentIndex(index);
+      }
+    };
+    window.addEventListener('changeLearningTab', handleTabChange);
+    return () => window.removeEventListener('changeLearningTab', handleTabChange);
+  }, []);
+
+  // Chronomètre automatique
   useEffect(() => {
     const timer = setTimeout(() => {
       setCurrentIndex((prevIndex) => (prevIndex === learningData.length - 1 ? 0 : prevIndex + 1));
@@ -56,25 +117,86 @@ const CurrentLearning = ({ lang }) => {
 
   return (
     <section id="current-learning" className="py-20 md:py-24 border-t border-b border-slate-800/40 bg-slate-900/20 relative">
-      <FadeIn direction="up">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        {/* EN-TÊTE DE LA SECTION */}
+        <FadeIn direction="up">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-extrabold text-white mb-4 tracking-tight">
+              {lang === 'fr' ? 'Certifications & Expertise' : 'Certifications & Expertise'}
+            </h2>
+            <p className="text-slate-400 max-w-2xl mx-auto text-lg">
+              {lang === 'fr' 
+                ? "Validation continue de mes compétences à travers les standards de l'industrie, des fondamentaux aux architectures avancées." 
+                : "Continuous validation of my skills through industry standards, from fundamentals to advanced architectures."}
+            </p>
+          </div>
+        </FadeIn>
+
+        {/* --- PARTIE 1 : CERTIFICATIONS OBTENUES --- */}
+        <FadeIn direction="up" delay={100}>
+          <div className="mb-8 flex items-center gap-3">
+            <CheckCircle2 className="text-emerald-500" size={24} />
+            <h3 className="text-xl font-bold text-slate-200 uppercase tracking-wider">
+              {lang === 'fr' ? 'Certifications Validées' : 'Achieved Certifications'}
+            </h3>
+          </div>
           
-          <div className="flex items-center gap-3 mb-8">
-            <span className="relative flex h-2.5 w-2.5">
+          {/* GRILLE DES CARTES */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+            {achievedCerts.map((cert) => (
+              <a 
+                key={cert.id}
+                href={cert.link} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className={`group flex items-start gap-4 bg-slate-950/50 border border-slate-800 rounded-2xl p-6 shadow-lg transition-all hover:-translate-y-1 ${cert.borderColor}`}
+              >
+                <div className={`p-3 rounded-xl shrink-0 transition-colors mt-1 ${cert.bgColor}`}>
+                  <Award className={cert.iconColor} size={28} />
+                </div>
+                
+                <div className="flex flex-col flex-1 h-full">
+                  <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">{cert.issuer}</p>
+                  
+                  <h4 className="text-lg font-bold text-slate-200 group-hover:text-white transition-colors leading-tight mb-1.5">
+                    {cert.title}
+                  </h4>
+                  
+                  {/* NOUVEAU : Le sous-titre officiel / technique */}
+                  <p className="text-sm font-medium text-blue-400/80 mb-4 leading-snug">
+                    {cert.subtitle[lang]}
+                  </p>
+                  
+                  {/* LIGNE DE SÉPARATION & FOOTER */}
+                  <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-800/60">
+                    <span className="text-sm font-medium text-slate-400">{cert.date}</span>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-slate-500 group-hover:text-blue-400 transition-colors">
+                      {lang === 'fr' ? 'Vérifier' : 'Verify'} <ExternalLink size={14} />
+                    </span>
+                  </div>
+                </div>
+
+              </a>
+            ))}
+          </div>
+        </FadeIn>
+
+        {/* --- PARTIE 2 : CERTIFICATIONS EN COURS --- */}
+        <FadeIn direction="up" delay={200}>
+          <div className="mb-8 flex items-center gap-3">
+            <span className="relative flex h-2.5 w-2.5 ml-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-500"></span>
             </span>
-            <h2 className="text-xl md:text-2xl font-bold text-slate-200 uppercase tracking-wider">
-              {lang === 'fr' ? 'Projets & Certifications en cours' : 'Current Projects & Certifications'}
-            </h2>
+            <h3 className="text-xl font-bold text-slate-200 uppercase tracking-wider ml-1">
+              {lang === 'fr' ? 'En préparation' : 'In Progress'}
+            </h3>
           </div>
 
-          {/* RECTANGLE À TAILLE FIXE - Ajusté pour le mobile */}
-          <div className="bg-slate-950/40 border border-slate-800/60 rounded-3xl overflow-hidden shadow-2xl flex flex-col min-h-[580px] sm:min-h-[500px] md:h-[450px]">
-            
+          <div id="in-progress-slider" className="scroll-mt-24 bg-slate-950/40 border border-slate-800/60 rounded-3xl overflow-hidden shadow-2xl flex flex-col min-h-[580px] sm:min-h-[500px] md:h-[450px]">
             <div className="flex flex-col md:flex-row p-6 md:p-12 gap-6 md:gap-16 flex-1 items-center">
               
-              {/* IMAGE RESPONSIVE - Placée en haut sur mobile pour la visibilité */}
               <div key={`img-${activeItem.id}`} className="w-28 h-28 sm:w-40 sm:h-40 md:w-64 md:h-64 flex items-center justify-center relative shrink-0 animate-fade-in">
                 <div className={`absolute inset-0 rounded-full blur-[40px] md:blur-[80px] opacity-20 transition-colors duration-1000 ${activeItem.theme.bg}`}></div>
                 <img 
@@ -84,7 +206,6 @@ const CurrentLearning = ({ lang }) => {
                 />
               </div>
 
-              {/* CONTENU TEXTE */}
               <div className="flex-1 flex flex-col justify-center min-w-0 w-full text-center md:text-left">
                 <div key={`text-${activeItem.id}`} className="animate-fade-in">
                   <p className={`text-xs md:text-sm font-bold tracking-widest uppercase mb-2 ${activeItem.theme.text}`}>
@@ -118,7 +239,6 @@ const CurrentLearning = ({ lang }) => {
 
             </div>
 
-            {/* ONGLETS BAS DE CARTE */}
             <div className="grid grid-cols-2 bg-slate-900/40 border-t border-slate-800">
               {learningData.map((item, idx) => {
                 const isActive = currentIndex === idx;
@@ -137,10 +257,9 @@ const CurrentLearning = ({ lang }) => {
                 );
               })}
             </div>
-
           </div>
-        </div>
-      </FadeIn>
+        </FadeIn>
+      </div>
     </section>
   );
 };
