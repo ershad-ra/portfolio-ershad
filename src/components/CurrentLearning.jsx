@@ -13,7 +13,7 @@ const achievedCerts = [
       en: "RNCP Level 7 (Master's Degree Equivalent)"
     },
     issuer: 'Ynov Campus',
-    date: '2024',
+    date: '2025',
     iconColor: 'text-emerald-400',
     bgColor: 'bg-emerald-500/10',
     borderColor: 'group-hover:border-emerald-500/50',
@@ -27,7 +27,7 @@ const achievedCerts = [
       en: 'Associate (SAA-C03)'
     },
     issuer: 'Amazon Web Services',
-    date: '2023',
+    date: '2025',
     iconColor: 'text-amber-500',
     bgColor: 'bg-amber-500/10',
     borderColor: 'group-hover:border-amber-500/50',
@@ -41,7 +41,7 @@ const achievedCerts = [
       en: 'Cisco Certified Network Associate'
     },
     issuer: 'Cisco',
-    date: '2022',
+    date: '2023',
     iconColor: 'text-blue-400',
     bgColor: 'bg-blue-500/10',
     borderColor: 'group-hover:border-blue-500/50',
