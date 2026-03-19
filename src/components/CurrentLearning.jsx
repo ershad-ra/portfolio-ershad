@@ -8,8 +8,8 @@ const achievedCerts = [
     id: 'easi',
     title: 'Expert Architecture SI',
     subtitle: {
-      fr: 'Titre RNCP Niveau 7 (Équivalent Master 2)',
-      en: "RNCP Level 7 (Master's Degree Equivalent)"
+      fr: 'Titre RNCP Niveau 7',
+      en: "RNCP Level 7"
     },
     issuer: 'Ynov Campus',
     date: '2024',
