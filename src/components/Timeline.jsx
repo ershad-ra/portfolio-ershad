@@ -1,11 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import FadeIn from './FadeIn';
-import { Briefcase, GraduationCap } from 'lucide-react';
+import { Briefcase, GraduationCap, Layers, ArrowRight } from 'lucide-react';
 
 const Timeline = ({ t, lang, experienceData, educationData }) => {
+  const navigate = useNavigate();
+
   return (
     <section id="experience" className="py-24 border-t border-slate-800/50">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        
         <FadeIn direction="up">
           <div className="mb-16">
             <span className="inline-block py-1 px-3 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-wider mb-4 border border-indigo-500/20">
@@ -23,7 +27,6 @@ const Timeline = ({ t, lang, experienceData, educationData }) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
           
-          {/* Experiences */}
           <div>
             <FadeIn direction="up">
               <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
@@ -33,6 +36,7 @@ const Timeline = ({ t, lang, experienceData, educationData }) => {
                 {t.timelineSection.expTitle}
               </h3>
             </FadeIn>
+            
             <div className="space-y-10 pl-4 border-l-2 border-slate-800 ml-3">
               {experienceData[lang].map((exp, i) => (
                 <FadeIn key={i} delay={i * 150} direction="up">
@@ -86,10 +90,39 @@ const Timeline = ({ t, lang, experienceData, educationData }) => {
                   </div>
                 </FadeIn>
               ))}
+
+              {/* === NOUVEAU BOUTON : VOIR EN DÉTAIL (Design Identique) === */}
+              <FadeIn direction="up" delay={experienceData[lang].length * 150}>
+                <div className="relative pl-6 mt-12">
+                  <div className="absolute -left-[23px] top-6 w-2 h-2 rounded-full bg-blue-500/50 ring-4 ring-slate-950"></div>
+                  
+                  <button 
+                    onClick={() => navigate('/experience/details')} 
+                    className="group relative inline-flex items-center justify-between gap-4 p-4 pr-6 bg-slate-900/80 backdrop-blur-md border border-slate-700 hover:border-blue-500/80 rounded-2xl text-slate-300 hover:text-white transition-all duration-300 shadow-xl overflow-hidden w-full"
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    
+                    <div className="flex items-center gap-4 relative z-10">
+                      <div className="p-3 bg-slate-800 rounded-xl group-hover:bg-blue-500/20 text-blue-400 transition-colors">
+                        <Layers size={20} />
+                      </div>
+                      <div className="text-left">
+                        <span className="block font-semibold text-sm">
+                          {lang === 'fr' ? 'Dossier de Compétences' : 'Detailed Skills Matrix'}
+                        </span>
+                        <span className="block text-xs text-slate-500 mt-0.5 group-hover:text-blue-300/70 transition-colors">
+                          {lang === 'fr' ? 'Explorer toutes les missions & technos' : 'Explore all missions & tech stack'}
+                        </span>
+                      </div>
+                    </div>
+                    <ArrowRight size={20} className="text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all relative z-10" />
+                  </button>
+                </div>
+              </FadeIn>
+
             </div>
           </div>
 
-          {/* Education */}
           <div>
             <FadeIn direction="up">
               <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">

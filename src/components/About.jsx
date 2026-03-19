@@ -1,8 +1,11 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import FadeIn from './FadeIn';
-import { Globe, UserCheck, Compass } from 'lucide-react';
+import { Globe, UserCheck, Compass, Layers, ArrowRight } from 'lucide-react';
 
 const About = ({ t, lang, profileData }) => {
+  const navigate = useNavigate();
+
   return (
     <section id="about" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
@@ -53,8 +56,35 @@ const About = ({ t, lang, profileData }) => {
           ))}
         </div>
 
+        {/* === NOUVEAU BOUTON : DOSSIER DE COMPÉTENCES === */}
+        <FadeIn direction="up" delay={400}>
+          <div className="mb-14 flex justify-center lg:justify-start">
+            <button 
+              onClick={() => navigate('/experience/details')} 
+              className="group relative inline-flex items-center justify-between gap-4 p-4 pr-6 bg-slate-900/80 backdrop-blur-md border border-slate-700 hover:border-blue-500/80 rounded-2xl text-slate-300 hover:text-white transition-all duration-300 shadow-xl overflow-hidden w-full sm:w-auto min-w-[300px]"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-600/10 to-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="flex items-center gap-4 relative z-10">
+                <div className="p-3 bg-slate-800 rounded-xl group-hover:bg-blue-500/20 text-blue-400 transition-colors">
+                  <Layers size={20} />
+                </div>
+                <div className="text-left">
+                  <span className="block font-semibold text-sm">
+                    {lang === 'fr' ? 'Dossier de Compétences' : 'Detailed Skills Matrix'}
+                  </span>
+                  <span className="block text-xs text-slate-500 mt-0.5 group-hover:text-blue-300/70 transition-colors">
+                    {lang === 'fr' ? 'Explorer toutes les missions & technos' : 'Explore all missions & tech stack'}
+                  </span>
+                </div>
+              </div>
+              <ArrowRight size={20} className="text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all relative z-10" />
+            </button>
+          </div>
+        </FadeIn>
+
         <FadeIn delay={200} direction="up">
-          <div className="w-full flex items-center justify-center my-14 opacity-40">
+          <div className="w-full flex items-center justify-center mb-14 opacity-40">
             <div className="h-px bg-gradient-to-r from-transparent via-slate-500 to-transparent w-full max-w-4xl"></div>
           </div>
         </FadeIn>
@@ -63,7 +93,6 @@ const About = ({ t, lang, profileData }) => {
         <FadeIn delay={300} direction="up">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
-            {/* 1. Carte Langues */}
             <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg">
               <div className="flex items-center gap-3 mb-6">
                 <Globe size={20} className="text-blue-400" />
@@ -89,7 +118,6 @@ const About = ({ t, lang, profileData }) => {
               </div>
             </div>
 
-            {/* 2. Carte Atouts */}
             <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-[50px] rounded-full pointer-events-none"></div>
               <div className="flex items-center gap-3 mb-6 relative z-10">
@@ -115,7 +143,6 @@ const About = ({ t, lang, profileData }) => {
               </div>
             </div>
 
-            {/* 3. Carte Hobbies */}
             <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-[50px] rounded-full pointer-events-none"></div>
               <div className="flex items-center gap-3 mb-6 relative z-10">

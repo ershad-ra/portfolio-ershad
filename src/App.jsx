@@ -30,7 +30,10 @@ import Project15 from './pages/Project15';
 import Project16 from './pages/Project16';
 import Project17 from './pages/Project17';
 
-// Terraform - In process
+// NOUVELLE PAGE : Détails de l'expérience
+import ExperienceDetails from './pages/ExperienceDetails';
+
+// Terraform & CCNP - In process
 import TerraformCert from './pages/TerraformCert';
 import CcnpCert from './pages/CcnpCert';
 
@@ -56,10 +59,10 @@ const App = () => {
   return (
     <Router>
       <ScrollToTop />
-      {/* SUPPRESSION DE overflow-x-hidden ICI ! */}
+      {/* Le conteneur principal */}
       <div className="min-h-screen bg-slate-950 text-slate-300 font-sans selection:bg-blue-500/30 selection:text-blue-200 relative">
         
-        {/* Background elements - C'est ici qu'on met overflow-hidden pour confiner les dégradés ! */}
+        {/* Background elements */}
         <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-slate-950">
           
           <div 
@@ -106,23 +109,26 @@ const App = () => {
           <Route path="/project/02" element={<Project02 lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/project/03" element={<Project03 lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/project/04" element={<Project04 lang={lang} onToggleLanguage={toggleLanguage} />} />
-          <Route path="/project/05" element={<Project05 lang={lang} />} />
-          <Route path="/project/06" element={<Project06 lang={lang} />} />
-          <Route path="/project/07" element={<Project07 lang={lang} />} />
-          <Route path="/project/08" element={<Project08 lang={lang} />} />
-          <Route path="/project/09" element={<Project09 lang={lang} />} />
-          <Route path="/project/10" element={<Project10 lang={lang} />} />
-          <Route path="/project/11" element={<Project11 lang={lang} />} />
-          <Route path="/project/12" element={<Project12 lang={lang} />} />
-          <Route path="/project/13" element={<Project13 lang={lang} />} />
-          <Route path="/project/14" element={<Project14 lang={lang} />} />
-          <Route path="/project/15" element={<Project15 lang={lang} />} />
-          <Route path="/project/16" element={<Project16 lang={lang} />} />
-          <Route path="/project/17" element={<Project17 lang={lang} />} />
+          <Route path="/project/05" element={<Project05 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/06" element={<Project06 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/07" element={<Project07 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/08" element={<Project08 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/09" element={<Project09 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/10" element={<Project10 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/11" element={<Project11 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/12" element={<Project12 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/13" element={<Project13 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/14" element={<Project14 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/15" element={<Project15 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/16" element={<Project16 lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/project/17" element={<Project17 lang={lang} onToggleLanguage={toggleLanguage} />} />
           
+          {/* === LA NOUVELLE ROUTE EST ICI === */}
+          <Route path="/experience/details" element={<ExperienceDetails lang={lang} />} />
+
           {/* TERRAFORM et CCNP */}
-          <Route path="/certification/terraform" element={<TerraformCert lang={lang} />} />
-          <Route path="/certification/ccnp" element={<CcnpCert lang={lang} />} />
+          <Route path="/certification/terraform" element={<TerraformCert lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/certification/ccnp" element={<CcnpCert lang={lang} onToggleLanguage={toggleLanguage} />} />
         </Routes>
       </div>
     </Router>

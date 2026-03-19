@@ -7,6 +7,7 @@ import { translations, profileData, experienceData, educationData, projectsData 
 // Import de vos composants
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
+import TargetRoles from '../components/TargetRoles'; // <-- IMPORT AJOUTÉ ICI
 import About from '../components/About';
 import Timeline from '../components/Timeline';
 import CurrentLearning from '../components/CurrentLearning';
@@ -59,6 +60,7 @@ const Home = ({ lang, onToggleLanguage }) => {
         scrolled={scrolled} 
         scrollToTop={scrollToTop} 
         t={t} 
+        lang={lang} // J'ai rajouté "lang={lang}" car le Navbar en a besoin pour afficher 'EN' ou 'FR'
         onToggleLanguage={onToggleLanguage} 
         isMobileMenuOpen={isMobileMenuOpen} 
         setIsMobileMenuOpen={setIsMobileMenuOpen} 
@@ -66,6 +68,10 @@ const Home = ({ lang, onToggleLanguage }) => {
 
       <main className="relative z-10 pt-20 pb-32">
         <Hero t={t} lang={lang} />
+        
+        {/* NOUVELLE SECTION PLACÉE ICI */}
+        <TargetRoles lang={lang} />
+        
         <About t={t} lang={lang} profileData={profileData} />
         <Timeline t={t} lang={lang} experienceData={experienceData} educationData={educationData} />
         
