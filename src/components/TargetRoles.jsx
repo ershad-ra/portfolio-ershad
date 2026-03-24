@@ -7,6 +7,7 @@ const TargetRoles = ({ lang }) => {
   const isDragging = useRef(false);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
+  const exactScroll = useRef(0); // <-- La solution miracle pour les mobiles !
 
   const roles = [
     "Ingénieur Systèmes & Réseaux",
@@ -16,22 +17,23 @@ const TargetRoles = ({ lang }) => {
     "DevOps / DevSecOps"
   ];
 
-  // On quadruple le tableau pour garantir que le défilement infini JS ait assez de matière
   const tickerItems = [...roles, ...roles, ...roles, ...roles];
 
-  // Moteur de défilement automatique en JavaScript
   useEffect(() => {
     const slider = scrollRef.current;
     let animationId;
 
     const animate = () => {
       if (!isDragging.current && slider) {
-        slider.scrollLeft += 0.5; // Vitesse du défilement automatique
+        // On accumule les demi-pixels dans la mémoire exacte
+        exactScroll.current += 0.5; 
         
-        // Boucle infinie : quand on arrive à la moitié du scroll total, on revient au début sans que ça se voie
-        if (slider.scrollLeft >= slider.scrollWidth / 2) {
-          slider.scrollLeft = 0;
+        if (exactScroll.current >= slider.scrollWidth / 2) {
+          exactScroll.current = 0;
         }
+        
+        // On applique seulement l'entier au navigateur pour ne pas bloquer les mobiles
+        slider.scrollLeft = Math.floor(exactScroll.current);
       }
       animationId = requestAnimationFrame(animate);
     };
@@ -40,45 +42,30 @@ const TargetRoles = ({ lang }) => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-  // --- Gestion de la souris ---
-  const handleMouseDown = (e) => {
+  // --- Fonctions unifiées pour Souris & Doigt ---
+  const handleStart = (pageX) => {
     isDragging.current = true;
-    startX.current = e.pageX - scrollRef.current.offsetLeft;
+    startX.current = pageX - scrollRef.current.offsetLeft;
     scrollLeft.current = scrollRef.current.scrollLeft;
   };
 
-  const handleMouseLeaveOrUp = () => {
+  const handleEnd = () => {
     isDragging.current = false;
   };
 
-  const handleMouseMove = (e) => {
+  const handleMove = (pageX, preventDefault = false, e) => {
     if (!isDragging.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX.current) * 2; // Vitesse de glissement manuel
-    scrollRef.current.scrollLeft = scrollLeft.current - walk;
-  };
-
-  // --- Gestion du tactile (Smartphones/Tablettes) ---
-  const handleTouchStart = (e) => {
-    isDragging.current = true;
-    startX.current = e.touches[0].pageX - scrollRef.current.offsetLeft;
-    scrollLeft.current = scrollRef.current.scrollLeft;
-  };
-
-  const handleTouchEnd = () => {
-    isDragging.current = false;
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging.current) return;
-    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    if (preventDefault && e) e.preventDefault();
+    
+    const x = pageX - scrollRef.current.offsetLeft;
     const walk = (x - startX.current) * 2;
     scrollRef.current.scrollLeft = scrollLeft.current - walk;
+    
+    // On synchronise la mémoire avec la position manuelle
+    exactScroll.current = scrollRef.current.scrollLeft;
   };
 
   return (
-    // Remise en place du -mt-8 pour que ça remonte bien sur la photo en mobile et desktop !
     <section className="relative z-20 -mt-8 mb-10 max-w-7xl mx-auto px-6 lg:px-8">
       <FadeIn direction="up" delay={200}>
         
@@ -98,14 +85,16 @@ const TargetRoles = ({ lang }) => {
 
             <div 
               ref={scrollRef}
-              onMouseDown={handleMouseDown}
-              onMouseLeave={handleMouseLeaveOrUp}
-              onMouseUp={handleMouseLeaveOrUp}
-              onMouseMove={handleMouseMove}
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-              onTouchMove={handleTouchMove}
-              // Curseur normal (cursor-default) et pas de scrollbar
+              // Souris
+              onMouseDown={(e) => handleStart(e.pageX)}
+              onMouseLeave={handleEnd}
+              onMouseUp={handleEnd}
+              onMouseMove={(e) => handleMove(e.pageX, true, e)}
+              // Tactile
+              onTouchStart={(e) => handleStart(e.touches[0].pageX)}
+              onTouchEnd={handleEnd}
+              onTouchMove={(e) => handleMove(e.touches[0].pageX, false)}
+              
               className="flex items-center px-6 py-2 md:py-0 overflow-x-auto scroll-smooth cursor-default select-none no-scrollbar w-full"
               style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
