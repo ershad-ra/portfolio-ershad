@@ -115,8 +115,8 @@ const App = () => {
           <Route path="/project/16" element={<Project16 lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/project/17" element={<Project17 lang={lang} onToggleLanguage={toggleLanguage} />} />
           
-          {/* === LA NOUVELLE ROUTE EST ICI === */}
-          <Route path="/experience/details" element={<ExperienceDetails lang={lang} />} />
+          {/* === LA ROUTE EST MAINTENANT CONNECTÉE AU TOGGLE === */}
+          <Route path="/experience/details" element={<ExperienceDetails lang={lang} onToggleLanguage={toggleLanguage} />} />
 
           {/* TERRAFORM et CCNP */}
           <Route path="/certification/terraform" element={<TerraformCert lang={lang} onToggleLanguage={toggleLanguage} />} />

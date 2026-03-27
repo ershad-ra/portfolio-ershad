@@ -12,7 +12,8 @@ const achievedCerts = [
       en: "RNCP Level 7"
     },
     issuer: 'Ynov Campus',
-    date: '2024',
+    dateIssued: { fr: 'Émis le : 21 Oct. 2025', en: 'Issued: Oct 21, 2025' },
+    dateExpires: { fr: 'Valable à vie', en: 'Lifetime validity' },
     iconColor: 'text-emerald-400',
     bgColor: 'bg-emerald-500/10',
     borderColor: 'group-hover:border-emerald-500/50',
@@ -26,7 +27,8 @@ const achievedCerts = [
       en: 'Associate (SAA-C03)'
     },
     issuer: 'Amazon Web Services',
-    date: '2023',
+    dateIssued: { fr: 'Émis le : 16 Oct. 2025', en: 'Issued: Oct 16, 2025' },
+    dateExpires: { fr: 'Expire le : 16 Oct. 2028', en: 'Expires: Oct 16, 2028' },
     iconColor: 'text-amber-500',
     bgColor: 'bg-amber-500/10',
     borderColor: 'group-hover:border-amber-500/50',
@@ -40,7 +42,8 @@ const achievedCerts = [
       en: 'Cisco Certified Network Associate'
     },
     issuer: 'Cisco',
-    date: '2022',
+    dateIssued: { fr: 'Émis le : 02 Août 2023', en: 'Issued: Aug 02, 2023' },
+    dateExpires: { fr: 'Expire le : 02 Août 2026', en: 'Expires: Aug 02, 2026' },
     iconColor: 'text-blue-400',
     bgColor: 'bg-blue-500/10',
     borderColor: 'group-hover:border-blue-500/50',
@@ -155,9 +158,18 @@ const CurrentLearning = ({ lang }) => {
                   <p className="text-sm font-medium text-blue-400/80 mb-4 leading-snug">
                     {cert.subtitle[lang]}
                   </p>
-                  <div className="flex items-center justify-between mt-auto pt-3 border-t border-slate-800/60">
-                    <span className="text-sm font-medium text-slate-400">{cert.date}</span>
-                    <span className="flex items-center gap-1 text-xs font-semibold text-slate-500 group-hover:text-blue-400 transition-colors">
+                  
+                  {/* ZONE DES DATES MISE À JOUR */}
+                  <div className="flex items-end justify-between mt-auto pt-3 border-t border-slate-800/60">
+                    <div className="flex flex-col gap-0.5">
+                      <span className="text-[11px] font-medium text-slate-300">
+                        {cert.dateIssued[lang]}
+                      </span>
+                      <span className="text-[10px] font-medium text-slate-500">
+                        {cert.dateExpires[lang]}
+                      </span>
+                    </div>
+                    <span className="flex items-center gap-1 text-xs font-semibold text-slate-500 group-hover:text-blue-400 transition-colors pb-0.5">
                       {lang === 'fr' ? 'Vérifier' : 'Verify'} <ExternalLink size={14} />
                     </span>
                   </div>
@@ -204,7 +216,6 @@ const CurrentLearning = ({ lang }) => {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mt-auto">
-                  {/* CHANGEMENT SEO : Utilisation de <Link> au lieu de <button> */}
                   <Link
                     to={activeItem.link}
                     onClick={() => window.history.replaceState(null, '', '/#current-learning')}
