@@ -7,8 +7,9 @@ import { translations, profileData, experienceData, educationData, projectsData 
 // Import de vos composants
 import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
-import TargetRoles from '../components/TargetRoles'; // <-- IMPORT AJOUTÉ ICI
+import TargetRoles from '../components/TargetRoles';
 import About from '../components/About';
+import PersonalSkills from '../components/PersonalSkills'; // <-- L'IMPORT EST ICI
 import Timeline from '../components/Timeline';
 import CurrentLearning from '../components/CurrentLearning';
 import Capstone from '../components/Capstone';
@@ -47,9 +48,7 @@ const Home = ({ lang, onToggleLanguage }) => {
 
   // Navigation dynamique des projets avec sauvegarde de l'historique
   const handleProjectNavigation = (project) => {
-    // On sauvegarde l'ancre #projects dans l'historique avant de naviguer
     window.history.replaceState(null, '', '/#projects');
-    
     const idStr = project.id.toString().padStart(2, '0');
     navigate(`/project/${idStr}`);
   };
@@ -60,7 +59,7 @@ const Home = ({ lang, onToggleLanguage }) => {
         scrolled={scrolled} 
         scrollToTop={scrollToTop} 
         t={t} 
-        lang={lang} // J'ai rajouté "lang={lang}" car le Navbar en a besoin pour afficher 'EN' ou 'FR'
+        lang={lang}
         onToggleLanguage={onToggleLanguage} 
         isMobileMenuOpen={isMobileMenuOpen} 
         setIsMobileMenuOpen={setIsMobileMenuOpen} 
@@ -69,10 +68,16 @@ const Home = ({ lang, onToggleLanguage }) => {
       <main className="relative z-10 pt-20 pb-32">
         <Hero t={t} lang={lang} />
         
-        {/* NOUVELLE SECTION PLACÉE ICI */}
+        {/* Barre des missions ciblées */}
         <TargetRoles lang={lang} />
         
+        {/* Expertise Technique */}
         <About t={t} lang={lang} profileData={profileData} />
+        
+        {/* === LA NOUVELLE SECTION (Langues, Atouts, Intérêts) EST MAINTENANT ICI === */}
+        <PersonalSkills lang={lang} />
+        
+        {/* Parcours & Expériences */}
         <Timeline t={t} lang={lang} experienceData={experienceData} educationData={educationData} />
         
         {/* Projets et Certifications en cours */}
@@ -80,7 +85,6 @@ const Home = ({ lang, onToggleLanguage }) => {
         
         <Capstone t={t} navigate={navigate} />
         
-        {/* On s'assure que ProjectsGrid reçoit bien la fonction mise à jour */}
         <ProjectsGrid t={t} lang={lang} projectsData={projectsData} handleProjectNavigation={handleProjectNavigation} />
         
         <Contact t={t} />

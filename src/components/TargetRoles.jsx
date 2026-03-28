@@ -1,13 +1,14 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { Crosshair, Zap } from 'lucide-react';
 import FadeIn from './FadeIn';
 
 const TargetRoles = ({ lang }) => {
-  const scrollRef = useRef(null);
+  const trackRef = useRef(null);
+  const blockRef = useRef(null);
   const isDragging = useRef(false);
   const startX = useRef(0);
-  const scrollLeft = useRef(0);
-  const exactScroll = useRef(0); // <-- La solution miracle pour les mobiles !
+  const currentX = useRef(0);
+  const animationRef = useRef(null);
 
   const roles = [
     "Ingénieur Systèmes & Réseaux",
@@ -17,104 +18,115 @@ const TargetRoles = ({ lang }) => {
     "DevOps / DevSecOps"
   ];
 
-  const tickerItems = [...roles, ...roles, ...roles, ...roles];
+  const repeatedRoles = [...roles, ...roles, ...roles, ...roles];
 
-  useEffect(() => {
-    const slider = scrollRef.current;
-    let animationId;
-
-    const animate = () => {
-      if (!isDragging.current && slider) {
-        // On accumule les demi-pixels dans la mémoire exacte
-        exactScroll.current += 0.5; 
-        
-        if (exactScroll.current >= slider.scrollWidth / 2) {
-          exactScroll.current = 0;
-        }
-        
-        // On applique seulement l'entier au navigateur pour ne pas bloquer les mobiles
-        slider.scrollLeft = Math.floor(exactScroll.current);
+  const animate = useCallback(() => {
+    if (!isDragging.current && blockRef.current && trackRef.current) {
+      currentX.current -= 0.5; 
+      
+      const loopWidth = blockRef.current.offsetWidth;
+      
+      if (currentX.current <= -loopWidth) {
+        currentX.current += loopWidth;
       }
-      animationId = requestAnimationFrame(animate);
-    };
+      if (currentX.current > 0) {
+        currentX.current -= loopWidth;
+      }
 
-    animationId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(animationId);
+      trackRef.current.style.transform = `translateX(${currentX.current}px)`;
+    }
+    animationRef.current = requestAnimationFrame(animate);
   }, []);
 
-  // --- Fonctions unifiées pour Souris & Doigt ---
-  const handleStart = (pageX) => {
-    isDragging.current = true;
-    startX.current = pageX - scrollRef.current.offsetLeft;
-    scrollLeft.current = scrollRef.current.scrollLeft;
-  };
+  useEffect(() => {
+    animationRef.current = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(animationRef.current);
+  }, [animate]);
 
-  const handleEnd = () => {
-    isDragging.current = false;
-  };
-
-  const handleMove = (pageX, preventDefault = false, e) => {
+  const handleMouseMove = useCallback((e) => {
     if (!isDragging.current) return;
-    if (preventDefault && e) e.preventDefault();
     
-    const x = pageX - scrollRef.current.offsetLeft;
-    const walk = (x - startX.current) * 2;
-    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+    const pageX = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+    const walk = pageX - startX.current;
     
-    // On synchronise la mémoire avec la position manuelle
-    exactScroll.current = scrollRef.current.scrollLeft;
+    startX.current = pageX; 
+    currentX.current += walk;
+    
+    const loopWidth = blockRef.current?.offsetWidth || 1000;
+    
+    if (currentX.current <= -loopWidth) currentX.current += loopWidth;
+    if (currentX.current > 0) currentX.current -= loopWidth;
+    
+    if (trackRef.current) {
+      trackRef.current.style.transform = `translateX(${currentX.current}px)`;
+    }
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    isDragging.current = false;
+    window.removeEventListener('mousemove', handleMouseMove);
+    window.removeEventListener('mouseup', handleMouseUp);
+    window.removeEventListener('touchmove', handleMouseMove);
+    window.removeEventListener('touchend', handleMouseUp);
+  }, [handleMouseMove]);
+
+  const handleMouseDown = (e) => {
+    isDragging.current = true;
+    startX.current = e.type.includes('mouse') ? e.pageX : e.touches[0].pageX;
+    
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
+    window.addEventListener('touchmove', handleMouseMove, { passive: false });
+    window.addEventListener('touchend', handleMouseUp);
   };
+
+  const RolesGroup = React.forwardRef((props, ref) => (
+    <div ref={ref} className="flex items-center gap-6 pr-6 w-max shrink-0">
+      {repeatedRoles.map((role, idx) => (
+        <div key={idx} className="flex items-center gap-6 group pointer-events-none">
+          <span className="text-slate-300 font-semibold tracking-wide text-xs md:text-sm whitespace-nowrap transition-colors duration-300 group-hover:text-blue-400">
+            {role}
+          </span>
+          <Zap className="text-blue-500/50" size={12} />
+        </div>
+      ))}
+    </div>
+  ));
 
   return (
-    <section className="relative z-20 -mt-8 mb-10 max-w-7xl mx-auto px-6 lg:px-8">
-      <FadeIn direction="up" delay={200}>
-        
-        <div className="w-full max-w-4xl bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-xl shadow-xl shadow-blue-900/20 overflow-hidden flex flex-col md:flex-row items-stretch">
+    <section className="relative z-30 max-w-7xl mx-auto px-6 lg:px-8 h-0">
+      <div className="relative -translate-y-1/2 w-full lg:w-[85%] xl:w-4/5">
+        <FadeIn direction="up" delay={200}>
           
-          <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 md:py-2.5 flex items-center justify-center md:justify-start gap-2 shadow-[0_4px_10px_rgba(0,0,0,0.2)] md:shadow-[8px_0_12px_-3px_rgba(0,0,0,0.3)] z-10 shrink-0">
-            <Crosshair className="text-white animate-pulse" size={14} />
-            <span className="text-white font-bold text-xs tracking-widest uppercase whitespace-nowrap">
-              {lang === 'fr' ? 'Missions ciblées' : 'Target Roles'}
-            </span>
-          </div>
-
-          <div className="flex-1 overflow-hidden relative flex items-center bg-slate-950/50">
+          <div className="w-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-xl shadow-xl shadow-blue-900/20 overflow-hidden flex flex-col md:flex-row items-stretch">
             
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none hidden md:block"></div>
-            <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none hidden md:block"></div>
-
-            <div 
-              ref={scrollRef}
-              // Souris
-              onMouseDown={(e) => handleStart(e.pageX)}
-              onMouseLeave={handleEnd}
-              onMouseUp={handleEnd}
-              onMouseMove={(e) => handleMove(e.pageX, true, e)}
-              // Tactile
-              onTouchStart={(e) => handleStart(e.touches[0].pageX)}
-              onTouchEnd={handleEnd}
-              onTouchMove={(e) => handleMove(e.touches[0].pageX, false)}
-              
-              className="flex items-center px-6 py-2 md:py-0 overflow-x-auto scroll-smooth cursor-default select-none no-scrollbar w-full"
-              style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            >
-              <style>{`.no-scrollbar::-webkit-scrollbar { display: none; }`}</style>
-              
-              <div className="flex items-center gap-6 pr-6 w-max">
-                {tickerItems.map((role, idx) => (
-                  <div key={idx} className="flex items-center gap-6 group">
-                    <span className="text-slate-300 font-semibold tracking-wide text-xs md:text-sm whitespace-nowrap transition-colors duration-300 group-hover:text-blue-400">
-                      {role}
-                    </span>
-                    <Zap className="text-blue-500/50" size={12} />
-                  </div>
-                ))}
-              </div>
+            <div className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 md:py-2.5 flex items-center justify-center md:justify-start gap-2 shadow-[0_4px_10px_rgba(0,0,0,0.2)] md:shadow-[8px_0_12px_-3px_rgba(0,0,0,0.3)] z-10 shrink-0">
+              <Crosshair className="text-white animate-pulse" size={14} />
+              <span className="text-white font-bold text-xs tracking-widest uppercase whitespace-nowrap">
+                {lang === 'fr' ? 'Missions ciblées' : 'Target Roles'}
+              </span>
             </div>
 
+            <div className="flex-1 overflow-hidden relative flex items-center bg-slate-950/50">
+              
+              <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-slate-950 to-transparent z-10 pointer-events-none hidden md:block"></div>
+              <div className="absolute right-0 top-0 bottom-0 w-8 bg-gradient-to-l from-slate-950 to-transparent z-10 pointer-events-none hidden md:block"></div>
+
+              <div 
+                onMouseDown={handleMouseDown}
+                onTouchStart={handleMouseDown}
+                className="overflow-hidden w-full cursor-default select-none touch-pan-y py-2 md:py-0"
+              >
+                <div ref={trackRef} className="flex items-center w-max will-change-transform">
+                  <RolesGroup ref={blockRef} />
+                  <RolesGroup />
+                </div>
+              </div>
+
+            </div>
           </div>
-        </div>
-      </FadeIn>
+        </FadeIn>
+      </div>
     </section>
   );
 };

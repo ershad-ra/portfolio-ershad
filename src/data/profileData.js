@@ -1,44 +1,6 @@
-import { Plane, Bike, Mountain, Network, Server, ShieldCheck, Terminal } from 'lucide-react';
+import { Network, Server, ShieldCheck, Terminal } from 'lucide-react';
 
 export const profileData = {
-  languages: {
-    fr: [
-      { name: "Français", level: "Bilingue", code: "FR", cert: null },
-      { name: "Anglais", level: "Bilingue", code: "EN", cert: "C1" },
-      { name: "Persan", level: "Langue maternelle", code: "FA", cert: null }
-    ],
-    en: [
-      { name: "French", level: "Bilingual", code: "FR", cert: null },
-      { name: "English", level: "Bilingual", code: "EN", cert: "C1" },
-      { name: "Persian", level: "Native", code: "FA", cert: null }
-    ]
-  },
-  softSkills: {
-    fr: [
-      { name: "Polyvalent", level: 5 },
-      { name: "Esprit d’équipe", level: 5 },
-      { name: "Autonome", level: 4 },
-      { name: "Rigoureux", level: 5 }
-    ],
-    en: [
-      { name: "Versatile", level: 5 },
-      { name: "Team Player", level: 5 },
-      { name: "Autonomous", level: 4 },
-      { name: "Rigorous", level: 5 }
-    ]
-  },
-  hobbies: {
-    fr: [
-      { label: "Voyages", desc: "Europe & Asie", icon: Plane },
-      { label: "Sport", desc: "VTT & Outdoor", icon: Bike },
-      { label: "Randonnée", desc: "Pyrénées", icon: Mountain }
-    ],
-    en: [
-      { label: "Travels", desc: "Europe & Asia", icon: Plane },
-      { label: "Sports", desc: "MTB & Outdoor", icon: Bike },
-      { label: "Hiking", desc: "Pyrenees", icon: Mountain }
-    ]
-  },
   skills: [
     { 
       id: "net", 

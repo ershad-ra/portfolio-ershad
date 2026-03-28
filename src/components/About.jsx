@@ -1,13 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import FadeIn from './FadeIn';
-import { Globe, UserCheck, Compass, Layers, ArrowRight } from 'lucide-react';
+import { Layers, ArrowRight } from 'lucide-react';
 
 const About = ({ t, lang, profileData }) => {
   const navigate = useNavigate();
 
   return (
-    <section id="about" className="py-24 bg-slate-900/30 border-t border-slate-800/50">
+    <section id="about" className="pt-16 pb-12 bg-slate-900/30">
       <div className="max-w-6xl mx-auto px-6 lg:px-8">
         
         <FadeIn direction="up">
@@ -56,9 +56,9 @@ const About = ({ t, lang, profileData }) => {
           ))}
         </div>
 
-        {/* === NOUVEAU BOUTON : DOSSIER DE COMPÉTENCES === */}
+        {/* BOUTON : DOSSIER DE COMPÉTENCES */}
         <FadeIn direction="up" delay={400}>
-          <div className="mb-14 flex justify-center lg:justify-start">
+          <div className="flex justify-center lg:justify-start">
             <button 
               onClick={() => navigate('/experience/details')} 
               className="group relative inline-flex items-center justify-between gap-4 p-4 pr-6 bg-slate-900/80 backdrop-blur-md border border-slate-700 hover:border-blue-500/80 rounded-2xl text-slate-300 hover:text-white transition-all duration-300 shadow-xl overflow-hidden w-full sm:w-auto min-w-[300px]"
@@ -80,90 +80,6 @@ const About = ({ t, lang, profileData }) => {
               </div>
               <ArrowRight size={20} className="text-slate-500 group-hover:text-blue-400 group-hover:translate-x-1 transition-all relative z-10" />
             </button>
-          </div>
-        </FadeIn>
-
-        <FadeIn delay={200} direction="up">
-          <div className="w-full flex items-center justify-center mb-14 opacity-40">
-            <div className="h-px bg-gradient-to-r from-transparent via-slate-500 to-transparent w-full max-w-4xl"></div>
-          </div>
-        </FadeIn>
-
-        {/* PERSONAL PROFILE (Languages, Atouts, Hobbies) */}
-        <FadeIn delay={300} direction="up">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
-            <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg">
-              <div className="flex items-center gap-3 mb-6">
-                <Globe size={20} className="text-blue-400" />
-                <h3 className="text-base font-bold text-white tracking-wide">{t.aboutSection.languagesTitle}</h3>
-              </div>
-              <div className="space-y-5">
-                {profileData.languages[lang].map((l, idx) => (
-                  <div key={idx} className="flex flex-col gap-1">
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-semibold text-slate-200">{l.name}</span>
-                        {l.cert && (
-                          <span className="px-1.5 py-0.5 bg-blue-500/20 text-blue-400 text-[10px] font-bold rounded border border-blue-500/30">
-                            {l.cert}
-                          </span>
-                        )}
-                      </div>
-                      <span className="text-[11px] font-medium text-slate-500 uppercase tracking-wider">{l.code}</span>
-                    </div>
-                    <span className="text-xs text-slate-400">{l.level}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 blur-[50px] rounded-full pointer-events-none"></div>
-              <div className="flex items-center gap-3 mb-6 relative z-10">
-                <UserCheck size={20} className="text-emerald-400" />
-                <h3 className="text-base font-bold text-white tracking-wide">{t.aboutSection.softSkillsTitle}</h3>
-              </div>
-              <div className="space-y-4 relative z-10">
-                {profileData.softSkills[lang].map((skill, idx) => (
-                  <div key={idx} className="flex items-center justify-between">
-                    <span className="text-sm font-medium text-slate-300">{skill.name}</span>
-                    <div className="flex gap-1">
-                      {[...Array(5)].map((_, i) => (
-                        <div 
-                          key={i} 
-                          className={`w-3.5 h-1.5 rounded-sm transform skew-x-[-15deg] transition-colors duration-500 ${
-                            i < skill.level ? 'bg-emerald-400' : 'bg-slate-800'
-                          }`}
-                        ></div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="h-fit bg-slate-900/40 border border-slate-800/60 p-6 rounded-2xl hover:bg-slate-900/60 hover:border-slate-700/60 transition-all duration-300 shadow-lg relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-32 h-32 bg-amber-500/5 blur-[50px] rounded-full pointer-events-none"></div>
-              <div className="flex items-center gap-3 mb-6 relative z-10">
-                <Compass size={20} className="text-amber-400" />
-                <h3 className="text-base font-bold text-white tracking-wide">{t.aboutSection.hobbiesTitle}</h3>
-              </div>
-              <div className="space-y-5 relative z-10">
-                {profileData.hobbies[lang].map((hobby, idx) => (
-                  <div key={idx} className="flex items-center gap-4">
-                    <div className="p-2 bg-slate-800/50 rounded-lg text-amber-400 border border-slate-700/50">
-                      <hobby.icon size={16} />
-                    </div>
-                    <div className="flex flex-col">
-                      <span className="text-sm font-semibold text-slate-200">{hobby.label}</span>
-                      <span className="text-xs text-slate-400 mt-0.5">{hobby.desc}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
           </div>
         </FadeIn>
 

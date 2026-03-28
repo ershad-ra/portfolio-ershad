@@ -23,13 +23,9 @@ export const translations = {
       badge: "Profil Technique",
       titleStart: "Mes Domaines d'",
       titleHighlight: "Expertise",
-      subtitle: "Technologies et infrastructures que je conçois, déploie et maintiens au quotidien.",
-      languagesTitle: "Langues",
-      skillsTitle: "Stack Technologique",
-      softSkillsTitle: "Atouts",
-      hobbiesTitle: "Centres d'intérêt"
+      subtitle: "Technologies et infrastructures que je conçois, déploie et maintiens au quotidien."
     },
-      timelineSection: {
+    timelineSection: {
       badge: "Mon Parcours",
       titleStart: "Mon Parcours & ",
       titleHighlight: "Expériences",
@@ -97,13 +93,9 @@ export const translations = {
       badge: "Technical Profile",
       titleStart: "My Core ",
       titleHighlight: "Expertise",
-      subtitle: "Technologies and infrastructures I design, build, and maintain daily.",
-      languagesTitle: "Languages",
-      skillsTitle: "Technology Stack",
-      softSkillsTitle: "Strengths",
-      hobbiesTitle: "Interests"
+      subtitle: "Technologies and infrastructures I design, build, and maintain daily."
     },
-      timelineSection: {
+    timelineSection: {
       badge: "Career Path",
       titleStart: "My Career & ",
       titleHighlight: "Experience",
