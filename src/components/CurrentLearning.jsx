@@ -87,6 +87,60 @@ const learningData = [
     },
     progressText: { en: 'Certification goal', fr: 'Objectif de certification' },
     link: '/certification/ccnp'
+  },
+  {
+    id: 'vcp-dcv',
+    title: 'VMware VCP-DCV',
+    category: 'Data Center Virtualization',
+    image: '/images/vcp-dcv.png',
+    theme: {
+      text: 'text-emerald-400',
+      bg: 'bg-emerald-600',
+      border: 'border-emerald-500/30',
+      tabActive: 'bg-emerald-500/10 border-emerald-500/50',
+    },
+    description: {
+      en: 'Deepening my knowledge of vSphere 8 architecture, implementing high availability (HA/DRS), and optimizing data center resources.',
+      fr: "Approfondissement de mes connaissances sur l'architecture vSphere 8, la mise en œuvre de la haute disponibilité (HA/DRS) et l'optimisation des ressources du datacenter."
+    },
+    progressText: { en: 'Certification goal', fr: 'Objectif de certification' },
+    link: '/certification/vcp-dcv'
+  },
+  {
+    id: 'vcp-nv',
+    title: 'VMware VCP-NV',
+    category: 'Network Virtualization',
+    image: '/images/vcp-nv.png',
+    theme: {
+      text: 'text-teal-400',
+      bg: 'bg-teal-600',
+      border: 'border-teal-500/30',
+      tabActive: 'bg-teal-500/10 border-teal-500/50',
+    },
+    description: {
+      en: 'Mastering software-defined networking with VMware NSX, focusing on overlay networks, distributed routing, and zero-trust micro-segmentation.',
+      fr: "Maîtrise du réseau défini par logiciel avec VMware NSX, avec un focus sur les réseaux overlay, le routage distribué et la micro-segmentation zero-trust."
+    },
+    progressText: { en: 'Certification goal', fr: 'Objectif de certification' },
+    link: '/certification/vcp-nv'
+  },
+  {
+    id: 'az-104',
+    title: 'Azure AZ-104',
+    category: 'Cloud Administration',
+    image: '/images/az-104.png',
+    theme: {
+      text: 'text-sky-400',
+      bg: 'bg-sky-600',
+      border: 'border-sky-500/30',
+      tabActive: 'bg-sky-500/10 border-sky-500/50',
+    },
+    description: {
+      en: 'Validating my capabilities in managing Azure identities, networking, compute, and storage resources in enterprise environments.',
+      fr: "Validation de mes capacités à gérer les identités, le réseau, le calcul et les ressources de stockage Azure dans des environnements d'entreprise."
+    },
+    progressText: { en: 'Certification goal', fr: 'Objectif de certification' },
+    link: '/certification/az-104'
   }
 ];
 
@@ -159,7 +213,6 @@ const CurrentLearning = ({ lang }) => {
                     {cert.subtitle[lang]}
                   </p>
                   
-                  {/* ZONE DES DATES MISE À JOUR */}
                   <div className="flex items-end justify-between mt-auto pt-3 border-t border-slate-800/60">
                     <div className="flex flex-col gap-0.5">
                       <span className="text-[11px] font-medium text-slate-300">
@@ -233,7 +286,8 @@ const CurrentLearning = ({ lang }) => {
 
             </div>
 
-            <div className="grid grid-cols-2 bg-slate-900/40 border-t border-slate-800">
+            {/* Ajustement à grid-cols-2 md:grid-cols-5 pour les 5 onglets */}
+            <div className="grid grid-cols-2 md:grid-cols-5 bg-slate-900/40 border-t border-slate-800">
               {learningData.map((item, idx) => {
                 const isActive = currentIndex === idx;
                 return (
@@ -242,9 +296,9 @@ const CurrentLearning = ({ lang }) => {
                     onClick={() => setCurrentIndex(idx)}
                     className={`relative p-4 md:p-5 text-center transition-colors duration-300 ${
                       isActive ? item.theme.tabActive : 'text-slate-500 hover:bg-slate-800/30'
-                    } ${idx === 0 ? 'border-r border-slate-800' : ''}`}
+                    } ${idx !== 0 ? 'border-l border-slate-800/50' : ''} ${idx > 1 ? 'border-t md:border-t-0 border-slate-800/50' : ''}`}
                   >
-                    <p className={`font-bold text-xs md:text-base ${isActive ? 'text-white' : 'text-slate-500'}`}>
+                    <p className={`font-bold text-xs md:text-sm ${isActive ? 'text-white' : 'text-slate-500'}`}>
                       {item.title}
                     </p>
                   </button>

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Award, ArrowUp, ChevronDown, List } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
-import TabSidebar from '../components/terraform/TabSidebar';
-import TabContent from '../components/terraform/TabContent';
+import TabSidebar from '../components/cert-in-prep/TabSidebar';
+import TabContent from '../components/cert-in-prep/TabContent';
 import { terraformData } from '../data/terraform/index';
 
 const TerraformCert = ({ lang }) => {

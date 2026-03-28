@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Award, ArrowUp, ChevronDown, List } from 'lucide-react';
+import { ArrowLeft, ArrowUp, ChevronDown, List } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
 import TabSidebar from '../components/cert-in-prep/TabSidebar';
 import TabContent from '../components/cert-in-prep/TabContent';
-import { ccnpData } from '../data/ccnp/index';
+import { az104Data } from '../data/az-104/index';
 
-const CcnpCert = ({ lang }) => {
+const Az104Cert = ({ lang }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState(ccnpData[0].id);
+  const [activeTab, setActiveTab] = useState(az104Data[0].id);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -21,7 +21,8 @@ const CcnpCert = ({ lang }) => {
   }, []);
 
   const scrollToTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
-  const activeTabData = ccnpData.find(tab => tab.id === activeTab);
+  const activeTabData = az104Data.find(tab => tab.id === activeTab);
+  const displayTitle = activeTabData?.title?.[lang] || activeTabData?.title?.en || '';
 
   return (
     <>
@@ -31,62 +32,57 @@ const CcnpCert = ({ lang }) => {
           <FadeIn direction="up">
             <button 
               onClick={() => navigate('/#current-learning')}
-              className="flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-blue-400 transition-colors mb-8 mt-4 group"
+              className="flex items-center gap-2 text-sm font-semibold text-slate-400 hover:text-sky-400 transition-colors mb-8 mt-4 group"
             >
               <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
               {lang === 'fr' ? 'Retour aux Projets en cours' : 'Back to Current Projects'}
             </button>
 
             <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-10">
-              <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-2xl w-fit">
-                <Award className="text-blue-400" size={32} />
+              <div className="p-3 bg-sky-500/10 border border-sky-500/20 rounded-2xl w-fit flex items-center justify-center shadow-[0_0_15px_rgba(14,165,233,0.15)]">
+                {/* INTÉGRATION DU LOGO ICI */}
+                <img src="/images/az-104.png" alt="Azure AZ-104" className="w-10 h-10 object-contain drop-shadow-md" />
               </div>
               <div>
                 <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
-                  Cisco CCNP <span className="text-blue-400">Preparation</span>
+                  Azure AZ-104 <span className="text-sky-400">Preparation</span>
                 </h1>
                 <p className="text-slate-400 mt-2">
-                  {lang === 'fr' ? 'Mes notes et architectures de laboratoires.' : 'My study notes and lab architectures.'}
+                  {lang === 'fr' ? 'Mes notes et architectures de laboratoires Azure.' : 'My study notes and Azure lab architectures.'}
                 </p>
               </div>
             </div>
           </FadeIn>
 
           <div className="flex flex-col lg:flex-row gap-10 items-start relative">
-            
-            {/* MOBILE MENU DROPDOWN */}
             <div className="w-full lg:hidden sticky top-20 z-40 bg-slate-950/90 backdrop-blur-md pt-2 pb-4 border-b border-slate-800 shadow-xl">
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="w-full bg-slate-900 border border-slate-700 p-4 rounded-xl flex items-center justify-between">
                 <div className="flex items-center gap-3">
                   <List size={20} className="text-slate-400" />
-                  <span className="font-bold text-white text-sm">{activeTabData.title.en}</span>
+                  <span className="font-bold text-white text-sm">{displayTitle}</span>
                 </div>
                 <ChevronDown className={`text-slate-400 transition-transform ${isMobileMenuOpen ? 'rotate-180' : ''}`} />
               </button>
               <div className={`overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? 'max-h-[60vh] opacity-100 mt-2' : 'max-h-0 opacity-0'}`}>
-                {/* Scrollbar intégrée bleue */}
-                <div className="bg-slate-900/90 border border-slate-700 rounded-xl p-2 max-h-[60vh] overflow-y-auto shadow-2xl [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-blue-500/30 hover:[&::-webkit-scrollbar-thumb]:bg-blue-500/50 [&::-webkit-scrollbar-thumb]:rounded-full">
-                  <TabSidebar tabs={ccnpData} activeTab={activeTab} setActiveTab={setActiveTab} onSubmenuClick={() => setIsMobileMenuOpen(false)} color="blue" />
+                <div className="bg-slate-900/90 border border-slate-700 rounded-xl p-2 max-h-[60vh] overflow-y-auto shadow-2xl [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-sky-500/30 hover:[&::-webkit-scrollbar-thumb]:bg-sky-500/50 [&::-webkit-scrollbar-thumb]:rounded-full">
+                  <TabSidebar tabs={az104Data} activeTab={activeTab} setActiveTab={setActiveTab} onSubmenuClick={() => setIsMobileMenuOpen(false)} color="sky" />
                 </div>
               </div>
             </div>
 
-            {/* MAIN CONTENT */}
             <div className="flex-1 w-full min-w-0">
-              <TabContent activeTabData={activeTabData} color="blue" />
+              <TabContent activeTabData={activeTabData} color="sky" />
             </div>
 
-            {/* DESKTOP MENU */}
-            <div className="hidden lg:block w-80 shrink-0 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto pb-10 pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-blue-500/30 hover:[&::-webkit-scrollbar-thumb]:bg-blue-500/50 [&::-webkit-scrollbar-thumb]:rounded-full">
-              <TabSidebar tabs={ccnpData} activeTab={activeTab} setActiveTab={setActiveTab} color="blue" />
+            <div className="hidden lg:block w-80 shrink-0 sticky top-28 max-h-[calc(100vh-8rem)] overflow-y-auto pb-10 pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-sky-500/30 hover:[&::-webkit-scrollbar-thumb]:bg-sky-500/50 [&::-webkit-scrollbar-thumb]:rounded-full">
+              <TabSidebar tabs={az104Data} activeTab={activeTab} setActiveTab={setActiveTab} color="sky" />
             </div>
-
           </div>
         </div>
       </div>
 
       {showScrollTop && (
-        <button onClick={scrollToTop} className="fixed bottom-8 right-8 z-[100] p-3 bg-blue-600 hover:bg-blue-500 text-white rounded-full shadow-lg shadow-blue-900/20 transition-all duration-300 hover:-translate-y-1">
+        <button onClick={scrollToTop} className="fixed bottom-8 right-8 z-[100] p-3 bg-sky-600 hover:bg-sky-500 text-white rounded-full shadow-lg shadow-sky-900/20 transition-all duration-300 hover:-translate-y-1">
           <ArrowUp size={20} />
         </button>
       )}
@@ -94,4 +90,4 @@ const CcnpCert = ({ lang }) => {
   );
 };
 
-export default CcnpCert;
+export default Az104Cert;

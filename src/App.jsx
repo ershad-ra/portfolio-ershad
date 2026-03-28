@@ -36,6 +36,9 @@ import ExperienceDetails from './pages/ExperienceDetails';
 // Terraform & CCNP - In process
 import TerraformCert from './pages/TerraformCert';
 import CcnpCert from './pages/CcnpCert';
+import VcpDcvCert from './pages/VcpDcvCert';
+import VcpNvCert from './pages/VcpNvCert';
+import Az104Cert from './pages/Az104Cert';
 
 const App = () => {
   const [lang, setLang] = useState('fr');
@@ -121,6 +124,9 @@ const App = () => {
           {/* TERRAFORM et CCNP */}
           <Route path="/certification/terraform" element={<TerraformCert lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/certification/ccnp" element={<CcnpCert lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/certification/vcp-dcv" element={<VcpDcvCert lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/certification/vcp-nv" element={<VcpNvCert lang={lang} onToggleLanguage={toggleLanguage} />} />
+          <Route path="/certification/az-104" element={<Az104Cert lang={lang} onToggleLanguage={toggleLanguage} />} />
         </Routes>
       </div>
     </Router>

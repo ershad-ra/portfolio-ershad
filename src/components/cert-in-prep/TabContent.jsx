@@ -3,11 +3,17 @@ import React from 'react';
 const TabContent = ({ activeTabData, color = 'purple' }) => {
   if (!activeTabData) return null;
 
-  // Dictionnaire de couleurs pour réutiliser ce composant pour CCNP (bleu) et Terraform (violet)
-  const theme = {
+  // Dictionnaire de couleurs enrichi
+  const themes = {
     purple: { code: 'text-purple-300', bullet: 'text-purple-500', pre: 'text-purple-400' },
-    blue: { code: 'text-blue-300', bullet: 'text-blue-500', pre: 'text-blue-400' }
-  }[color];
+    blue: { code: 'text-blue-300', bullet: 'text-blue-500', pre: 'text-blue-400' },
+    emerald: { code: 'text-emerald-300', bullet: 'text-emerald-500', pre: 'text-emerald-400' },
+    teal: { code: 'text-teal-300', bullet: 'text-teal-500', pre: 'text-teal-400' },
+    sky: { code: 'text-sky-300', bullet: 'text-sky-500', pre: 'text-sky-400' }
+  };
+
+  // Sécurité anti-crash si la couleur n'existe pas
+  const theme = themes[color] || themes.blue;
 
   const renderFormattedText = (text) => {
     const codeParts = text.split('`');
