@@ -84,7 +84,7 @@ export const translations = {
     hero: {
       greeting: "Ershad RAMEZANI",
       role: "Systems, Network & Cloud Engineer",
-      description: "IT Infrastructure Administrator with 4+ experience. Specializing in Build & Run, L2/L3 Support, and Operational Maintenance. Guaranteeing resilience and Business Continuity (BCP/DRP).",
+      description: "Ensuring the stability, performance, and continuous evolution of IT infrastructures. With over 4 years of experience across Build & Run operations and advanced support (L2/L3), I design resilient cloud architectures and maintain mission-critical environments in optimal working condition, including business continuity and disaster recovery strategies (BCP/DRP).",
       certifications: "Certifications",
       viewProjects: "View my projects",
       status: "Availability: High"

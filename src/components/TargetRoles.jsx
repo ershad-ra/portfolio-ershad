@@ -95,7 +95,8 @@ const TargetRoles = ({ lang }) => {
 
   return (
     <section className="relative z-30 max-w-7xl mx-auto px-6 lg:px-8 h-0">
-      <div className="relative -translate-y-1/2 w-full lg:w-[85%] xl:w-4/5">
+      {/* ✅ ONLY CHANGE HERE */}
+      <div className="relative -translate-y-1/2 w-full lg:w-[83%] xl:w-[75%]">
         <FadeIn direction="up" delay={200}>
           
           <div className="w-full bg-slate-900/80 backdrop-blur-md border border-slate-700/50 rounded-xl shadow-xl shadow-blue-900/20 overflow-hidden flex flex-col md:flex-row items-stretch">
