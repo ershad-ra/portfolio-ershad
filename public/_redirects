@@ -1,6 +1,2 @@
-# 1. Force redirect from the alias to the primary domain
-https://p.persys.fr/* https://www.persys.fr/:splat  301!
-http://p.persys.fr/* https://www.persys.fr/:splat  301!
-
-# 2. React Router Fallback (CRITICAL for your certification pages)
+# React Router Fallback (CRITICAL for your certification pages)
 /* /index.html  200
