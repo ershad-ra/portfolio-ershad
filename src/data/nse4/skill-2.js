@@ -1,0 +1,412 @@
+import { Network } from 'lucide-react';
+
+export const skill2 = {
+  id: 'nse4-data-plane',
+  title: {
+    en: "Skill 2 — Configure the Data Plane",
+    fr: "Skill 2 — Configurer le Plan de Données"
+  },
+  icon: Network,
+  sections: [
+    {
+      heading: "Scope",
+      content: [
+        "Take a freshly bootstrapped HQ-FW1 (post-Skill 1 — management plane working, internet reachable from the firewall itself) and turn it into a working transit firewall. By the end, `PC-123` on the inside network can reach the public internet through HQ-FW1 with NAT, policy permission, and traffic logging in place."
+      ].join('\n')
+    },
+    {
+      heading: "1. Skill Summary",
+      content: [
+        "The **management plane** is about reaching *the firewall*. The **data plane** is about traffic going *through* the firewall. They are independent — a firewall can be fully manageable while passing zero user traffic, which is exactly the state HQ-FW1 was in at the end of Skill 1.",
+        "",
+        "To turn HQ-FW1 into a working transit device, three things must be true:",
+        "• **Routing** is in place — the firewall has to know where to forward the packet.",
+        "• **Permissions** are in place — the firewall has to be willing to forward the packet.",
+        "• **Address Translation** is in place — internal RFC 1918 source IPs have to be rewritten before they hit the public internet.",
+        "",
+        "I remember these three pillars with the acronym **RAP**: **R**outing, **A**ddress translation, **P**ermissions. Whenever a firewall isn't passing traffic, RAP is my first-pass troubleshooting framework.",
+        "",
+        "The configuration sequence I follow is:",
+        "• **Prep interfaces** — strip them out of the default LAN switch and delete the default LAN-to-WAN policy.",
+        "• **Create zones** (`inside` and `outside`) for scalable policy authoring.",
+        "• **Assign IP addresses** to the data-plane interfaces.",
+        "• **Add a default route** for the data plane.",
+        "• **Author a firewall policy** (the P of RAP).",
+        "• **Configure address translation** (the A of RAP).",
+        "• **Test from a real client** and validate via the forward-traffic log."
+      ].join('\n')
+    },
+    {
+      heading: "2. Lab Topology Reference",
+      content: [
+        "The data plane configuration in this skill exercises HQ-FW1 across three interfaces:",
+        "• **port1**: Management (Skill 1) | `192.168.100.11/24` | Connected to `mgmt-net`",
+        "• **port2**: WAN1 — uplink to ISP-A | `23.1.2.11/24` | Connected to `WAN-1`",
+        "• **port4**: Internal LAN | `10.123.0.11/24` | Connected to `internal-net`",
+        "",
+        "**Test client on the inside:**",
+        "• **PC-123** (Linux VM): `10.123.0.123/24` | Gateway: `10.123.0.11` (HQ-FW1's `port4`)",
+        "",
+        "**Upstream:**",
+        "• **ISP-A VyOS Router**: `23.1.2.1` | Default gateway for `WAN-1`; performs host NAT to internet.",
+        "",
+        "**The data-plane traffic path I'm building:**",
+        "```text",
+        "PC-123 (10.123.0.123)",
+        "   └─> port4 [HQ-FW1]",
+        "         RAP processing:",
+        "           R: routing table → default route via 23.1.2.1",
+        "           A: source NAT → 23.1.2.11",
+        "           P: firewall policy \"inside → outside\" → allow + log",
+        "         └─> port2 → ISP-A VyOS (23.1.2.1) → host NAT → internet",
+        "```"
+      ].join('\n')
+    },
+    {
+      heading: "3. The RAP Framework",
+      content: [
+        "If traffic isn't flowing through a FortiGate, the answer is almost always one of these three. I check them in **R → A → P** order because that's roughly the order the kernel evaluates them.",
+        "",
+        "• **R (Routing)**: Controls where the packet goes next. Lives in `config router static` and dynamic routing.",
+        "• **A (Address translation)**: Controls what the packet looks like when it leaves. Lives in per-policy NAT toggle OR Central SNAT table.",
+        "• **P (Permissions)**: Controls whether the packet is allowed to be forwarded at all. Lives in `config firewall policy`."
+      ].join('\n')
+    },
+    {
+      heading: "4. Step 1 — Prep Interfaces (Cleanup of Factory Defaults)",
+      content: [
+        "A freshly reset FortiGate-VM ships with two pieces of factory state that block clean zone assignment:",
+        "",
+        "1. The `lan` software-switch absorbs `port2` through higher-numbered ports. I can't assign `port4` to a zone until it's removed.",
+        "2. A default firewall policy (`lan -> wan1`) references `port2`.",
+        "",
+        "**4.1 Remove ports from the lan switch**",
+        "GUI: Network -> Interfaces -> double-click `lan` -> remove `port4` from Interface Members.",
+        "",
+        "CLI:",
+        "```bash",
+        "config system switch-interface",
+        "    edit \"lan\"",
+        "        set member \"port5\" \"port6\"",
+        "    next",
+        "end",
+        "```",
+        "",
+        "**4.2 Delete the default firewall policy**",
+        "GUI: Policy & Objects -> Firewall Policy -> delete the default `lan -> wan1` rule.",
+        "",
+        "CLI:",
+        "```bash",
+        "config firewall policy",
+        "    delete <id-of-default-policy>",
+        "end",
+        "```",
+        "",
+        "After both steps, `port2` and `port4` are free for zone assignment."
+      ].join('\n')
+    },
+    {
+      heading: "5. Step 2 — Create Zones (inside, outside)",
+      content: [
+        "A **zone** is a logical bundle of one or more interfaces. Once zones are in place, my firewall policies reference *zones* instead of interfaces — so when I add a new WAN circuit later, I just drop it into the `outside` zone and every existing policy automatically applies.",
+        "",
+        "**5.1 GUI Zone Setup**",
+        "Network -> Interfaces -> Create New -> Zone:",
+        "• **inside**: Interface Members = `port4`",
+        "• **outside**: Interface Members = `port2`",
+        "",
+        "**5.2 CLI Zone Setup**",
+        "```bash",
+        "config system zone",
+        "    edit \"inside\"",
+        "        set interface \"port4\"",
+        "    next",
+        "    edit \"outside\"",
+        "        set interface \"port2\"",
+        "    next",
+        "end",
+        "```",
+        "",
+        "**5.3 Why zones beat raw interfaces in policy**",
+        "Without zones, adding WAN2 (`port3`) means duplicating every internet-bound policy. With zones, adding WAN2 means dropping `port3` into the `outside` zone — no policy edit required. This is a massive scalability improvement."
+      ].join('\n')
+    },
+    {
+      heading: "6. Step 3 — Assign IP Addresses to Data-Plane Interfaces",
+      content: [
+        "**6.1 port4 — Internal LAN**",
+        "GUI settings for `port4`:",
+        "• **Alias**: `LAN-10.123`",
+        "• **Role**: `LAN`",
+        "• **Addressing Mode**: `Manual`",
+        "• **IP/Network Mask**: `10.123.0.11/24`",
+        "• **Administrative Access**: `PING`",
+        "• **DHCP Server**: Disabled",
+        "",
+        "CLI:",
+        "```bash",
+        "config system interface",
+        "    edit \"port4\"",
+        "        set alias \"LAN-10.123\"",
+        "        set role lan",
+        "        set ip 10.123.0.11 255.255.255.0",
+        "        set allowaccess ping",
+        "    next",
+        "end",
+        "```",
+        "",
+        "**6.2 port2 — WAN1**",
+        "GUI settings for `port2`:",
+        "• **Alias**: `WAN1-ISP-A`",
+        "• **Role**: `WAN`",
+        "• **IP/Network Mask**: `23.1.2.11/24`",
+        "• **Administrative Access**: `PING`",
+        "",
+        "CLI:",
+        "```bash",
+        "config system interface",
+        "    edit \"port2\"",
+        "        set alias \"WAN1-ISP-A\"",
+        "        set role wan",
+        "        set ip 23.1.2.11 255.255.255.0",
+        "        set allowaccess ping",
+        "    next",
+        "end",
+        "```"
+      ].join('\n')
+    },
+    {
+      heading: "7. Step 4 — Default Route for the Data Plane",
+      content: [
+        "Before this step, HQ-FW1's data plane has no path to the internet. I need a default route via ISP-A's gateway, `23.1.2.1`. I delete the management plane default route to rely on a single data-plane default (simplest for labs and single-WAN production).",
+        "",
+        "**7.1 GUI Setup**",
+        "Network -> Static Routes -> Create New:",
+        "• **Destination**: `0.0.0.0/0`",
+        "• **Gateway Address**: `23.1.2.1`",
+        "• **Interface**: `port2`",
+        "• **Administrative Distance**: `10` (default)",
+        "",
+        "**7.2 CLI Setup**",
+        "```bash",
+        "config router static",
+        "    edit 0",
+        "        set dst 0.0.0.0 0.0.0.0",
+        "        set gateway 23.1.2.1",
+        "        set device \"port2\"",
+        "    next",
+        "end",
+        "```",
+        "",
+        "**7.3 Verify**",
+        "Run `get router info routing-table all` and look for `S* 0.0.0.0/0 [10/0] via 23.1.2.1, port2`."
+      ].join('\n')
+    },
+    {
+      heading: "8. Step 5 — Permissions: The Firewall Policy",
+      content: [
+        "This is the **P** of RAP. I author the policy that lets `inside` traffic egress to `outside`.",
+        "",
+        "**8.1 GUI — Policy & Objects -> Firewall Policy -> Create New**",
+        "• **Name**: `inside-to-outside`",
+        "• **Incoming Interface**: `inside` (zone)",
+        "• **Outgoing Interface**: `outside` (zone)",
+        "• **Source / Destination**: `all` / `all`",
+        "• **Schedule**: `always`",
+        "• **Service**: `ALL`",
+        "• **Action**: `ACCEPT`",
+        "• **NAT**: `ON` (Use Outgoing Interface Address)",
+        "• **Log Allowed Traffic**: `All Sessions`",
+        "",
+        "**8.2 CLI Setup**",
+        "```bash",
+        "config firewall policy",
+        "    edit 0",
+        "        set name \"inside-to-outside\"",
+        "        set srcintf \"inside\"",
+        "        set dstintf \"outside\"",
+        "        set srcaddr \"all\"",
+        "        set dstaddr \"all\"",
+        "        set schedule \"always\"",
+        "        set service \"ALL\"",
+        "        set action accept",
+        "        set nat enable",
+        "        set logtraffic all",
+        "    next",
+        "end",
+        "```",
+        "",
+        "**8.3 The implicit-deny rule**",
+        "Every FortiGate has an invisible implicit deny at the bottom. To get visibility into denied traffic, enable logging on it:",
+        "```bash",
+        "config firewall policy",
+        "    edit 0",
+        "        set logtraffic all",
+        "    next",
+        "end",
+        "```"
+      ].join('\n')
+    },
+    {
+      heading: "9. Step 6 — Address Translation: Inline NAT vs Central SNAT",
+      content: [
+        "This is the **A** of RAP. FortiOS gives two ways to do source NAT:",
+        "",
+        "• **Option A — Inline NAT (default)**: NAT is configured per policy. Simpler, but tightly coupled to firewall rules.",
+        "• **Option B — Central SNAT**: NAT is decoupled into its own table. Policy handles permissions; SNAT handles translation. Best for complex multi-egress deployments.",
+        "",
+        "**Enabling Central SNAT**",
+        "GUI: System -> Settings -> toggle Central SNAT ON.",
+        "CLI:",
+        "```bash",
+        "config system settings",
+        "    set central-nat enable",
+        "end",
+        "```",
+        "Once enabled, the NAT toggle disappears from the policy editor, and a new `Central SNAT` menu appears.",
+        "",
+        "**Sample Central SNAT entry via CLI:**",
+        "```bash",
+        "config firewall central-snat-map",
+        "    edit 1",
+        "        set srcintf \"inside\"",
+        "        set dstintf \"outside\"",
+        "        set orig-addr \"all\"",
+        "        set dst-addr \"all\"",
+        "        set nat enable",
+        "    next",
+        "end",
+        "```"
+      ].join('\n')
+    },
+    {
+      heading: "10. NGFW Mode: Profile-Based vs Policy-Based",
+      content: [
+        "**NGFW Mode** is a commonly-tested concept on the FCP.",
+        "",
+        "• **Profile-based (default)**: Firewall policy uses traditional 5-tuple + zones. Application Control, Web Filter, etc., are added as profiles attached to the policy. **Most flexible.**",
+        "• **Policy-based**: Application and URL category become first-class match criteria in the firewall policy itself. More compact but less flexible.",
+        "",
+        "**Switching modes via CLI:**",
+        "```bash",
+        "config system settings",
+        "    set ngfw-mode profile-based",
+        "end",
+        "```",
+        "*Caution: Switching NGFW mode wipes the firewall policy table!*"
+      ].join('\n')
+    },
+    {
+      heading: "11. Inspection Mode: Flow-Based vs Proxy-Based",
+      content: [
+        "This is set per firewall policy and controls inspection depth.",
+        "",
+        "• **Flow-based (default)**: Packets are inspected as they stream through. Low CPU cost. Sufficient for most threats.",
+        "• **Proxy-based**: The firewall acts as a transparent proxy, fully reconstructing the object before forwarding. Deepest inspection, highest CPU cost. Required for some DLP and Web Filter features.",
+        "",
+        "**Configure per policy via CLI:**",
+        "```bash",
+        "config firewall policy",
+        "    edit <policy-id>",
+        "        set inspection-mode proxy",
+        "    next",
+        "end",
+        "```"
+      ].join('\n')
+    },
+    {
+      heading: "12. Step 7 — Test from PC-123",
+      content: [
+        "**12.1 PC-123 reachability**",
+        "```bash",
+        "ip address          # confirm 10.123.0.123/24",
+        "ip route            # confirm default via 10.123.0.11",
+        "ping 10.123.0.11    # confirm reachability to gateway",
+        "```",
+        "",
+        "**12.2 Internet and DNS reachability**",
+        "```bash",
+        "ping 8.8.8.8",
+        "ping [www.fortinet.com](https://www.fortinet.com)",
+        "```",
+        "If RAP is correctly configured, ICMP replies come back.",
+        "",
+        "**12.4 Verify on the firewall**",
+        "Check policy hit counts in the GUI, or view live sessions in the CLI:",
+        "```bash",
+        "diagnose sys session list | grep 10.123.0.123",
+        "```"
+      ].join('\n')
+    },
+    {
+      heading: "13. Technical Deep-Dive",
+      content: [
+        "**13.1 FortiOS Packet Flow**",
+        "When a packet arrives, the kernel processes it in this order: Ingress -> IP Integrity -> Routing -> Session Lookup -> Policy Lookup -> Source NAT -> Security Profiles -> Egress. On hardware, subsequent packets in an established session bypass this and are ASIC-accelerated.",
+        "",
+        "**13.2 Session Table**",
+        "Tracks every active flow (5-tuple, NAT, policy ID). It's the source of truth for troubleshooting.",
+        "```bash",
+        "diagnose sys session filter src 10.123.0.123",
+        "diagnose sys session list",
+        "```",
+        "",
+        "**13.3 Default-NAT Behavior**",
+        "Even with NAT toggled off, FortiOS may apply translation under certain default-route conditions. Always author explicit NAT rules."
+      ].join('\n')
+    },
+    {
+      heading: "14. CLI Command Reference",
+      content: [
+        "**Used in this skill:**",
+        "• `config system switch-interface`: Modify the default lan software-switch.",
+        "• `config system zone`: Create/modify zones.",
+        "• `config router static`: Bind a static route to an outgoing interface.",
+        "• `config firewall policy`: Author firewall rules.",
+        "• `set central-nat enable`: Switch from inline NAT to Central SNAT mode.",
+        "• `set ngfw-mode profile-based`: Set NGFW operating mode.",
+        "",
+        "**Highly relevant for troubleshooting:**",
+        "• `diagnose sys session list`: Show all live sessions.",
+        "• `diagnose sys session clear`: Flush all sessions.",
+        "• `diagnose debug flow`: Shows step-by-step kernel decisions.",
+        "• `diagnose sniffer packet <iface>`: On-box packet capture."
+      ].join('\n')
+    },
+    {
+      heading: "15. Common Data-Plane Pitfalls",
+      content: [
+        "• **Forgot to remove port4 from lan switch**: Cannot add port4 to zone. Fix: Remove from switch members.",
+        "• **Forgot to delete default policy**: Cannot add port2 to zone. Fix: Delete default lan->wan1 policy.",
+        "• **NAT toggle off, no Central SNAT rule**: Clients can ping locally, but internet TCP fails. Fix: Enable NAT.",
+        "• **Policy match order**: A more-specific deny is above the allow. Fix: Reorder policies.",
+        "• **Implicit deny logging not enabled**: Denied traffic doesn't appear in logs. Fix: Enable logging on policy-id 0."
+      ].join('\n')
+    },
+    {
+      heading: "16. End-of-Skill Checklist",
+      content: [
+        "Before moving on, I confirm:",
+        "• `port4` (LAN) has IP `10.123.0.11/24`, role `LAN`, ping enabled.",
+        "• `port2` (WAN1) has IP `23.1.2.11/24`, role `WAN`, ping enabled.",
+        "• Zones `inside` and `outside` exist and contain the correct ports.",
+        "• Default route `0.0.0.0/0 via 23.1.2.1` is in the routing table.",
+        "• Firewall policy `inside-to-outside` exists, action `accept`, log all sessions.",
+        "• Central SNAT enabled (or inline NAT toggle on) — translation occurring.",
+        "• PC-123 can ping `8.8.8.8` and `www.fortinet.com`.",
+        "• Forward Traffic log shows entries with action `accept` from `10.123.0.123`."
+      ].join('\n')
+    },
+    {
+      heading: "Appendix: Terminology",
+      content: [
+        "• **RAP**: Routing, Address translation, Permissions.",
+        "• **Zone**: A logical grouping of interfaces used in policy authoring.",
+        "• **Implicit Deny**: The hidden last rule (policy 0) that drops unmatched traffic.",
+        "• **Inline NAT vs Central SNAT**: Inline is per-policy; Central is decoupled in its own table.",
+        "• **NGFW Mode**: Profile-based (default, attach profiles) vs Policy-based (app/URL as match criteria).",
+        "• **Inspection Mode**: Flow-based (streaming, low CPU) vs Proxy-based (object reconstruction, high CPU)."
+      ].join('\n')
+    }
+  ]
+};

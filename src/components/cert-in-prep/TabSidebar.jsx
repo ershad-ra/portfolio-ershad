@@ -30,6 +30,11 @@ const TabSidebar = ({ tabs, activeTab, setActiveTab, onSubmenuClick, color = 'pu
       active: 'bg-sky-500/10 border-sky-500/50 text-sky-400', 
       icon: 'text-sky-400', hover: 'hover:text-sky-400',
       scroll: '[&::-webkit-scrollbar-thumb]:bg-sky-500/30 hover:[&::-webkit-scrollbar-thumb]:bg-sky-500/50'
+    },
+    red: { 
+      active: 'bg-red-500/10 border-red-500/50 text-red-400', 
+      icon: 'text-red-400', hover: 'hover:text-red-400',
+      scroll: '[&::-webkit-scrollbar-thumb]:bg-red-500/30 hover:[&::-webkit-scrollbar-thumb]:bg-red-500/50'
     }
   };
 

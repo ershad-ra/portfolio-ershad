@@ -48,27 +48,42 @@ const achievedCerts = [
     bgColor: 'bg-blue-500/10',
     borderColor: 'group-hover:border-blue-500/50',
     link: 'https://www.credly.com/badges/cc18fb0c-6597-485b-ac93-903aed039c4d'
+  },
+  {
+    id: 'terraform',
+    title: 'Terraform Associate',
+    subtitle: {
+      fr: 'HashiCorp Certified',
+      en: 'HashiCorp Certified'
+    },
+    issuer: 'HashiCorp',
+    dateIssued: { fr: 'Émis le : Mai 2026', en: 'Issued: May 2026' },
+    dateExpires: { fr: 'Expire en : Mai 2028', en: 'Expires: May 2028' },
+    iconColor: 'text-purple-400',
+    bgColor: 'bg-purple-500/10',
+    borderColor: 'group-hover:border-purple-500/50',
+    link: 'https://www.credly.com/badges/8f643e60-c276-4f6b-b165-f54766438f00/public_url'
   }
 ];
 
 const learningData = [
   {
-    id: 'terraform',
-    title: 'Terraform Associate',
-    category: 'Infrastructure as Code',
-    image: '/images/terraform.svg',
+    id: 'nse4',
+    title: 'Fortinet NSE 4',
+    category: 'Network Security',
+    image: '/images/nse4.png',
     theme: {
-      text: 'text-purple-400',
-      bg: 'bg-purple-600',
-      border: 'border-purple-500/30',
-      tabActive: 'bg-purple-500/10 border-purple-500/50',
+      text: 'text-red-400',
+      bg: 'bg-red-600',
+      border: 'border-red-500/30',
+      tabActive: 'bg-red-500/10 border-red-500/50',
     },
     description: {
-      en: 'Consolidating my expertise in automated infrastructure deployment, state management, and multi-cloud provisioning to obtain the official HashiCorp certification.',
-      fr: "Consolidation de mon expertise en déploiement d'infrastructure automatisé, gestion des états et provisionnement multi-cloud pour l'obtention de la certification HashiCorp."
+      en: 'Acquiring comprehensive knowledge of FortiGate network security operations, including firewall policies, VPNs, and advanced threat protection in FortiOS 7.6.',
+      fr: "Acquisition de connaissances approfondies sur les opérations de sécurité réseau FortiGate, incluant les politiques de pare-feu, les VPN et la protection avancée contre les menaces sous FortiOS 7.6."
     },
-    progressText: { en: 'Certification prep - Chapter 7', fr: 'Prépa. Certification - Chapitre 7' },
-    link: '/certification/terraform'
+    progressText: { en: 'Certification prep', fr: 'Prépa. Certification' },
+    link: '/certification/nse4'
   },
   {
     id: 'ccnp',
@@ -192,7 +207,8 @@ const CurrentLearning = ({ lang }) => {
             </h3>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
+          {/* Changed to lg:grid-cols-4 for better layout with 4 items */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-20">
             {achievedCerts.map((cert) => (
               <a 
                 key={cert.id}
@@ -286,7 +302,6 @@ const CurrentLearning = ({ lang }) => {
 
             </div>
 
-            {/* Ajustement à grid-cols-2 md:grid-cols-5 pour les 5 onglets */}
             <div className="grid grid-cols-2 md:grid-cols-5 bg-slate-900/40 border-t border-slate-800">
               {learningData.map((item, idx) => {
                 const isActive = currentIndex === idx;

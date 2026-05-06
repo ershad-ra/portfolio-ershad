@@ -89,6 +89,18 @@ const Hero = ({ t, lang }) => {
                 </div>
               </a>
 
+              {/* UPDATED: Terraform is now Earned */}
+              <a href="https://www.credly.com/badges/8f643e60-c276-4f6b-b165-f54766438f00/public_url" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 bg-slate-900/80 border border-slate-800 hover:border-purple-500/50 rounded-xl px-5 py-3 shadow-sm hover:shadow-md transition-all w-full min-h-[72px]">
+                <div className="p-2 bg-slate-800 rounded-lg group-hover:bg-purple-500/10 transition-colors shrink-0">
+                  <Award className="text-purple-400" size={24} />
+                </div>
+                <div className="flex flex-col text-left">
+                  <p className="text-[10px] uppercase text-slate-500 font-semibold mb-0.5">{t.hero.certifications}</p>
+                  <p className="font-semibold text-slate-200 text-sm leading-tight flex items-center gap-1">Terraform Associate <ExternalLink size={12} className="text-slate-500 group-hover:text-purple-400 shrink-0" /></p>
+                </div>
+              </a>
+
+              {/* Cisco CCNP remains In Progress */}
               <div onClick={() => scrollToTab('ccnp')} className="group flex items-center gap-4 bg-slate-900/30 border border-slate-700 border-dashed hover:border-blue-500/50 rounded-xl px-5 py-3 shadow-sm transition-all w-full min-h-[72px] opacity-60 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer" title={lang === 'fr' ? "Voir les détails" : "View details"}>
                 <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-blue-500/10 transition-colors shrink-0">
                   <Award className="text-blue-400" size={24} />
@@ -99,13 +111,14 @@ const Hero = ({ t, lang }) => {
                 </div>
               </div>
 
-              <div onClick={() => scrollToTab('terraform')} className="group flex items-center gap-4 bg-slate-900/30 border border-slate-700 border-dashed hover:border-purple-500/50 rounded-xl px-5 py-3 shadow-sm transition-all w-full min-h-[72px] opacity-60 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer" title={lang === 'fr' ? "Voir les détails" : "View details"}>
-                <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-purple-500/10 transition-colors shrink-0">
-                  <Award className="text-purple-400" size={24} />
+              {/* NEW: Fortinet NSE 4 In Progress */}
+              <div onClick={() => scrollToTab('nse4')} className="group flex items-center gap-4 bg-slate-900/30 border border-slate-700 border-dashed hover:border-red-500/50 rounded-xl px-5 py-3 shadow-sm transition-all w-full min-h-[72px] opacity-60 grayscale hover:grayscale-0 hover:opacity-100 cursor-pointer" title={lang === 'fr' ? "Voir les détails" : "View details"}>
+                <div className="p-2 bg-slate-800/50 rounded-lg group-hover:bg-red-500/10 transition-colors shrink-0">
+                  <Award className="text-red-400" size={24} />
                 </div>
                 <div className="flex flex-col text-left">
-                  <p className="text-[10px] uppercase text-purple-400/80 font-bold mb-0.5 tracking-wider">{lang === 'fr' ? 'En préparation' : 'In Progress'}</p>
-                  <p className="font-semibold text-slate-400 group-hover:text-slate-200 transition-colors text-sm leading-tight flex items-center gap-1">Terraform Associate <Activity size={12} className="text-purple-500 animate-pulse shrink-0" /></p>
+                  <p className="text-[10px] uppercase text-red-400/80 font-bold mb-0.5 tracking-wider">{lang === 'fr' ? 'En préparation' : 'In Progress'}</p>
+                  <p className="font-semibold text-slate-400 group-hover:text-slate-200 transition-colors text-sm leading-tight flex items-center gap-1">Fortinet NSE 4 <Activity size={12} className="text-red-500 animate-pulse shrink-0" /></p>
                 </div>
               </div>
 

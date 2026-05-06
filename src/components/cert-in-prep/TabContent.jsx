@@ -9,7 +9,8 @@ const TabContent = ({ activeTabData, color = 'purple' }) => {
     blue: { code: 'text-blue-300', bullet: 'text-blue-500', pre: 'text-blue-400' },
     emerald: { code: 'text-emerald-300', bullet: 'text-emerald-500', pre: 'text-emerald-400' },
     teal: { code: 'text-teal-300', bullet: 'text-teal-500', pre: 'text-teal-400' },
-    sky: { code: 'text-sky-300', bullet: 'text-sky-500', pre: 'text-sky-400' }
+    sky: { code: 'text-sky-300', bullet: 'text-sky-500', pre: 'text-sky-400' },
+    red: { code: 'text-red-300', bullet: 'text-red-500', pre: 'text-red-400' }
   };
 
   // Sécurité anti-crash si la couleur n'existe pas

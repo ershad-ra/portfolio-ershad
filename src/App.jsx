@@ -33,12 +33,15 @@ import Project17 from './pages/Project17';
 // NOUVELLE PAGE : Détails de l'expérience
 import ExperienceDetails from './pages/ExperienceDetails';
 
-// Terraform & CCNP - In process
+// Terraform, CCNP & autres - In process
 import TerraformCert from './pages/TerraformCert';
 import CcnpCert from './pages/CcnpCert';
 import VcpDcvCert from './pages/VcpDcvCert';
 import VcpNvCert from './pages/VcpNvCert';
 import Az104Cert from './pages/Az104Cert';
+
+// ADDED: Import the new NSE4 page
+import NSE4Cert from './pages/NSE4Cert';
 
 const App = () => {
   const [lang, setLang] = useState('fr');
@@ -121,12 +124,15 @@ const App = () => {
           {/* === LA ROUTE EST MAINTENANT CONNECTÉE AU TOGGLE === */}
           <Route path="/experience/details" element={<ExperienceDetails lang={lang} onToggleLanguage={toggleLanguage} />} />
 
-          {/* TERRAFORM et CCNP */}
+          {/* Certifications */}
           <Route path="/certification/terraform" element={<TerraformCert lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/certification/ccnp" element={<CcnpCert lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/certification/vcp-dcv" element={<VcpDcvCert lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/certification/vcp-nv" element={<VcpNvCert lang={lang} onToggleLanguage={toggleLanguage} />} />
           <Route path="/certification/az-104" element={<Az104Cert lang={lang} onToggleLanguage={toggleLanguage} />} />
+          
+          {/* ADDED: Route for NSE 4 */}
+          <Route path="/certification/nse4" element={<NSE4Cert lang={lang} onToggleLanguage={toggleLanguage} />} />
         </Routes>
       </div>
     </Router>
