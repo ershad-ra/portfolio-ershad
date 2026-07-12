@@ -9,7 +9,7 @@ import Navbar from '../components/Navbar';
 import Hero from '../components/Hero';
 import TargetRoles from '../components/TargetRoles';
 import About from '../components/About';
-import PersonalSkills from '../components/PersonalSkills'; // <-- L'IMPORT EST ICI
+import PersonalSkills from '../components/PersonalSkills';
 import Timeline from '../components/Timeline';
 import CurrentLearning from '../components/CurrentLearning';
 import Capstone from '../components/Capstone';

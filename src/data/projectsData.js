@@ -16,7 +16,7 @@ export const projectsData = [
       subtitle: "2-Tier Infrastructure Redundancy via Active/Standby Failover on ASAs 5506X",
       description: "Implemented a high-availability architecture by configuring a failover cluster of Cisco ASA 5506X firewalls. The goal was to ensure seamless service continuity (Active/Standby) for a two-tier network infrastructure, minimizing downtime in the event of hardware failure."
     },
-    tags: ["Cisco ASA", "High Availability", "Failover", "Network"]
+    tags: ["High Availability", "Failover", "Network"]
   },
   {
     id: 2,
