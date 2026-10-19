@@ -3,396 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resume_Ershad_Ramezani_Systems_Network_Engineer</title>
-    <!-- Tailwind CSS for rapid styling -->
+    <title>CV_Ershad_Ramezani_Systems_Network_Engineer</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome for crisp vector icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        /* Import a clean, modern sans-serif font */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-
-        body, html {
-            margin: 0;
-            padding: 0;
-            background-color: #f1f5f9; /* Fond gris clair pour l'aperçu écran */
-            font-family: 'Inter', sans-serif;
-            /* Ensure colors print correctly when exporting to PDF */
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-        }
-
-        /* Strict A4 Paper Dimensions */
-        .a4-page {
-            width: 210mm;
-            height: 297mm;
-            background-color: #1e293b; /* Couleur pour masquer les potentiels micro-décalages */
-            position: relative;
-            overflow: hidden;
-            display: flex;
-            box-shadow: 0 10px 40px -10px rgba(0,0,0,0.2);
-        }
-
-        /* ATS helper: visually hidden but readable by parsers/screen readers.
-           These hidden separators inject commas/labels into the PDF text stream
-           so skill pills and contact items don't concatenate when parsed. */
-        .sr-only {
-            position: absolute !important;
-            width: 1px;
-            height: 1px;
-            padding: 0;
-            margin: -1px;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            white-space: nowrap;
-            border: 0;
-        }
-
+        body, html { margin: 0; padding: 0; background-color: #f1f5f9; font-family: 'Inter', sans-serif; -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+        .a4-page { width: 210mm; height: 297mm; background-color: #1e293b; position: relative; overflow: hidden; display: flex; box-shadow: 0 10px 40px -10px rgba(0,0,0,0.2); }
+        .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
         @media print {
-            @page {
-                size: A4 portrait;
-                margin: 0;
-            }
-            body, html {
-                background-color: white;
-            }
-            /* Pour s'assurer que l'impression est parfaite, sans marges ni ombres */
-            .flex.justify-center.w-full.pb-10 {
-                padding-bottom: 0 !important;
-            }
-            .a4-page {
-                box-shadow: none;
-                margin: 0;
-            }
-            .no-print {
-                display: none !important;
-            }
-            /* ATS optimization: hide decorative Font Awesome icons in the printed PDF.
-               Icons render as Private-Use-Area glyphs that pollute parsed text. */
-            .fa, .fas, .far, .fab, .fal, .fad {
-                display: none !important;
-            }
+            @page { size: A4 portrait; margin: 0; }
+            body, html { background-color: white; }
+            .flex.justify-center.w-full.pb-10 { padding-bottom: 0 !important; }
+            .a4-page { box-shadow: none; margin: 0; }
+            .no-print { display: none !important; }
+            .fa, .fas, .far, .fab, .fal, .fad { display: none !important; }
         }
     </style>
 </head>
 <body class="text-slate-800 antialiased flex flex-col min-h-screen">
-
-    <!-- Bouton de téléchargement PDF (visible uniquement à l'écran) -->
     <div class="no-print flex flex-col items-center justify-center mt-6 mb-6 gap-2">
         <button onclick="window.print()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold transition-colors shadow-lg flex items-center gap-2 cursor-pointer border-none">
-            <i class="fas fa-file-pdf" aria-hidden="true"></i> Save as PDF (ATS Friendly)
+            <i class="fas fa-file-pdf" aria-hidden="true"></i> Save as PDF (ATS format)
         </button>
         <span class="text-xs text-slate-500 font-medium"><i class="fas fa-info-circle text-indigo-400" aria-hidden="true"></i> Choose "Save as PDF" as the destination in the print dialog.</span>
     </div>
-
-    <!-- Conteneur Flex pour centrer le CV sans utiliser de marges sur la page A4 elle-même -->
     <div class="flex justify-center w-full pb-10">
-
-        <!-- The A4 Resume Canvas -->
         <div class="a4-page" id="cv-canvas">
-
-            <!-- Left Column: Sidebar -->
-            <div class="w-[32%] shrink-0 bg-slate-800 text-slate-100 p-6 flex flex-col gap-3.5">
-
-                <!-- Profile Photo / Name area -->
+            <div class="w-[32%] shrink-0 bg-slate-800 text-slate-100 p-6 flex flex-col gap-2">
                 <div class="text-center mt-0 flex flex-col items-center">
-                    <div class="w-36 h-36 rounded-full bg-slate-700 mx-auto mb-0 border-4 border-slate-600 overflow-hidden flex items-center justify-center">
+                    <div class="w-[125px] h-[125px] rounded-full bg-slate-700 mx-auto mb-0 border-4 border-slate-600 overflow-hidden flex items-center justify-center">
                         <img src="https://assets.persys.fr/Portfolio/Resumes%20-%20CVs/ershad_ramezani_circle.png" alt="Ershad Ramezani" class="w-full h-full object-cover">
                     </div>
-                    <h2 class="text-[22px] font-black text-white tracking-wider uppercase text-center w-full mt-0">Ershad <span class="text-indigo-400">RAMEZANI</span></h2>
+                    <h2 class="text-[22px] font-black text-white tracking-wider uppercase text-center w-full mt-3 -mb-3">Ershad <span class="text-indigo-400">RAMEZANI</span></h2>
                 </div>
-
-                <!-- Contact Information -->
                 <section>
                     <h2 class="text-base font-bold uppercase tracking-wider text-indigo-400 mb-1.5 border-b border-slate-600 pb-0.5">Contact</h2>
                     <ul class="flex flex-col gap-1.5 text-[11.5px] font-medium text-slate-200">
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-phone w-4 text-center text-indigo-400" aria-hidden="true"></i>
-                            <span class="sr-only">Phone: </span>
-                            <span>+33 6 58 79 26 23</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-envelope w-4 text-center text-indigo-400" aria-hidden="true"></i>
-                            <span class="sr-only">Email: </span>
-                            <span>ershad.ra@gmail.com</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-globe w-4 text-center text-indigo-400" aria-hidden="true"></i>
-                            <span class="sr-only">Website: </span>
-                            <span>p.persys.fr</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-map-marker-alt w-4 text-center text-indigo-400" aria-hidden="true"></i>
-                            <span class="sr-only">Location: </span>
-                            <span>31000, Toulouse</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fas fa-car w-4 text-center text-indigo-400" aria-hidden="true"></i>
-                            <span>Driving License</span>
-                        </li>
+                        <li class="flex items-center gap-3"><i class="fas fa-phone w-4 text-center text-indigo-400" aria-hidden="true"></i><span class="sr-only">Phone: </span><span>+33 6 58 79 26 23</span></li>
+                        <li class="flex items-center gap-3"><i class="fas fa-envelope w-4 text-center text-indigo-400" aria-hidden="true"></i><span class="sr-only">Email: </span><span>ershad.ra@gmail.com</span></li>
+                        <li class="flex items-center gap-3"><i class="fas fa-globe w-4 text-center text-indigo-400" aria-hidden="true"></i><span class="sr-only">Website: </span><span>p.persys.fr</span></li>
+                        <li class="flex items-center gap-3"><i class="fas fa-map-marker-alt w-4 text-center text-indigo-400" aria-hidden="true"></i><span class="sr-only">Location: </span><span>Toulouse (31000), France</span></li>
+                        <li class="flex items-center gap-3"><i class="fas fa-car w-4 text-center text-indigo-400" aria-hidden="true"></i><span>Driving Licence (B)</span></li>
                     </ul>
                 </section>
-
-                <!-- Formations -->
                 <section>
                     <h2 class="text-base font-bold uppercase tracking-wider text-indigo-400 mb-2 border-b border-slate-600 pb-0.5">Education</h2>
-                    <div class="flex flex-col gap-3">
-                        <div>
-                            <h3 class="font-bold text-white text-[12px] leading-tight mb-0.5"><span class="text-indigo-400 mr-1">2025 &bull;</span>Master's Degree</h3>
-                            <p class="text-[11px] font-semibold text-slate-200 leading-tight">Cloud, Security &amp; Infrastructure Expert</p>
-                            <p class="text-[10.5px] text-slate-400 font-medium mt-0.5">YNOV Campus, Toulouse</p>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-white text-[12px] leading-tight mb-0.5"><span class="text-indigo-400 mr-1">2023 &bull;</span>Bachelor's Degree</h3>
-                            <p class="text-[11px] font-semibold text-slate-200 leading-tight">Secure Infrastructure Administrator</p>
-                            <p class="text-[10.5px] text-slate-400 font-medium mt-0.5">ADRAR Formation, Toulouse</p>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-white text-[12px] leading-tight mb-0.5"><span class="text-indigo-400 mr-1">2022 &bull;</span>Associate's Degree</h3>
-                            <p class="text-[11px] font-semibold text-slate-200 leading-tight">Systems &amp; Networks Support Technician</p>
-                            <p class="text-[10.5px] text-slate-400 font-medium mt-0.5">ADRAR Formation, Toulouse</p>
-                        </div>
+                    <div class="flex flex-col gap-2">
+                        <div><h3 class="font-bold text-white text-[12px] leading-tight mb-0.5"><span class="text-indigo-400 mr-1">2025 &bull;</span>Master's Degree</h3><p class="text-[11px] font-semibold text-slate-200 leading-tight">Cloud, Security &amp; Infrastructure Expert</p><p class="text-[10.5px] text-slate-400 font-medium mt-0.5">YNOV Campus, Toulouse</p></div>
+                        <div><h3 class="font-bold text-white text-[12px] leading-tight mb-0.5"><span class="text-indigo-400 mr-1">2023 &bull;</span>Bachelor's Degree</h3><p class="text-[11px] font-semibold text-slate-200 leading-tight">Secure Infrastructure Administrator</p><p class="text-[10.5px] text-slate-400 font-medium mt-0.5">ADRAR Formation, Toulouse</p></div>
+                        <div><h3 class="font-bold text-white text-[12px] leading-tight mb-0.5"><span class="text-indigo-400 mr-1">2022 &bull;</span>Associate Degree (BTS)</h3><p class="text-[11px] font-semibold text-slate-200 leading-tight">Systems &amp; Networks Technician</p><p class="text-[10.5px] text-slate-400 font-medium mt-0.5">ADRAR Formation, Toulouse</p></div>
                     </div>
                 </section>
-
-                <!-- Certificats (reverse-chronological order: newest first) -->
                 <section>
                     <h2 class="text-base font-bold uppercase tracking-wider text-indigo-400 mb-2 border-b border-slate-600 pb-0.5">Certifications</h2>
-                    <div class="flex flex-col gap-3">
-                        <div>
-                            <h3 class="font-bold text-white text-[11.5px] leading-tight"><span class="text-indigo-400 mr-1">2026 &bull;</span>HashiCorp Certified: Terraform Associate (004)</h3>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-white text-[11.5px] leading-tight"><span class="text-indigo-400 mr-1">2025 &bull;</span>AWS Certified Solutions Architect - Associate</h3>
-                        </div>
-                        <div>
-                            <h3 class="font-bold text-white text-[11.5px] leading-tight"><span class="text-indigo-400 mr-1">2023 &bull;</span>Cisco Certified Network Associate (CCNA)</h3>
-                        </div>
+                    <div class="flex flex-col gap-2">
+                        <div><h3 class="font-bold text-white text-[11.5px] leading-tight"><span class="text-indigo-400 mr-1">2026 &bull;</span>HashiCorp Certified: Terraform Associate (004)</h3></div>
+                        <div><h3 class="font-bold text-white text-[11.5px] leading-tight"><span class="text-indigo-400 mr-1">2025 &bull;</span>AWS Certified Solutions Architect - Associate</h3></div>
+                        <div><h3 class="font-bold text-white text-[11.5px] leading-tight"><span class="text-indigo-400 mr-1">2023 &bull;</span>Cisco Certified Network Associate (CCNA)</h3></div>
+                        <div><h3 class="font-bold text-white text-[11.5px] leading-tight"><span class="text-indigo-400 mr-1">2026 &bull;</span>Fortinet NSE4 - FortiOS Administrator</h3></div>
                     </div>
                 </section>
-
-                <!-- Atouts & Languages (Stacked) -->
                 <div class="flex flex-col gap-4 mt-auto">
                     <section>
-                        <h2 class="text-[13px] font-bold uppercase tracking-wider text-indigo-400 mb-2 border-b border-slate-600 pb-0.5">Soft Skills</h2>
-                        <div class="grid grid-cols-2 gap-y-2.5 gap-x-2 text-[11px] font-medium text-slate-200">
+                        <h2 class="text-[13px] font-bold uppercase tracking-wider text-indigo-400 mb-2 border-b border-slate-600 pb-0.5">Strengths</h2>
+                        <div class="grid grid-cols-2 gap-y-1.5 gap-x-2 text-[11px] font-medium text-slate-200">
                             <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#ffc107] shadow-sm" aria-hidden="true"></span>Versatile</div>
                             <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#fdd835] shadow-sm" aria-hidden="true"></span>Team Player</div>
-                            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#ffb300] shadow-sm" aria-hidden="true"></span>Autonomous</div>
+                            <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#ffb300] shadow-sm" aria-hidden="true"></span>Independent</div>
                             <div class="flex items-center gap-2"><span class="w-2.5 h-2.5 rounded-full bg-[#ffc107] shadow-sm" aria-hidden="true"></span>Rigorous</div>
                         </div>
                     </section>
-
                     <section>
                         <h2 class="text-[13px] font-bold uppercase tracking-wider text-indigo-400 mb-2 border-b border-slate-600 pb-0.5">Languages</h2>
                         <ul class="text-[11px] font-medium flex flex-col gap-2">
-                            <li class="flex items-center justify-between">
-                                <span class="text-slate-200 flex items-center gap-1.5"><i class="fas fa-globe text-indigo-500 w-3 text-center" aria-hidden="true"></i> French</span>
-                                <span class="bg-indigo-900/60 border border-indigo-700/50 text-indigo-300 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider">BILINGUAL</span>
-                            </li>
-                            <li class="flex items-center justify-between">
-                                <span class="text-slate-200 flex items-center gap-1.5"><i class="fas fa-globe text-indigo-500 w-3 text-center" aria-hidden="true"></i> English <span class="text-slate-400 font-normal text-[9px] ml-0.5">(C1)</span></span>
-                                <span class="bg-indigo-900/60 border border-indigo-700/50 text-indigo-300 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider">BILINGUAL</span>
-                            </li>
-                            <li class="flex items-center justify-between">
-                                <span class="text-slate-200 flex items-center gap-1.5"><i class="fas fa-globe text-indigo-500 w-3 text-center" aria-hidden="true"></i> Persian</span>
-                                <span class="bg-indigo-900/60 border border-indigo-700/50 text-indigo-300 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider">NATIVE</span>
-                            </li>
+                            <li class="flex items-center justify-between"><span class="text-slate-200 flex items-center gap-1.5"><i class="fas fa-globe text-indigo-500 w-3 text-center" aria-hidden="true"></i> French</span><span class="bg-indigo-900/60 border border-indigo-700/50 text-indigo-300 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider">BILINGUAL</span></li>
+                            <li class="flex items-center justify-between"><span class="text-slate-200 flex items-center gap-1.5"><i class="fas fa-globe text-indigo-500 w-3 text-center" aria-hidden="true"></i> English <span class="text-slate-400 font-normal text-[9px] ml-0.5">(C1)</span></span><span class="bg-indigo-900/60 border border-indigo-700/50 text-indigo-300 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider">BILINGUAL</span></li>
+                            <li class="flex items-center justify-between"><span class="text-slate-200 flex items-center gap-1.5"><i class="fas fa-globe text-indigo-500 w-3 text-center" aria-hidden="true"></i> Persian</span><span class="bg-indigo-900/60 border border-indigo-700/50 text-indigo-300 px-2 py-0.5 rounded-full text-[9px] font-bold tracking-wider">NATIVE</span></li>
                         </ul>
                     </section>
                 </div>
-
-                <!-- Interests -->
                 <section class="mt-1">
                     <h2 class="text-base font-bold uppercase tracking-wider text-indigo-400 mb-1.5 border-b border-slate-600 pb-0.5">Interests</h2>
-                    <ul class="text-[11px] font-medium text-slate-200 flex flex-col gap-1.5">
-                        <li><i class="fas fa-plane text-indigo-400 mr-2 w-3" aria-hidden="true"></i>Travel: Europe &amp; Asia</li>
-                        <li><i class="fas fa-biking text-indigo-400 mr-2 w-3" aria-hidden="true"></i>Sports: MTB &amp; Outdoor</li>
-                        <li><i class="fas fa-mountain text-indigo-400 mr-2 w-3" aria-hidden="true"></i>Hiking: Pyrenees</li>
+                    <ul class="text-[11px] font-medium text-slate-200 grid grid-cols-2 gap-x-2 gap-y-1.5">
+                        <li><i class="fas fa-plane text-indigo-400 mr-1.5 w-3" aria-hidden="true"></i>Travel</li>
+                        <li class="whitespace-nowrap"><i class="fas fa-biking text-indigo-400 mr-1.5 w-3" aria-hidden="true"></i>Mountain Biking</li>
+                        <li class="col-span-2"><i class="fas fa-mountain text-indigo-400 mr-1.5 w-3" aria-hidden="true"></i>Hiking: Pyrenees</li>
                     </ul>
                 </section>
-
             </div>
-
-            <!-- Right Column: Main Content -->
-            <!-- flex-1 force la colonne à prendre EXACTEMENT tout l'espace restant sans marge d'erreur -->
             <div class="flex-1 px-8 pt-5 pb-5 flex flex-col bg-white">
-
-                <!-- Header (Name and Title) -->
-                <header class="mb-1">
-                    <h1 class="text-[26px] font-black text-slate-900 tracking-tight uppercase mb-0">Systems &amp; Network <span class="text-indigo-700">Engineer</span></h1>
-                </header>
-
-                <!-- Profile Summary -->
+                <header class="mb-1"><h1 class="text-[26px] font-black text-slate-900 tracking-tight uppercase mb-0">Systems <span class="text-indigo-700">&amp; Network Engineer</span></h1></header>
                 <section class="mb-0.5 mt-0">
-                    <p class="text-[12.5px] leading-relaxed text-slate-700 font-medium">
-                        <span class="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded text-xs mr-1 font-bold">Full-Time Toulouse</span>
-                        <span class="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded text-xs mr-1 font-bold">IT Consulting &amp; Services</span>
-                        Design and deploy hybrid infrastructures, provide L2/L3 support and ensure operational maintenance to guarantee IT system performance and client peace of mind.
-                    </p>
-                    <div class="text-center mt-0.5">
-                        <strong class="text-green-600 text-[12px] whitespace-nowrap"><i class="fas fa-check-circle mr-1" aria-hidden="true"></i>Availability: Immediate</strong>
-                    </div>
+                    <p class="text-[12.5px] leading-snug text-slate-700 font-medium"><span class="bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded text-xs mr-1 font-bold">Permanent · Toulouse</span><span class="bg-slate-100 text-slate-700 border border-slate-200 px-2 py-0.5 rounded text-xs mr-1 font-bold">IT Consulting &amp; Services</span>Designing, deploying and securing hybrid infrastructures, with L2/L3 support and ongoing operations to keep IT systems performing and your clients worry-free.</p>
+                    <div class="text-center mt-0.5"><strong class="text-green-600 text-[12px] whitespace-nowrap"><i class="fas fa-check-circle mr-1" aria-hidden="true"></i>Availability: Immediate</strong></div>
                 </section>
-
-                <!-- Compétences Techniques (Skills) -->
-                <section class="mb-3">
-                    <h3 class="text-lg font-bold text-slate-900 border-b-2 border-slate-200 pb-1 mb-2.5 flex items-center gap-2">
-                        <i class="fas fa-laptop-code text-indigo-600" aria-hidden="true"></i> Professional Skills
-                    </h3>
+                <section class="mb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b-2 border-slate-200 pb-1 mb-2 flex items-center gap-2"><i class="fas fa-laptop-code text-indigo-600" aria-hidden="true"></i> Professional Skills</h3>
                     <div class="grid grid-cols-2 gap-4 items-start">
-
-                        <!-- Colonne 1 -->
-                        <div class="flex flex-col gap-3">
-                            <!-- Réseaux -->
+                        <div class="flex flex-col gap-2">
                             <div>
                                 <h4 class="font-bold text-slate-800 text-[13px] flex items-center gap-1.5"><i class="fas fa-network-wired text-indigo-600 w-4" aria-hidden="true"></i> Networking</h4>
-                                <p class="text-[10px] text-slate-500 mb-1.5 font-bold uppercase tracking-wider">Multi-site Architecture</p>
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Cisco</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Aruba</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">D-Link</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Meraki</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">OSPF</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">BGP</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">LAN</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">WAN</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">WLAN</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VLAN</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Traffic Management</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Link Aggregation</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">LACP</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Failover</span><span class="sr-only">. </span>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Cisco</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Aruba</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">D-Link</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Fortinet</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Dynamic Routing</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Switching</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">LAN</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">WAN</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">WLAN</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">DMZ</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">ACLs</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">LACP</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">HA</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">NAT</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">SVI</span><span class="sr-only">, </span>
                                 </div>
                             </div>
-                            <!-- Cloud & Virt -->
                             <div>
-                                <h4 class="font-bold text-slate-800 text-[13px] flex items-center gap-1.5"><i class="fas fa-cloud text-indigo-600 w-4" aria-hidden="true"></i> Cloud &amp; Virt.</h4>
-                                <p class="text-[10px] text-slate-500 mb-1.5 font-bold uppercase tracking-wider">Hybrid Infrastructures</p>
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VMware vSphere</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VCF</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">NSX</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Hyper-V</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">AWS</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Azure</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Docker</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Kubernetes</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">IaaS</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">SaaS</span><span class="sr-only">. </span>
+                                <h4 class="font-bold text-slate-800 text-[13px] flex items-center gap-1.5"><i class="fas fa-cloud text-indigo-600 w-4" aria-hidden="true"></i> Cloud &amp; Virt. (Hybrid Infra.)</h4>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VMware vSphere</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VCF</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">NSX</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Hyper-V</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">AWS</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Azure</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">M365</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Docker</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Kubernetes</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">IaaS</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">SaaS</span><span class="sr-only">. </span>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Colonne 2 -->
-                        <div class="flex flex-col gap-3">
-                            <!-- Sécurité -->
+                        <div class="flex flex-col gap-2">
                             <div>
-                                <h4 class="font-bold text-slate-800 text-[13px] flex items-center gap-1.5"><i class="fas fa-shield-alt text-indigo-600 w-4" aria-hidden="true"></i> Security</h4>
-                                <p class="text-[10px] text-slate-500 mb-1.5 font-bold uppercase tracking-wider">Perimeter Security</p>
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">SonicWall</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Fortinet</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Cisco ASA</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VPN IPsec</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VPN SSL</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Hardening</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Audit</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">TLS Certificates</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">EDR</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">IDS/IPS</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Radius</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">MFA</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">IAM</span><span class="sr-only">. </span>
+                                <h4 class="font-bold text-slate-800 text-[13px] flex items-center gap-1.5"><i class="fas fa-shield-alt text-indigo-600 w-4" aria-hidden="true"></i> Perimeter Security</h4>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">SonicWall</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Fortinet</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Sophos</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Audit</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">VPN IPsec/SSL</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Web Filtering</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">DPI</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Anti-DoS</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">IAM / MFA</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Hardening</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">IPS</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Radius</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">TLS / PKI</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">EDR / EPP</span><span class="sr-only">, </span>
                                 </div>
                             </div>
-                            <!-- Gouvernance -->
                             <div>
-                                <h4 class="font-bold text-slate-800 text-[13px] flex items-center gap-1.5"><i class="fas fa-cogs text-indigo-600 w-4" aria-hidden="true"></i> Governance &amp; Ops</h4>
-                                <p class="text-[10px] text-slate-500 mb-1.5 font-bold uppercase tracking-wider">Automation &amp; Management</p>
-                                <div class="flex flex-wrap gap-1">
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Windows</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Linux</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">PowerShell</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Bash</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Veeam</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">DRP/BCP</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Ansible</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Terraform</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">ITIL</span><span class="sr-only">, </span>
-                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Jira</span><span class="sr-only">. </span>
+                                <h4 class="font-bold text-slate-800 text-[13px] flex items-center gap-1.5"><i class="fas fa-cogs text-indigo-600 w-4" aria-hidden="true"></i> Automation &amp; Operations</h4>
+                                <div class="flex flex-wrap gap-1 mt-1">
+                                    <span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Windows Server 2016&ndash;2025</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Linux</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Veeam</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">DRP/BCP</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Ansible</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Terraform</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">PS</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Bash</span><span class="sr-only">, </span><span class="bg-slate-50 text-slate-800 border border-slate-300 px-1.5 py-[2px] rounded text-[10px] font-semibold">Jira</span><span class="sr-only">. </span>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
-
-                <!-- Experience -->
                 <section>
-                    <h3 class="text-lg font-bold text-slate-900 border-b-2 border-slate-200 pb-1 mb-2.5 flex items-center gap-2">
-                        <i class="fas fa-briefcase text-indigo-600" aria-hidden="true"></i> Professional Experience
-                    </h3>
-
-                    <div class="flex flex-col gap-3.5">
-                        <!-- Job 1 -->
+                    <h3 class="text-lg font-bold text-slate-900 border-b-2 border-slate-200 pb-1 mb-2 flex items-center gap-2"><i class="fas fa-briefcase text-indigo-600" aria-hidden="true"></i> Professional Experience</h3>
+                    <div class="flex flex-col gap-2">
+                        <div class="relative pl-4 border-l-2 border-indigo-300">
+                            <div class="absolute w-3 h-3 bg-indigo-700 rounded-full -left-[7px] top-1.5 border-2 border-white" aria-hidden="true"></div>
+                            <div class="flex justify-between items-baseline mb-0"><h4 class="font-bold text-slate-900 text-[14.5px]">Network &amp; Systems Administrator</h4><span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Since Sept. 2026</span></div>
+                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1">Agoravita, Toulouse (On-site)</p>
+                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-0.5">
+                                <li><strong class="text-slate-900">Network Administration:</strong> Operating, improving and troubleshooting network equipment.</li>
+                                <li><strong class="text-slate-900">Server Administration:</strong> Management, maintenance and updates of Windows servers.</li>
+                                <li><strong class="text-slate-900">Field Interventions:</strong> On-site diagnosis and troubleshooting of equipment.</li>
+                                <li><strong class="text-slate-900">Proactive Contribution:</strong> Technical recommendations to improve and strengthen IT systems.</li>
+                            </ul>
+                        </div>
                         <div class="relative pl-4 border-l-2 border-indigo-300">
                             <div class="absolute w-3 h-3 bg-indigo-600 rounded-full -left-[7px] top-1.5 border-2 border-white" aria-hidden="true"></div>
-                            <div class="flex justify-between items-baseline mb-0">
-                                <h4 class="font-bold text-slate-900 text-[14.5px]">Systems and Network Administrator</h4>
-                                <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">2022 - 2025</span>
-                            </div>
-                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1.5">MISMO Informatique, Toulouse (Apprenticeship)</p>
-                            <p class="text-[10.5px] text-slate-700 italic mb-1.5 border-l-2 border-slate-300 pl-2">Technical lead for dedicated managed services and infrastructure engineering for a portfolio of SMEs.</p>
-
-                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-1">
-                                <li><strong class="text-slate-900">Audit &amp; Engineering:</strong> Mapping, traffic matrices, multi-site LAN redesign, and network equipment deployment.</li>
-                                <li><strong class="text-slate-900">Security &amp; Identity:</strong> Firewall administration, ACL policies, hardening, and directory/access management.</li>
-                                <li><strong class="text-slate-900">Cloud &amp; Virtualization:</strong> Cloud migrations (IaaS/SaaS) and HA cluster administration.</li>
-                                <li><strong class="text-slate-900">Operations &amp; Resilience:</strong> L2/L3 technical support, proactive monitoring, fleet management, DRP, and automation.</li>
-                                <li><strong class="text-slate-900">Client Consulting:</strong> Pre-sales support, technical consulting, and on-site solution deployment.</li>
+                            <div class="flex justify-between items-baseline mb-0"><h4 class="font-bold text-slate-900 text-[14px]">Visiting Lecturer - Cybersecurity &amp; Networking</h4><span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Since June 2026</span></div>
+                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1">YNOV Campus, Toulouse (Freelance)</p>
+                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-0.5">
+                                <li><strong class="text-slate-900">Teaching:</strong> Cybersecurity, cryptography, network security and advanced network architecture for Master's (RNCP/EQF level 7), Bachelor's and BTS SIO students.</li>
+                                <li><strong class="text-slate-900">Course Delivery:</strong> Course material design, lectures and hands-on labs, assessments.</li>
                             </ul>
-                            <p class="mt-1.5 text-[10.5px] text-slate-600"><strong class="text-slate-800">Environment:</strong> Cisco, Aruba, Meraki, Fortinet, SonicWall, Azure, M365, vSphere, Hyper-V, Veeam, Ansible, PowerShell.</p>
+                            <p class="mt-1 text-[10.5px] text-slate-600"><strong class="text-slate-800">Topics:</strong> AAA/RADIUS, 802.1X, L2 security, ASA firewall &amp; DMZ, IPS, hardening.</p>
                         </div>
-
-                        <!-- Job 2 -->
+                        <div class="relative pl-4 border-l-2 border-indigo-300">
+                            <div class="absolute w-3 h-3 bg-indigo-600 rounded-full -left-[7px] top-1.5 border-2 border-white" aria-hidden="true"></div>
+                            <div class="flex justify-between items-baseline mb-0"><h4 class="font-bold text-slate-900 text-[14.5px]">Systems &amp; Network Administrator</h4><span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">2022 - 2025</span></div>
+                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1">MISMO Informatique, Toulouse (Apprenticeship)</p>
+                            <p class="text-[10.5px] text-slate-700 italic mb-1 border-l-2 border-slate-300 pl-2">Technical lead for a dedicated managed-services client and infrastructure engineering for a portfolio of SMBs.</p>
+                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-0.5">
+                                <li><strong class="text-slate-900">Audit &amp; Engineering:</strong> Network mapping, flow matrices, multi-site LAN redesign and network equipment deployment.</li>
+                                <li><strong class="text-slate-900">Security &amp; Identity:</strong> Firewall administration (ACLs, NGFW profiles), hardening, directory and access management.</li>
+                                <li><strong class="text-slate-900">Cloud &amp; Virtualisation:</strong> Cloud migrations (IaaS/SaaS) and HA cluster administration.</li>
+                                <li><strong class="text-slate-900">Operations &amp; Consulting:</strong> L2/L3 support, monitoring, DRP and automation, pre-sales support and on-site deployment.</li>
+                            </ul>
+                            <p class="mt-1 text-[10.5px] text-slate-600"><strong class="text-slate-800">Environment:</strong> Cisco, Aruba, Meraki, Fortinet, SonicWall, Azure, M365, vSphere, Hyper-V, Veeam, Ansible, PowerShell.</p>
+                        </div>
                         <div class="relative pl-4 border-l-2 border-indigo-300">
                             <div class="absolute w-3 h-3 bg-indigo-500 rounded-full -left-[7px] top-1.5 border-2 border-white" aria-hidden="true"></div>
-                            <div class="flex justify-between items-baseline mb-0">
-                                <h4 class="font-bold text-slate-900 text-[13.5px]">Systems &amp; Network Technician</h4>
-                                <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">August 2021</span>
-                            </div>
-                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1.5">Data Expertise, Toulouse (Internship)</p>
-                            <p class="text-[10.5px] text-slate-700 italic mb-1.5 border-l-2 border-slate-300 pl-2">L1/L2 technical support and operational maintenance of client infrastructures.</p>
-                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-1">
-                                <li><strong class="text-slate-900">Client Relations:</strong> Single point of contact for clients via an on-call system.</li>
-                                <li><strong class="text-slate-900">Incident Management:</strong> Qualification and resolution of technical requests using GLPI.</li>
-                                <li><strong class="text-slate-900">Network Maintenance:</strong> Hardware updates (firmware) and configuration backups on switches and routers.</li>
+                            <div class="flex justify-between items-baseline mb-0"><h4 class="font-bold text-slate-900 text-[13.5px]">Systems &amp; Network Technician</h4><span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">Aug. 2021</span></div>
+                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1">Data Expertise, Toulouse (Internship)</p>
+                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-0.5">
+                                <li><strong class="text-slate-900">L1/L2 Support:</strong> Incident resolution via GLPI and on-call client support.</li>
+                                <li><strong class="text-slate-900">Network Maintenance:</strong> Firmware updates and configuration backups.</li>
                             </ul>
-                            <p class="mt-1.5 text-[10.5px] text-slate-600"><strong class="text-slate-800">Environment:</strong> GLPI, Networking HP &amp; D-Link, Windows environments.</p>
                         </div>
-
-                        <!-- Job 3 -->
                         <div class="relative pl-4 border-l-2 border-indigo-300">
                             <div class="absolute w-3 h-3 bg-indigo-400 rounded-full -left-[7px] top-1.5 border-2 border-white" aria-hidden="true"></div>
-                            <div class="flex justify-between items-baseline mb-0">
-                                <h4 class="font-bold text-slate-900 text-[13.5px]">Systems &amp; Network Technician</h4>
-                                <span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">2016 - 2019</span>
-                            </div>
-                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1.5">Tehran Municipality, Tehran, Iran (Permanent)</p>
-                            <p class="text-[10.5px] text-slate-700 italic mb-1.5 border-l-2 border-slate-300 pl-2">IT support and fleet management for public sector municipal services.</p>
-
-                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-1">
-                                <li><strong class="text-slate-900">Large-scale Deployment:</strong> Management of workstation deployments.</li>
-                                <li><strong class="text-slate-900">On-site Support:</strong> L1/L2 technical assistance and on-site troubleshooting to ensure service continuity.</li>
-                                <li><strong class="text-slate-900">IT Asset Maintenance:</strong> Preventive maintenance and software updates.</li>
-                                <li><strong class="text-slate-900">Network Connectivity:</strong> Ensuring LAN stability, patching server racks.</li>
+                            <div class="flex justify-between items-baseline mb-0"><h4 class="font-bold text-slate-900 text-[13.5px]">Systems &amp; Network Technician</h4><span class="text-[10px] font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded border border-indigo-200">2016 - 2019</span></div>
+                            <p class="text-[11.5px] font-bold text-indigo-600 mb-1">Tehran Municipality, Tehran, Iran (Permanent)</p>
+                            <ul class="list-none text-[10.5px] text-slate-800 leading-tight space-y-0.5">
+                                <li><strong class="text-slate-900">IT Asset Management:</strong> Workstation deployment and preventive maintenance.</li>
+                                <li><strong class="text-slate-900">Support &amp; Network:</strong> On-site L1/L2 support, LAN stability and rack patching.</li>
                             </ul>
-                            <p class="mt-1.5 text-[10.5px] text-slate-600"><strong class="text-slate-800">Environment:</strong> Windows Server, Active Directory, LAN Cabling, Desktop Support.</p>
+                            <p class="mt-1 text-[10.5px] text-slate-600"><strong class="text-slate-800">Environment:</strong> Windows Server, Active Directory, LAN Cabling, Desktop Support.</p>
                         </div>
                     </div>
                 </section>
-
             </div>
         </div>
     </div>
